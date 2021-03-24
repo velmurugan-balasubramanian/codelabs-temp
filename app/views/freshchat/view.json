@@ -1,0 +1,15 @@
+{
+  "title": "Freshchat",
+  "description": "Engage with website visitors and product users for sales and customer success.",
+  "logoUrl": "/tutorials/images/freshchat-small.png",
+  "tags": [
+    "Freshchat"
+  ],
+  "categories": [
+    "Freshchat"
+  ],
+  "exclude": [
+    ".*-about$",
+    "^lang-.*"
+  ]
+}

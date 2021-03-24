@@ -1,0 +1,15 @@
+{
+  "title": "Freshservice",
+  "description": "Streamline your IT service and manage internal requests from your employees.",
+  "logoUrl": "/tutorials/images/freshservice-small.png",
+  "tags": [
+    "Freshservice"
+  ],
+  "categories": [
+    "Freshservice"
+  ],
+  "exclude": [
+    ".*-about$",
+    "^lang-.*"
+  ]
+}

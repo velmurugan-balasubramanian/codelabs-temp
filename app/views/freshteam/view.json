@@ -1,0 +1,15 @@
+{
+  "title": "Freshteam",
+  "description": "Recruit and onboard top talent. Manage all employee data and time off in one place.",
+  "logoUrl": "/tutorials/images/freshsales-small.jpg",
+  "tags": [
+    "Freshteam"
+  ],
+  "categories": [
+    "Freshteam"
+  ],
+  "exclude": [
+    ".*-about$",
+    "^lang-.*"
+  ]
+}

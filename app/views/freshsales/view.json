@@ -1,0 +1,15 @@
+{
+  "title": "Freshsales",
+  "description": "Keep your sales team in the know about prospects and close deals faster.",
+  "logoUrl": "/tutorials/images/freshsales-small.jpg",
+  "tags": [
+    "Freshsales"
+  ],
+  "categories": [
+    "Freshsales"
+  ],
+  "exclude": [
+    ".*-about$",
+    "^lang-.*"
+  ]
+}

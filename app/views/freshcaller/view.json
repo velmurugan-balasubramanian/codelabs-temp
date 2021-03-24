@@ -1,0 +1,15 @@
+{
+  "title": "Freshcaller",
+  "description": "Setup a cloud-based call center across 40 countries within minutes.",
+  "logoUrl": "/tutorials/images/freshcaller-small.png",
+  "tags": [
+    "Freshcaller"
+  ],
+  "categories": [
+    "Freshcaller"
+  ],
+  "exclude": [
+    ".*-about$",
+    "^lang-.*"
+  ]
+}

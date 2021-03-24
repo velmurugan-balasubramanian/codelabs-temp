@@ -1,0 +1,15 @@
+{
+  "title": "Freshdesk",
+  "description": "Empower your support team to work together and resolve customer issues faster.",
+  "logoUrl": "/tutorials/images/freshdesk-small.png",
+  "tags": [
+    "Freshdesk"
+  ],
+  "categories": [
+    "Freshdesk"
+  ],
+  "exclude": [
+    ".*-about$",
+    "^lang-.*"
+  ]
+}
