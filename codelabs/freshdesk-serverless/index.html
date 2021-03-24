@@ -1,0 +1,332 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Build your first Freshworks serverless app</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid="UA-159161314-2"
+                  id="freshdesk-serverless"
+                  title="Build your first Freshworks serverless app"
+                  environment="web"
+                  feedback-link="https://github.com/hemchander23/weatherbuddy">
+    
+      <google-codelab-step label="What is a Serverless App?" duration="0">
+        <p>Serverless computing is a software design pattern where applications are hosted by a third-party service, eliminating the need for server software and hardware management by a developer. Applications are broken up into individual functions that can be invoked and scaled individually.</p>
+<p>The Freshworks app development platform includes a serverless environment to enable you to create apps that run in response to events that can originate from the Freshworks products, the app setup lifecycle, as well as events from any compatible service on the Internet.</p>
+<p><strong>Sample use cases</strong></p>
+<ul>
+<li>Data Synchronization</li>
+<li>Alerts and Notifications</li>
+<li>Scheduled Operations</li>
+<li>Secure Operations</li>
+</ul>
+<p class="image-container"><img style="width: 624.00px" src="img/4f3717a37318b41a.jpeg"></p>
+<p>And yes, as you know already, serverless doesn&#39;t mean there are no servers.. </p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Types of events" duration="0">
+        <p>Serverless apps primarily respond to events and run custom business logic. The following event types are supported. </p>
+<p><a href="https://developers.freshdesk.com/v2/docs/app-setup-events/" target="_blank"><strong>App Set-up Events</strong></a></p>
+<p>App set-up events are triggered when an app is installed or uninstalled. The two corresponding events are, </p>
+<ul>
+<li>onAppInstall</li>
+<li>onAppUninstall</li>
+</ul>
+<p><a href="https://developers.freshdesk.com/v2/docs/product-events/" target="_blank"><strong>Product Events</strong></a></p>
+<p> Product events are triggered by the Freshworks products, such as ticket-create, ticket-update, and lead-delete, that an app can subscribe to.<br></p>
+<p><a href="https://developers.freshdesk.com/v2/docs/external-events/" target="_blank"><strong>External Events</strong></a><br>Apps can be invoked in response to events that occur in an external product or service, by creating <strong>webhooks</strong> in that product or service and subscribing to the webhooks in the app. Every time the webhook is triggered, an external event invokes the app in response.</p>
+<p><a href="https://developers.freshdesk.com/v2/docs/scheduled-events/" target="_blank"><strong>Scheduled Events</strong></a></p>
+<p>One-time or recurring scheduled events can be created to invoke serverless apps at an appropriate time. </p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="What will we build today?" duration="0">
+        <p>In this tutorial, we are going to build a serverless app that creates a GitHub issue every time a Freshdesk ticket is created. The app will use GitHub webhooks to close the ticket when the corresponding issue is closed.</p>
+<p>The following image describes a high-level flow diagram for the app&#39;s business logic.</p>
+<p class="image-container"><img style="width: 624.00px" src="img/2fca54b700eb9ab1.jpeg"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Get the sample code 🚩" duration="0">
+        <ol type="1" start="1">
+<li>Clone the sample apps repository <a href="https://github.com/freshworks/marketplace-sample-apps" target="_blank">https://github.com/freshworks/marketplace-sample-apps</a></li>
+<li>Navigate to the directory - Play-Along/Exercises/fundamentals/level3</li>
+</ol>
+<pre><code>cd Play-Along/Exercises/fundamentals/level3</code></pre>
+<p>The app source code in the directory is a skeleton on top of which the complete app will be built in the subsequent steps. Files referred to in this tutorial are relative to the <em>Play-Along/Exercises/fundamentals/level1</em> directory.</p>
+<p>Make sure you have the <code>iparam_test_data.json</code> and <code>oauth_config.json</code> setup based on the learnings from the previous tutorial. Based on where the app runs, the OAuth callback URL in the Github app needs to be updated.<br>In case of :<br><strong>Testing</strong> 👉  http://localhost:10001/auth/callback</p>
+<p><strong>Production</strong> 👉 https://oauth.freshdev.io/auth/callback</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Create issues 🚩" duration="0">
+        <p>Let us now extend the boilerplate <em>server.js</em> to create issues in GitHub.</p>
+<ol type="1" start="1">
+<li>Add the following object in the events array, this time to introduce  an onTicketCreate event handler.</li>
+</ol>
+<pre><code>{ event: &#34;onTicketCreate&#34;, callback: &#34;onTicketCreateHandler&#34; }</code></pre>
+<ol type="1" start="2">
+<li>Copy and paste the code for <code>onTicketCreateHandler</code> method with the code from the following function snippet under the place holder. </li>
+</ol>
+<pre><code> onTicketCreateHandler: function (args) {
+   $request.post(`https://api.github.com/repos/${args.iparams.github_repo}/issues`, {
+     headers: {
+       Authorization: &#39;token &lt;%= access_token %&gt;&#39;,
+       &#39;User-Agent&#39;: &#39;FreshHuddle Sample User Agent&#39;
+     },
+     isOAuth: true,
+     json: {
+       title: args.data.ticket.subject,
+       body: args.data.ticket.description_text,
+       labels: [
+         &#34;bug&#34;
+       ]
+     }
+   }).then(data =&gt; {
+     console.info(&#39;Successfully created the GitHub issue for the Freshdesk ticket&#39;);
+     saveMapping({ ticketID: args.data.ticket.id, issueID: data.response.id, issueNumber: data.response.number }).then(function () {
+       console.info(&#39;Successfully set the mapping in the db&#39;);
+     }, error =&gt; {
+       console.error(&#39;Error: Failed to set the mapping in the db&#39;);
+       console.error(error);
+     });
+   }, error =&gt; {
+     console.error(&#39;Error: Failed to create the GitHub issue for the Freshdesk ticket&#39;);
+     console.error(error);
+   });
+ },</code></pre>
+<ol type="1" start="2">
+<li>Add the following helper code at L9 of <strong>server.js</strong>, to save the mapping data of the ticket and the GitHub issue in Data Storage.</li>
+</ol>
+<pre><code>function saveMapping(data) {
+ var dbKey = String(`fdTicket:${data.ticketID}`).substr(0, 30);
+ var dbKey2 = String(`gitIssue:${data.issueNumber}`).substr(0, 30);
+ return Promise.all([$db.set(dbKey, { issue_data: data }), $db.set(dbKey2, { issue_data: data })])
+}</code></pre>
+<p>We will revisit this function later to understand why it stores and creates two mappings.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Test issue creation in GitHub 🚩" duration="0">
+        <ol type="1" start="1">
+<li>Use the <code>fdk run</code> command to run the app.</li>
+<li>Navigate to the simulation page on <a href="http://localhost:10001/web/test" target="_blank">http://localhost:10001/web/test</a> .</li>
+<li>Choose the <code>onTicketCreate</code> event from the drop-down list.</li>
+<li>Update the sample payload with your test data as necessary.</li>
+<li>Click the <strong>Simulate</strong> button, to simulate the event. An issue is created in GitHub for the ticket referenced in the simulation payload.</li>
+</ol>
+<p><br>When the app is installed in the account, this is how it will look like :</p>
+<p class="image-container"><img style="width: 624.00px" src="img/90880c396efa0d07.gif"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Register a webhook with GitHub 🚩" duration="0">
+        <aside class="warning"><p><strong>Note:</strong>  Stop and Start server using <strong>fdk run -t</strong> to start the server using ngrok web tunnel, it is advised to start the server in tunnel mode, as github doesn&#39;t localhost URL for webhook registration. </p>
+</aside>
+<ol type="1" start="1">
+<li>Add the following JSON objects, in the server.js file, in the events array, just before the <code>onTicketCreate</code> event mapping object. This will add two new event handlers (app event handlers)  to our serverless app.</li>
+</ol>
+<pre><code>   { event: &#39;onAppInstall&#39;, callback: &#39;onInstallHandler&#39; },
+   { event: &#39;onAppUninstall&#39;, callback: &#39;onUnInstallHandler&#39; },
+</code></pre>
+<ol type="1" start="2">
+<li>Add the following method after the <code>onTicketCreateHandler</code> method.  This method registers a webhook with Github by using a unique target URL generated by the app. It also stores the target URL in Data Storage. We will shortly see why!</li>
+</ol>
+<pre><code> /**
+  * Handler for onAppInstall event
+  *
+  * A webhook url is created through generateTargetUrl function.
+  * The generated url is registered with GitHub for &#34;issues&#34; related events and the same is triggered when an issues is created or modified.
+  * On successful registration, the webhook URL is stored using $db
+  *
+  * @param {object} args - payload
+  */
+ onInstallHandler: function (args) {
+  
+   generateTargetUrl().then(function (targetUrl) {
+    
+     $request.post(`https://api.github.com/repos/${args.iparams.github_repo}/hooks`, {
+       headers: {
+         Authorization: &#39;token &lt;%= access_token %&gt;&#39;,
+         &#39;User-Agent&#39;: &#39;FreshHuddle Sample User Agent&#39;
+       },
+       isOAuth: true,
+       json: {
+         name: &#39;web&#39;,
+         active: true,
+         events: [
+           &#39;issues&#39;
+         ],
+         config: {
+           url: targetUrl,
+           content_type: &#39;json&#39;
+         }
+       }
+     }).then(data =&gt; {
+       $db.set(&#39;githubWebhookId&#39;, { url: data.response.url }).then(function () {
+         console.info(&#39;Successfully stored the webhook in the db&#39;);
+         renderData();
+       }, error =&gt; {
+         console.error(&#39;Error: Failed to store the webhook URL in the db&#39;);
+         console.error(error);
+         renderData({ message: &#39;The webhook registration failed&#39; });
+       });
+     }, error =&gt; {
+       console.error(&#39;Error: Failed to register the webhook for GitHub repo&#39;);
+       console.error(error);
+       renderData({ message: &#39;The webhook registration failed&#39; });
+     })
+   })
+     .fail(function () {
+       console.error(&#39;Error: Failed to generate the webhook&#39;);
+       renderData({ message: &#39;The webhook registration failed&#39; });
+     });
+ },
+</code></pre>
+<ol type="1" start="3">
+<li>Add the following method immediately after the <code>installHandler</code> method.  The method will fetch the webhook URL from Data Storage when the app is uninstalled and request GitHub to delete the webhook. This ensures that GitHub stops sending notifications to the app after it is uninstalled.</li>
+</ol>
+<pre><code> /**
+  * Handler for onAppUninstall event
+  *
+  * Gets the webhook URL from the data storage through $db that was stored during installation
+  * Then deregister the webhook from GitHub with the URL over REST API
+  *
+  * @param {object} args - payload
+  */
+ onUnInstallHandler: function () {
+   $db.get(&#39;githubWebhookId&#39;).then(function (data) {
+     $request.delete(data.url, {
+       headers: {
+         Authorization: &#39;token &lt;%= access_token %&gt;&#39;,
+         &#39;User-Agent&#39;: &#39;freshdesk&#39;,
+         Accept: &#39;application/json&#39;
+       },
+       isOAuth: true
+     }).then(() =&gt; {
+       console.info(&#39;Successfully deregistered the webhook for GitHub repo&#39;);
+       renderData();
+     }, () =&gt; renderData())
+   }, error =&gt; {
+     console.error(&#39;Error: Failed to get the stored webhook URL from the db&#39;);
+     console.error(error)
+     renderData({ message: &#39;The webhook deregistration failed&#39; });
+   });
+ },</code></pre>
+<p>Upon successful registration, we will be able to see this:</p>
+<p class="image-container"><img style="width: 624.00px" src="img/eea524467971f72a.gif"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Close a ticket when an issue is closed" duration="0">
+        <ol type="1" start="1">
+<li>Add the following object in the events array, this time to introduce  an external event handler.</li>
+</ol>
+<pre><code>{ event: &#39;onExternalEvent&#39;, callback: &#39;onExternalEventHandler&#39; }</code></pre>
+<ol type="1" start="2">
+<li>Add the following <code>onExternalEventHandler</code> method after the <code>onTicketCreateHandler</code> method. This method fetches the ticket-id corresponding to the GitHub issue that was closed, from Data Storage. This is why we stored the second mapping from the Github issue to the Freshdesk ticket, when the issue was created . We can then close the ticket by a Request API invocation to Freshdesk.</li>
+</ol>
+<pre><code> /**
+  * Handler for onExternalEvent event
+  *
+  * Checks if the received issue event is of action &#39;opened&#39; which is received for new issue creation.
+  * Creates a ticket in freshdesk with the issue title and description.
+  *
+  * @param {object} payload - payload with the data from the third-party applications along with iparams and other metadata
+  */
+ onExternalEventHandler: function (payload) {
+  
+   const payloadData = typeof payload.data === &#39;string&#39; ? JSON.parse(payload.data) : payload.data;
+   if (payloadData.action === &#39;closed&#39;) {
+     lookupTicketId(payloadData.issue.number).then(data =&gt; {
+       $request.post(&#39;https://&#39;+payload.domain + &#34;/api/v2/tickets/&#34; + data.issue_data.ticketID,
+         {
+           headers: {
+             Authorization: &#39;&lt;%= encode(iparam.freshdesk_api_key) %&gt;&#39;
+           },
+           json: {
+             status: 5
+           },
+           method: &#34;PUT&#34;
+         }).then(() =&gt; {
+           console.info(&#39;Successfully closed the ticket in Freshdesk&#39;);
+         }, error =&gt; {
+           console.error(&#39;Error: Failed to close the ticket in Freshdesk&#39;);
+           console.error(error)
+         })
+     }, error =&gt; {
+       console.error(&#39;Error: Failed to get issue data. Unable to create ticket&#39;);
+       console.error(error);
+     });
+   } else {
+     console.error(&#39;The action of the GitHub issue is not defined&#39;);
+   }
+ }</code></pre>
+<p>We are now ready to test the app thoroughly.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Testing External Events &amp; Recap" duration="0">
+        <ol type="1" start="1">
+<li>Use the fdk run command to run the app.</li>
+<li>Navigate to the simulation page on <a href="http://localhost:10001/web/test" target="_blank">http://localhost:10001/web/test</a> .</li>
+<li>Choose <code>onExternalEvent</code> from the drop-down list.</li>
+<li>Replace the JSON object to simulate, with the following code snippet.</li>
+</ol>
+<pre><code>{
+  &#34;account_id&#34;: 12345,
+  &#34;event&#34;: &#34;onExternalEvent&#34;,
+  &#34;timestamp&#34;: 1500351361762,
+  &#34;domain&#34;: &#34;https://sample.freshdesk.com&#34;,
+  &#34;options&#34;: &#34;freshdesk.onExternalEvent&#34;,
+  &#34;data&#34;: &#34;{ \&#34;action\&#34;: \&#34;closed\&#34;, \&#34;issue\&#34;: { \&#34;id\&#34;: 1, \&#34;number\&#34;: 2, \&#34;body\&#34;: \&#34;a new issue created for a bug\&#34;, \&#34;title\&#34;: \&#34;bug issue\&#34;  } }&#34;,
+  &#34;headers&#34;: {
+    &#34;Content-Type&#34;: &#34;application/json&#34;
+  }
+}</code></pre>
+<ol type="1" start="5">
+<li>In the <code>data</code> property, in the issue object replace the id value with the id you created through an earlier simulation of the app. You should be able to locate the issue from the Issues page of the GitHub repository.</li>
+<li>Click on the <strong>Simulate</strong> button to simulate the event.</li>
+<li>Navigate to your Freshdesk portal and verify if the ticket is closed.</li>
+</ol>
+<p>Yay! 🎉 You have successfully completed and tested your first advanced serverless app that reacts to product events, app setup events, and external events, as well as leverages OAuth for secure API requests and Data Storage to maintain mappings. Give yourself a pat on the back.👏 </p>
+<p class="image-container"><img style="width: 220.00px" src="img/671669ecfa7b9cab.gif"></p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>

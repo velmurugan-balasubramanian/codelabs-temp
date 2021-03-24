@@ -87,8 +87,37 @@ window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
 <paper-tab>Recent</paper-tab>
 </paper-tabs>
 </div>
-</div>
+<paper-dropdown-menu label="Filter by category" class="dropdown-filter" no-label-float noink no-animations>
+<paper-listbox id="categorylist" slot="dropdown-content" class="dropdown-content" on-iron-activate="onCategoryActivate" attr-for-selected="filter">
+<paper-item filter="Freshcaller">Freshcaller</paper-item>
+<paper-item filter="freshcaller">freshcaller</paper-item>
+</paper-listbox>
+</paper-dropdown-menu></div>
 <card-sorter id="cards" class="site-width">
+<a href="/codelabs/how-to-write-a-codelab/index.html?index=..%2F..freshcaller" on-tap="navigate" class="codelab-card category-freshcaller" data-category="freshcaller" data-title="How to Write a Codelabs wdqwdqw" data-duration="0" data-updated="2021-03-24T22:37:10+05:30" data-tags="medium" data-pin="">
+<div class="description">How to Write a Codelabs wdqwdqw</div>
+<div class="card-duration"> This tutorial focuses on creating an app that helps developers get accustomed to the advanced features of the Freshworks platform. In this segment, we will develop an app that creates a ticket in Freshdesk based on user input. </div>
+<div class="card-duration">
+<span></span>
+<span>Updated Mar 24, 2021</span>
+</div>
+<div class="card-footer">
+<div class="category-icon freshcaller-icon"></div>
+<paper-button class="freshcaller-bg">Start</paper-button>
+</div>
+</a>
+<a href="/codelabs/freshcaller-routing-automation/index.html?index=..%2F..freshcaller" on-tap="navigate" class="codelab-card category-freshcaller" data-category="Freshcaller" data-title="Routing automation in Freshcaller with Custom Actions" data-duration="0" data-updated="2021-03-24T17:16:34Z" data-tags="freshcaller" data-pin="">
+<div class="description">Routing automation in Freshcaller with Custom Actions</div>
+<div class="card-duration"> In this tutorial, let us see how routing automation works in Freshcaller using Custom Actions. We will see a couple of use-cases to cover how the customers can be routed faster to the right team without IVR and how a response can be sent from the real-time data to respond to customer&#39;s requests. </div>
+<div class="card-duration">
+<span></span>
+<span>Updated Mar 24, 2021</span>
+</div>
+<div class="card-footer">
+<div class="category-icon freshcaller-icon"></div>
+<paper-button class="freshcaller-bg">Start</paper-button>
+</div>
+</a>
 </card-sorter>
 <div id="loading-placeholder" class="site-width">
 Loading Tutorials, please wait...

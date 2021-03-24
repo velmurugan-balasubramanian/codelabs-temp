@@ -44,6 +44,12 @@ $color-tensorflow-orange: #ed8e24;
 $color-unity-grey: #222c37;
 $color-weave-green: #0f9d58;
 $freshdesk-theme: #25c16f;
+$freshdesk-theme:  #25C16E;
+$freshcaller-theme:  #D0477F;
+$freshchat-theme:  #46A4EC;
+$freshping-theme:  #EE7B03;
+$freshsales-theme:  #FFA800;
+$freshservice-theme:  #08C7FB;
 
 /* Mixins */
 
@@ -201,4 +207,8 @@ $color-weave-green, 'weave.svg');
 @include codelab-card(['web'],
   $color-google-blue, 'web.svg');
 
-@include codelab-card(['sample'],  $freshdesk-theme , 'freshdesk-small.png');
+@include codelab-card(['Freshdesk', 'freshdesk'],  $freshdesk-theme , 'freshdesk-small.png');
+@include codelab-card(['Freshservice', 'freshservice'],  $freshservice-theme , 'freshservice-small.png');
+@include codelab-card(['Freshcaller', 'freshcaller'],  $freshcaller-theme , 'freshcaller-small.png');
+
+

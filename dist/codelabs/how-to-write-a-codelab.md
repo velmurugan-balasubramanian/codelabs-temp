@@ -1,6 +1,6 @@
 summary:This tutorial focuses on creating an app that helps developers get accustomed to the advanced features of the Freshworks platform. In this segment, we will develop an app that creates a ticket in Freshdesk based on user input.
 id: how-to-write-a-codelab
-categories:Sample
+categories:freshcaller
 tags:medium
 status:Published 
 authors:Zarin
