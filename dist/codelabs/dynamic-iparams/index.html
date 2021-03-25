@@ -1,0 +1,335 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Dynamic Installation Pages</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid="UA-159161314-2"
+                  id="dynamic-iparams"
+                  title="Dynamic Installation Pages"
+                  environment="web"
+                  feedback-link="https://community.developers.freshworks.com/c/ideas/15">
+    
+      <google-codelab-step label="What is it?" duration="0">
+        <p>Installation parameters, as the name suggests, allows us to obtain certain values during the time of App Installation. Conceptually, these values are configuration details that the app requires to function properly. This is similar to how cab-hailing apps (E.g. Uber, Ola) require user&#39;s contact &amp; location details or how social media apps (E.g. Instagram, Twitter) require us to choose topics that we are interested in before we start using them. Installation parameters (iparams) can range from simple text inputs to complex UI components.</p>
+<p>Freshworks Developer Platform offers simplicity and sophistication when it comes to installation pages. </p>
+<ul>
+<li><code>iparams.json</code> offers a declarative syntax for defining iparam fields. It abstracts the UI and offers a simple JSONic interface for effortless development. <br></li>
+<li><code>iparams.html</code> allows complete customization of installation pages. However, the development and maintenance effort also increases.</li>
+</ul>
+<p class="image-container"><img style="width: 624.00px" src="img/ccbb8d1b382c9dec.jpeg"></p>
+<p>Dynamic Installation pages offer the best of both worlds. Retaining the simplicity of iparams.json and the customizability of iparams.html, Freshworks App developers can make use of iparam callbacks to build top-notch Installation pages without breaking a sweat.</p>
+<h3 is-upgraded><strong>What will we be learning:</strong></h3>
+<p>How to,</p>
+<ol type="1" start="1">
+<li>Write event callbacks for iparam fields</li>
+<li>Get / Set the properties of iparam fields</li>
+<li>Dynamically validate fields by making third-party API calls</li>
+</ol>
+<h3 is-upgraded><strong>Before we dive-in: </strong></h3>
+<h3 is-upgraded>Ensure to, </h3>
+<ol type="1" start="1">
+<li>Have <a href="https://developers.freshdesk.com/v2/docs/freshworks-cli/" target="_blank">Freshworks Developer Kit (FDK)</a> installed</li>
+<li>Clone the marketplace sample apps repo</li>
+</ol>
+<pre><code>git clone https://github.com/freshworks/marketplace-sample-apps
+</code></pre>
+<ol type="1" start="3">
+<li>Switch to the app directory</li>
+</ol>
+<pre><code>cd marketplace-sample-apps/Freshworks-Samples/App-Development-Features/Configuration-Features/dynamic_iparams</code></pre>
+<aside class="special"><p>Dynamic Installation parameters rely on event callbacks. Utility methods can be used to manipulate iparam fields.</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="The Structure" duration="0">
+        <p>Much of the dynamicity can be owed to event callbacks in <code>iparams.json</code>.  We can subscribe to specific event(s) via callbacks associated with a particular iparam field. As a part of the iparam field definition, one can include <code>events</code> property that will contain a list of events and their listeners.</p>
+<p>For instance, consider the following snippet. As you can notice, for the following iparams - <code>twitter_id</code> &amp; <code>contact_methods</code>, we can notice an additional property called <code>events.</code> It contains an array of event callbacks designated for iparam events. At the time of writing this document, there was only one event,`<code>change</code>`, associated with iparam fields. As the name implies, the change event is triggered every time the value of the associated iparam field changes.</p>
+<h3 is-upgraded><a href="https://github.com/freshdesk/marketplace-sample-apps/blob/37b9b96ecdd3aca2093ef6f45e0ca711243020f4/Freshworks-Samples/App-Development-Features/Configuration-Features/dynamic_iparams/config/iparams.json#L1-L52" target="_blank"><strong>config/iparams.json</strong></a></h3>
+<pre><code>{
+   &#34;twitter_id&#34;: {
+       &#34;display_name&#34;: &#34;Twitter ID&#34;,
+       &#34;description&#34;: &#34;Please enter your Acc. ID&#34;,
+       &#34;type&#34;: &#34;text&#34;,
+       &#34;required&#34;: true,
+       &#34;events&#34;: [{
+           &#34;change&#34;: &#34;checkAccountID&#34;
+       }]
+   },
+   &#34;mobile&#34;: {
+       &#34;display_name&#34;: &#34;Phone Number&#34;,
+       &#34;description&#34;: &#34;Please enter your phone number with the country code&#34;,
+       &#34;type&#34;: &#34;phone_number&#34;,
+       &#34;required&#34;: true
+   },
+   &#34;domain_name&#34;: {
+       &#34;display_name&#34;: &#34;Domain Name&#34;,
+       &#34;description&#34;: &#34;Please enter your domain name&#34;,
+       &#34;type&#34;: &#34;domain&#34;,
+       &#34;type_attributes&#34;: {
+           &#34;product&#34;: &#34;freshdesk&#34;
+       },
+       &#34;required&#34;: true
+   },
+   &#34;api_key&#34;: {
+       &#34;display_name&#34;: &#34;API Key&#34;,
+       &#34;description&#34;: &#34;Please enter your api_key&#34;,
+       &#34;type&#34;: &#34;api_key&#34;,
+       &#34;secure&#34;: true,
+       &#34;required&#34;: true,
+       &#34;type_attributes&#34;: {
+           &#34;product&#34;: &#34;freshdesk&#34;
+       }
+   },
+   &#34;contact_methods&#34;: {
+       &#34;display_name&#34;: &#34;Preferred Contact Method&#34;,
+       &#34;description&#34;: &#34;Please select the preferred contact methods&#34;,
+       &#34;type&#34;: &#34;multiselect&#34;,
+       &#34;options&#34;: [
+           &#34;Mobile&#34;,
+           &#34;Twitter ID&#34;
+       ],
+       &#34;events&#34;: [{
+           &#34;change&#34;: &#34;contactMethodChanged&#34;
+       }],
+       &#34;default_value&#34;: [
+           &#34;Mobile&#34;,
+           &#34;Twitter ID&#34;
+       ]
+   }
+}
+</code></pre>
+<p>If you are wondering where the event listeners associated with the iparam fields are situated, Look no further than the <code>config/assets/iparams.js</code> file!</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Callback Validations" duration="0">
+        <p>Inside the <code>iparams.js</code> file, we can define the event callback methods that are associated with the iparam fields. The logic inside the method gets executed when a particular event is triggered. In our case, we listen to the `<code>change`</code> event. Whenever the field value is modified, the callback will be fired. Validations and field manipulations can be done by returning appropriate promises and making use of utility methods.</p>
+<p>For instance, let&#39;s take a look at the <code>`checkAccountID`</code> callback method. This method gets executed every time a value is entered in the <code>twitter_id</code> iparam field<br></p>
+<h3 is-upgraded><a href="https://github.com/freshdesk/marketplace-sample-apps/blob/37b9b96ecdd3aca2093ef6f45e0ca711243020f4/Freshworks-Samples/App-Development-Features/Configuration-Features/dynamic_iparams/config/assets/iparams.js#L18-L66" target="_blank"><strong>config/assets/iparams.js</strong></a></h3>
+<pre><code>/**
+* Using this iparam callback function, we are validating the details using a third-party API.
+* 
+* @param {string} newValue The new value of the iparam field
+*/
+function checkAccountID(newValue) {
+ //Input type validation
+ if (!isNaN(newValue)) {
+   return Promise.reject(&#34;Account ID has to be a string&#34;);
+ }
+ return validateWithAPI(newValue);
+}
+/**
+* In this case, for example, we are making use of `httpbin.org` to return 200 OK status.
+* In real-world, this could be a valid third-party API that can return an appropriate status code indicating the status of validation
+* Payload and other options can be specified using `options`
+* Notice the presence of the debounce logic to avoid rate-limiting issues.
+*
+* @param {string} value
+*/
+function validateWithAPI(value) {
+ //Assume it is the validation/resource endpoint
+ var url = &#34;https://httpbin.org/status/200&#34;;
+ var options = {
+   body: JSON.stringify({
+     param: value
+   })
+ };
+ var p = new Promise(function (resolve, reject) {
+   // Do not hit the validation API immediately upon change.
+   // Wait for 500ms and if the user hasn&#39;t typed anything during that time, make a call
+   clearTimeout(timeout);
+   timeout = setTimeout(function () {
+     client.request.post(url, options).then(
+       function (data) {
+         // Upon success, just resolve
+         resolve();
+       },
+       function (error) {
+         // Upon failure - send an appropriate validation error message
+         reject(&#34;This Account ID does not exist. Please enter the right one&#34;);
+       }
+     );
+   }, 500);
+ });
+ return p;
+}</code></pre>
+<p><br>In the above snippet, we see that by returning a <strong>rejected promise</strong>, we symbolize errors during validation. The rejection reason should be a string that will eventually appear as an error message under the field. For instance, during input validation.</p>
+<p class="image-container"><img style="width: 624.00px" src="img/53a6cf101512aa92.png"></p>
+<p>On the other hand, we can return a <strong>resolved promise</strong> to symbolize successful validation. </p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Leverage Platform Features" duration="0">
+        <p>Also, one can also make use of platform features (Request method, in this case) by obtaining the client object.</p>
+<h3 is-upgraded><a href="https://github.com/freshdesk/marketplace-sample-apps/blob/37b9b96ecdd3aca2093ef6f45e0ca711243020f4/Freshworks-Samples/App-Development-Features/Configuration-Features/dynamic_iparams/config/assets/iparams.js#L8-L16" target="_blank"><strong>config/assets/iparams.js</strong></a></h3>
+<pre><code>app.initialized().then(
+   function (_client) {
+       //If successful, register the app activated and deactivated event callback.
+       window.client = _client;
+   },
+   function (error) {
+       //If unsuccessful
+       console.log(error);
+   }
+);</code></pre>
+<p>Now that we have the client object, we can proceed to make use of the Request method. We have successfully made use of the <strong>Request method</strong> inside <code>`validateWithAPI`</code> to call a third party API based on the new value that was entered in the <code>twitter_id</code> field. Note that this is not an actual verification with Twitter. We are calling a dummy API that echoes back the status code that we have intended to return. In a real-world scenario, this could be an actual third party API with its own endpoint and payload structure.</p>
+<ul>
+<li><code>`https://httpbin.org/status/200`</code> will return 200 HTTP status indicating success. In this case, the promise resolves.</li>
+<li><code>`https://httpbin.org/status/500`</code> will return 500 HTTP status indicating an error. In this case, the promise would be rejected. </li>
+</ul>
+<p>Note that firing API calls on every change could burn out the rate-limit. Consider using a debounce logic with an appropriate timeout in such situations. Shown below is the difference between using and not using debounce logic.</p>
+<p><strong>Without debounce logic</strong></p>
+<p class="image-container"><img style="width: 624.00px" src="img/3e216705170f2285.gif"></p>
+<p><strong>With debounce logic</strong></p>
+<p class="image-container"><img style="width: 624.00px" src="img/94b9aae2b7bf7f86.gif"></p>
+<p>Based on the promise resolution or rejection, an appropriate response can be sent as the iparams validation message. In our sample code, as the API returns with status code `<code>200 OK`</code>, it will return a resolved promise indicating successful validation.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Leveraging utility methods" duration="0">
+        <p>Utility methods allow us to perform two important things</p>
+<ul>
+<li>They let us manipulate the field properties (label, visible, disabled, required, hint, etc)</li>
+<li>They let us set and retrieve the value of the fields.</li>
+</ul>
+<p>As a handy reference, here is an exhaustive list of attributes that can be used along with utility methods to either get or set them.</p>
+<p><strong>General syntax:</strong></p>
+<pre><code>// For setting the properties
+utils.set(‘&lt;iparam_key&gt;&#39;, {&lt;attribute&gt;: &lt;value&gt;});
+// For getting the properties
+utils.get(‘&lt;iparam_key&gt;&#39;, {&lt;attribute&gt;: &lt;value&gt;});</code></pre>
+<p><strong>Attribute Reference:</strong></p>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>Attribute</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>Data Type</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>Description</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><a href="https://developers.freshdesk.com/v2/docs/installation-parameters/#value" target="_blank">value</a></p>
+</td><td colspan="1" rowspan="1"><p>string</p>
+<p>array of strings (for iparams of the multiselect type)</p>
+</td><td colspan="1" rowspan="1"><p>Enables you to set a value for the iparam.</p>
+<p>For a multiselect iparam, enables you to set certain values as selected options. On the installation page, the selected options are populated in the iparam&#39;s input field.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>label</p>
+</td><td colspan="1" rowspan="1"><p>string</p>
+</td><td colspan="1" rowspan="1"><p>Enables you to modify the display_name attribute value of the iparam.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><a href="https://developers.freshdesk.com/v2/docs/installation-parameters/#visible" target="_blank">visible</a></p>
+</td><td colspan="1" rowspan="1"><p>boolean</p>
+</td><td colspan="1" rowspan="1"><p>Enables you to hide the iparam from the installation page.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>disabled</p>
+</td><td colspan="1" rowspan="1"><p>boolean</p>
+</td><td colspan="1" rowspan="1"><p>Enables you to disable the iparam on the installation page.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>required</p>
+</td><td colspan="1" rowspan="1"><p>boolean</p>
+</td><td colspan="1" rowspan="1"><p>Enables you to modify the required attribute value of the iparam.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>hint</p>
+</td><td colspan="1" rowspan="1"><p>string</p>
+</td><td colspan="1" rowspan="1"><p>Enables you to modify the description attribute value of the iparam.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><a href="https://developers.freshdesk.com/v2/docs/installation-parameters/#values" target="_blank">values</a></p>
+<p>Valid only for iparams of the radio, multiselect, and dropdown types.</p>
+</td><td colspan="1" rowspan="1"><p>array of strings</p>
+</td><td colspan="1" rowspan="1"><p>Enables you to modify the options attribute value of the iparam.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><a href="https://developers.freshdesk.com/v2/docs/installation-parameters/#minmax" target="_blank">min</a></p>
+<p>Valid only for iparams of the number type.</p>
+</td><td colspan="1" rowspan="1"><p>number</p>
+</td><td colspan="1" rowspan="1"><p>Enables you to set a validation for the minimum value that can be entered for the iparam.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><a href="https://developers.freshdesk.com/v2/docs/installation-parameters/#minmax" target="_blank">max</a></p>
+<p>Valid only for iparams of the number type.</p>
+</td><td colspan="1" rowspan="1"><p>number</p>
+</td><td colspan="1" rowspan="1"><p>Enables you to set a validation for the maximum value that can be entered for the iparam.</p>
+</td></tr>
+</table>
+<p>Utility methods can be handy when we need to perform ad hoc field manipulations based on field values. For instance, let us take a look at <code>`contactMethodChanged()</code>` method.</p>
+<h3 is-upgraded><a href="https://github.com/freshdesk/marketplace-sample-apps/blob/37b9b96ecdd3aca2093ef6f45e0ca711243020f4/Freshworks-Samples/App-Development-Features/Configuration-Features/dynamic_iparams/config/assets/iparams.js#L71-L75" target="_blank"><strong>config/assets/iparams.js</strong></a></h3>
+<pre><code>/**
+* When the contact method changes, just display the options
+* To set the list of possible options to choose from, use -&gt; utils.set(&#34;&lt;iparam_field&gt;&#34;, { values: [&#39;Opt1&#39;, &#39;Opt2&#39;, &#39;Opt3&#39;] });
+*/
+function contactMethodChanged() {
+ //Let us get the selected options for contact methods
+ const cm = utils.get(&#34;contact_methods&#34;);
+ console.info(cm);
+}</code></pre>
+<p>The <code>`contactMethodChanged()</code>` function is invoked every time we select or deselect an option from the &#34;Contact Methods&#34; multi-select field.</p>
+<p>Based on the values that are selected, we can toggle the visibility of other fields like so:</p>
+<h3 is-upgraded><a href="https://github.com/freshdesk/marketplace-sample-apps/blob/master/Freshworks-Samples/App-Development-Features/Configuration-Features/dynamic_iparams/config/assets/iparams.js" target="_blank"><strong>config/assets/iparams.js</strong></a></h3>
+<pre><code>/**
+*  Dynamically enable / disable standard iparam fields using the utility methods
+* @param {object} cm
+*/
+function toggleFieldsVisibility(cm) {
+   if (!Array.isArray(cm))
+       return console.error(&#34;Something went wrong while toggling field visibility&#34;);
+   utils.set(&#34;twitter_id&#34;, {
+       visible: cm.includes(&#34;Twitter ID&#34;)
+   });
+   utils.set(&#34;twitter_tags&#34;, {
+       visible: cm.includes(&#34;Twitter ID&#34;)
+   });
+   utils.set(&#34;tags&#34;, {
+       visible: cm.includes(&#34;Twitter ID&#34;)
+   });
+   utils.set(&#34;mobile&#34;, {
+       visible: cm.includes(&#34;Mobile&#34;)
+   });
+}</code></pre>
+<p>For simplicity, we just print the options to understand how it works. However, feel free to build your logic on top of this ⚡️ </p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Here&#39;s what we learned 🎉" duration="0">
+        <p>We learned to <br></p>
+<ul>
+<li>Create and configure <code>iparams.json</code> with validation callbacks</li>
+<li>Define the callback methods in <code>iparams.js</code></li>
+<li>Perform validations and return the appropriate message using Promises</li>
+<li>Make use of Request method to validate using third-party REST API</li>
+<li>Manipulate iparam fields using utility methods</li>
+</ul>
+<p>Kudos for following the tutorial until the end. If you have any queries, feel free to <a href="https://community.developers.freshworks.com/" target="_blank">get in touch with us.</a></p>
+<p class="image-container"><img style="width: 624.00px" src="img/317ad63bf3d4504c.png"></p>
+<p><em>The Right Balance</em></p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>
