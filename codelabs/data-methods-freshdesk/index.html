@@ -1,0 +1,273 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Data Methods</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="data-methods-freshdesk"
+                  title="Data Methods"
+                  environment="web"
+                  feedback-link="mailto:devrel@freshworks.com">
+    
+      <google-codelab-step label="Overview" duration="2">
+        <h2 is-upgraded>What we&#39;ll learn today</h2>
+<ul>
+<li>How to access Data Methods</li>
+<li>What are available pages where Data methods can be used</li>
+<li>What are the resources available for the app to consume via data methods.</li>
+</ul>
+<h2 is-upgraded>What we&#39;ll need</h2>
+<ol type="1">
+<li>A Freshdesk trial account on Modern web browser</li>
+<li>Freshworks CLI</li>
+<li>A code editor</li>
+<li>Basic knowledge of HTML, CSS, Javascript, CLI and Browser DevTools</li>
+<li>The Sample Code (See Get Set Up)</li>
+</ol>
+<h2 is-upgraded>What we&#39;ll build</h2>
+<p>You will explore this feature by writing some simple code to capture a few events like user clicks in app placeholders and explore writing code yourself</p>
+<h2 is-upgraded>Prerequisite Knowledge</h2>
+<ol type="1">
+<li>How users use <a href="https://freshdesk.com/features" target="_blank">Freshdesk</a>.</li>
+<li><a href="https://developers.freshdesk.com/v2/docs/app-locations/" target="_blank">Available placeholders</a> for apps.</li>
+<li>Have <a href="https://developers.freshdesk.com/v2/docs/your-first-app/#code_walkthrough" target="_blank">walked through code</a> of an Freshworks App</li>
+<li>Awareness of <a href="https://developers.freshdesk.com/v2/docs/your-first-app/#code_walkthrough" target="_blank">App Lifecycle Methods</a></li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Get Set Up" duration="5">
+        <p>Get the sample code ready</p>
+<pre><code language="language-sh" class="language-sh">git clone https://github.com/freshworks-developers/data-methods-freshdesk.git
+</code></pre>
+<p>Alternatively,</p>
+<p><a href="https://github.com/freshworks-developers/data-methods-freshdesk/archive/main.zip" target="_blank"><paper-button class="colored" raised><iron-icon icon="file-download"></iron-icon>Download the Zip</paper-button></a></p>
+<h2 is-upgraded>Verify</h2>
+<ol type="1">
+<li>Open the cloned repository in the code editor with ‘start&#39; branch.</li>
+<li>Open Terminal and run <code>&gt; fdk run</code></li>
+<li>You should notice the app is being served at <code>localhost:10001</code></li>
+<li>Login to Freshdesk trial account and pay attention to four placeholders after appending <code>?dev=true</code> at every page. You should see an app icon available to activate the app.  <ol type="1">
+<li><a href="https://developers.freshdesk.com/v2/docs/app-locations/#sidebar" target="_blank">Global Sidebar</a></li>
+<li><a href="https://developers.freshdesk.com/v2/docs/app-locations/#ticket_details_page" target="_blank">Ticket Details page</a></li>
+<li><a href="https://developers.freshdesk.com/v2/docs/app-locations/#new_email_page" target="_blank">New Email page</a></li>
+<li><a href="https://developers.freshdesk.com/v2/docs/app-locations/#contact_details_page" target="_blank">Contact Details page</a></li>
+</ol>
+</li>
+</ol>
+<p>Note: The Data Methods can be invoked specific to the placeholders. See <a href="https://developers.freshdesk.com/v2/docs/data-methods/#" target="_blank">documentation</a> for specific details.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Data Methods" duration="4">
+        <p>Data Methods allow your app to access information on a given Freshdesk page. In this tutorial you&#39;ll learn how to consume data methods in your freshworks apps.</p>
+<p><code>client.data.get(&#34;&lt;argument&gt;&#34;)</code> returns a promise where your callback would have access to data in the page which user is currently viewing.</p>
+<p>Let&#39;s see this in action.</p>
+<pre><code language="language-sh" class="language-sh">❯ fdk run
+Starting local testing server at http://*:10001/
+Append &#39;dev=true&#39; to your Freshdesk account URL to start testing
+e.g. https://domain.freshdesk.com/a/tickets/1?dev=true
+Quit the server with Control-C.
+</code></pre>
+<p>Freshworks CLI serves your app to the browser on port <code>:10001</code>. In the Freshdesk account, append the URL with <code>?dev=true</code> to find apps running on the global sidebar at CTI app location.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Global Arguments" duration="3">
+        <p>Data Methods return the data that the app needs based on the app placeholders. Mostly giving the contextual information pertaining to the current page. However, the following arguments can be passed to the Data method that would return the payload given in any placeholder.</p>
+<h2 is-upgraded>loggedInUser</h2>
+<p>The following is how you can consume it in your app</p>
+<pre><code language="language-js" class="language-js">client.data
+  .get(&#39;loggedInUser&#39;)
+  .then(function renderUserBioData(payload) {
+    var {
+      loggedInUser: {
+        contact: { name: name, job_title: job, email: email }
+      }
+    } = payload;
+    displayArea.insertAdjacentHTML(
+      &#39;afterbegin&#39;,
+      `&lt;p&gt;This is information received from data method:&lt;/p&gt;
+          &lt;ul&gt;
+          &lt;li&gt;Name: &lt;mark&gt;${name}&lt;/mark&gt;&lt;/li&gt;
+          &lt;li&gt;Job Title: &lt;mark&gt; ${job} &lt;/mark&gt;&lt;/li&gt;
+          &lt;li&gt;Email Address: &lt;mark&gt; ${email} &lt;/mark&gt;&lt;/li&gt;
+          &lt;/ul&gt;
+          `
+    );
+  })
+  .catch(console.error);
+</code></pre>
+<p>Let&#39;s discuss this in detail.</p>
+<ol type="1">
+<li><code>client</code> is an object that is brought into scope for the developer by the platform. See <a href="https://github.com/freshworks-developers/data-methods-freshdesk/blob/dce8d7cb33e2f32012f6b44c5dd6b41e78cbe9c5/app/scripts/fullpage.js#L6" target="_blank">Line 6 in app/scripts/fullpage.js</a> is attaching it to the <a href="https://developer.mozilla.org/en-US/docs/Glossary/Global_scope" target="_blank">global scope</a> of the window.</li>
+<li><code>client.data.get()</code> is a method that can interface with Freshdesk (via platform) and get the information for the app to consume.</li>
+<li>In the above code snippet, an argument of type string <code>loggedInUser</code> is passed to the <code>get()</code> method. It returns a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" target="_blank">promise</a>along with a payload. In this case, a payload containing the information of <code>loggedInUser.</code></li>
+<li>This payload becomes available within the scope of the callback function that is passed. Here, the callback is <code>renderUserBioData(payload){..}</code></li>
+<li><code>The renderUserBioData(payload){..}</code>function does two things. It is assigning the payload data to <code>name</code>, <code>job</code> and <code>email</code> variables. Also, rendering the same <code>name</code>, <code>job</code> and <code>email</code> information to the DOM. [See <a href="https://javascript.info/destructuring-assignment#object-destructuring" target="_blank">object destructuring</a> if you find the assignment confusing.]</li>
+<li>That&#39;s how the payload passed can be consumed by the app.</li>
+</ol>
+<p><strong>Note</strong>: Always refer to the <a href="https://developers.freshdesk.com/v2/docs/data-methods/#" target="_blank">documentation</a> for latest payload structure and attribute definitions.</p>
+<h2 is-upgraded>domainName</h2>
+<pre><code language="language-js" class="language-js">client.data
+  .get(&#39;domainName&#39;)
+  .then(function whatsDomain({ domainName }) {
+    displayArea.insertAdjacentHTML(&#39;afterend&#39;, `&lt;br&gt; The domain name is &lt;mark&gt;${domainName}&lt;/mark&gt;`);
+  })
+  .catch(console.error);
+</code></pre>
+<p>This snippet simply fetches the host Freshdesk&#39;s domain name for the app.</p>
+<p>See the <a href="https://github.com/freshworks-developers/data-methods-freshdesk/tree/global-args" target="_blank">current state of source code on global-args branch</a> of sample code.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Page Specific Arguments" duration="4">
+        <p>Each page has a couple of <a href="https://developers.freshdesk.com/v2/docs/app-locations/" target="_blank">placeholders</a> for the app. Just like Global Arguments can be passed to the data method in any page or app placeholder. However, data is provisioned (via data methods) to the app based on the page app is placed in.</p>
+<p>For this tutorial, let&#39;s look at Ticket details page,</p>
+<h2 is-upgraded>Ticket Details Page</h2>
+<p>Open <code>app/scripts/sidebar.js</code> and try adding some methods consuming different valid arguments ticket details page.</p>
+<p>Within the <a href="https://github.com/freshworks-developers/data-methods-freshdesk/blob/dce8d7cb33e2f32012f6b44c5dd6b41e78cbe9c5/app/scripts/sidebar.js#L15" target="_blank"><code>renderSidebar(){..}</code></a>,</p>
+<pre><code language="language-js" class="language-js">// ticket
+client.data
+  .get(&#39;ticket&#39;)
+  .then(function getDetails({ ticket: { description_text: desc, priority: priority } }) {
+    space.insertAdjacentHTML(
+      &#39;afterbegin&#39;,
+      `&lt;li&gt;&lt;i&gt;&#34;ticket&#34;&lt;/i&gt; priority: &lt;mark&gt;${priority}&lt;/mark&gt; : desc: &lt;mark&gt;${desc}&lt;/mark&gt;&lt;/li&gt;`
+    );
+  })
+  .catch(console.error);
+
+//contact
+client.data
+  .get(&#39;contact&#39;)
+  .then(function getDetails({ contact: { address: address, name: name } }) {
+    space.insertAdjacentHTML(
+      &#39;afterbegin&#39;,
+      `&lt;li&gt;&lt;i&gt;&#34;contact&#34;&lt;/i&gt; address: &lt;mark&gt;${address}&lt;/mark&gt; name: &lt;mark&gt;${name}&lt;/mark&gt;&lt;/li&gt;`
+    );
+  })
+  .catch(console.error);
+
+// email_config
+client.data
+  .get(&#39;email_config&#39;)
+  .then(function getDetails(payload) {
+    let supportEmail = payload.email_config[0].replyEmail;
+    space.insertAdjacentHTML(&#39;afterbegin&#39;, `&lt;li&gt;&lt;i&gt;&#34;email_config&#34;&lt;/i&gt; : &lt;mark&gt;${supportEmail}&lt;mark&gt;&lt;/li&gt;`);
+  })
+  .catch(console.error);
+
+//requester
+client.data
+  .get(&#39;requester&#39;)
+  .then(function getDetails(payload) {
+    let name = payload.requester.name;
+    space.insertAdjacentHTML(&#39;afterbegin&#39;, `&lt;li&gt;&lt;i&gt;&#34;requester&#34;&lt;/i&gt; : &lt;mark&gt;${name}&lt;mark&gt;&lt;/li&gt;`);
+  })
+  .catch(console.error);
+
+//requester
+client.data
+  .get(&#39;company&#39;)
+  .then(function getDetails(payload) {
+    let name = payload.company.name;
+    space.insertAdjacentHTML(&#39;afterbegin&#39;, `&lt;li&gt;&lt;i&gt;&#34;company&#34;&lt;/i&gt; : &lt;mark&gt;${name}&lt;mark&gt;&lt;/li&gt;`);
+  })
+  .catch(console.error);
+
+//requester
+client.data
+  .get(&#39;group&#39;)
+  .then(function getDetails(payload) {
+    let name = payload.group.name;
+    space.insertAdjacentHTML(&#39;afterbegin&#39;, `&lt;li&gt;&lt;i&gt;&#34;group&#34;&lt;/i&gt; : &lt;mark&gt;${name}&lt;mark&gt;&lt;/li&gt;`);
+  })
+  .catch(console.error);
+
+//requester
+client.data
+  .get(&#39;company&#39;)
+  .then(function getDetails(payload) {
+    let name = payload.company.name;
+    space.insertAdjacentHTML(&#39;afterbegin&#39;, `&lt;li&gt;&lt;i&gt;&#34;company&#34;&lt;/i&gt; : &lt;mark&gt;${name}&lt;mark&gt;&lt;/li&gt;`);
+  })
+  .catch(console.error);
+
+//status_options
+client.data
+  .get(&#39;status_options&#39;)
+  .then(function getDetails(payload) {
+    let opt = payload.status_options[0];
+    space.insertAdjacentHTML(&#39;afterbegin&#39;, `&lt;li&gt;&lt;i&gt;&#34;status options&#34;&lt;/i&gt; First option: &lt;mark&gt;${opt}&lt;mark&gt;&lt;/li&gt;`);
+  })
+  .catch(console.error);
+
+//time_entry
+client.data
+  .get(&#39;time_entry&#39;)
+  .then(function getDetails(payload) {
+    let isTimerRunning = payload.time_entry.time_entries[0].time_spent;
+    space.insertAdjacentHTML(&#39;afterbegin&#39;, `&lt;li&gt;&lt;i&gt;&#34;time entry&#34;&lt;/i&gt; First option: &lt;mark&gt;${isTimerRunning}&lt;mark&gt;&lt;/li&gt;`);
+  })
+  .catch(console.error);
+</code></pre>
+<p>The result would be information rendered to the DOM informing of a list in the ticket sidebar returned from different data methods.</p>
+<p>At this point you have consumed data methods from Global Arguments and Ticket Details Page specific arguments. Take some time to go through the <a href="https://github.com/freshworks-developers/data-methods-freshdesk/tree/finish" target="_blank">final source code at this moment</a>.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Wrapping Up" duration="1">
+        <p>Bunch of other locations where Data Methods can be accessed are</p>
+<ol type="1">
+<li>Ticket Details Page: <code>ticket</code>, <code>contact</code>, <code>email_config</code>, <code>requester</code>, <code>company</code>, <code>group</code>, <code>&lt;fieldName&gt;_options</code>, <code>time_entry</code></li>
+<li>New Ticket Page: <code>&lt;fieldName&gt;_options</code></li>
+<li>New Email Page: <code>email_cofig</code>, <code>&lt;fieldName&gt;_options</code></li>
+<li>Contact Details Page: <code>contact</code>, <code>company</code></li>
+</ol>
+<p>Why not try writing code yourself for <code>requesterpage.js</code> and <code>contactpage.js</code>?</p>
+<ol type="1">
+<li>Try to understand the existing code and it&#39;s associated html and css files.</li>
+<li>Surf through documentation to see valid arguments at these placeholders.</li>
+<li>Try picking up a few of those payloads and writing to the DOM.</li>
+</ol>
+<p>Above steps will give you more confidence using the Data Methods.</p>
+<p>Congratulations! 💐</p>
+<p>You have come so far walking throughout the tutorial.</p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+  <script src="//support.google.com/inapp/api.js"></script>
+
+</body>
+</html>
