@@ -1,0 +1,271 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Deep-dive into Serverless</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="deep-dive-into-serverless"
+                  title="Deep-dive into Serverless"
+                  environment="web"
+                  feedback-link="">
+    
+      <google-codelab-step label="Overview" duration="0">
+        <p>Freshworks Serverless apps have a variety of features that can be used for different purposes. We are going to see how Product Events, Scheduled Events, and Server Method Invocation (SMI) works.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="What are we going to learn?" duration="0">
+        <ul>
+<li><a href="https://developers.freshdesk.com/v2/docs/product-events" target="_blank">Product events</a> - React to events from Freshdesk product</li>
+<li><a href="https://developers.freshdesk.com/v2/docs/scheduled-events" target="_blank">Scheduled events</a> - Schedule a function to execute at the set time</li>
+<li><a href="https://developer.freshdesk.com/v2/docs/server-method-invocation" target="_blank">Server Method Invocation</a> - Invoke a Serverless function from the frontend component of the app</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Prerequisites" duration="0">
+        <ul>
+<li>Knowledge of Serverless basics - Go through the tutorial</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Setup" duration="0">
+        <p>Clone <a href="https://github.com/freshworks-developers/serverless-events-freshdesk" target="_blank">this application repository</a> to get started with this tutorial,</p>
+<pre><code>git clone https://github.com/freshworks-developers/serverless-events-freshdesk.git
+
+</code></pre>
+<ul>
+<li>Navigate to the branch, <code>start</code> to begin with the boilerplate application.</li>
+<li>The branch <code>finish</code> will have the complete code that can be referred to at the end of the tutorial or when stuck in any of the steps.</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Product Events" duration="0">
+        <p>Product events are getting triggered whenever a specific event occurs in the Freshdesk product. If a specific event is registered with a function to execute when the event occurs, Serverless function will automatically be executed when the specific event occurs in the Freshdesk product. For example, a product event called onTicketCreate is triggered when a ticket is created in your Freshdesk account.</p>
+<p>In <code>server.js</code> file under <code>/server</code> directory, the events are subscribed with a function that is exported to run upon event occurrence.</p>
+<h2 is-upgraded>Let&#39;s register a product event</h2>
+<p>The syntax for subscribing for events can be noted on how <code>onTicketCreate</code> event and its respective function is mentioned in the <code>events</code> attribute of the export object in <code>server.js</code> file.</p>
+<pre><code>events: [
+   { event: &#39;onTicketCreate&#39;, callback: &#39;onTicketCreateHandler&#39; }
+ ]
+</code></pre>
+<p>Let&#39;s check the callback function code which only has a console log statement. We will develop further upon it to schedule a function whenever receiving an <code>onTicketCreate</code> event.</p>
+<pre><code>onTicketCreateHandler: function (args) {
+   console.log(&#39;Hello&#39;);
+ }
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Scheduled Events" duration="0">
+        <p>This is a special feature available in Freshworks platform to schedule a function execution at a later point in time.</p>
+<p>Sometimes, there will be a need to execute a function at a specific time or periodically at the same time. For example, send a reminder email at a specific time or generate an analytical report every day at a specific time. Scheduled events are a right choice for them.</p>
+<h2 is-upgraded>Let&#39;s schedule</h2>
+<p>Scheduled events are registered similar to the product events. Add the following object where the events are subscribed in the <code>events</code> attribute of the exports object.</p>
+<pre><code>{ event: &#34;onScheduledEvent&#34;, callback: &#34;onScheduledEventHandler&#34; }
+</code></pre>
+<p>Now the events object should look like it. Don&#39;t forget to add the comma between two objects in the array.</p>
+<pre><code>events: [
+   { event: &#39;onTicketCreate&#39;, callback: &#39;onTicketCreateHandler&#39; },
+   { event: &#34;onScheduledEvent&#34;, callback: &#34;onScheduledEventHandler&#34; }
+ ]
+</code></pre>
+<p>Let&#39;s write a function, <code>onScheduledEventHandler</code> for this scheduled event to execute the function when triggered. Copy and paste the following function definition within the exports object.</p>
+<pre><code>onScheduledEventHandler: function (args) { $request.post(`https://${args.domain}/api/v2/tickets/${args.data.ticket_id}/notes`, {
+  headers: {
+    Authorization: &#34;Basic &lt;%= encode(iparam.api_key) %&gt;&#34;
+  },
+  json: {
+    private: false,
+    notify_emails: [args.iparams.notification_to],
+    body: &#34;Guess what! You forgot to reply to this ticket&#34;,
+  }
+   }).then(data =&gt; {
+  console.info(&#39;Successfully added private note for reminder&#39;);
+  console.info(data);
+   }, error =&gt; {
+  console.error(&#39;Error: Failed to add private note for reminder&#39;);
+  console.error(JSON.stringify(error));
+   });
+ }
+</code></pre>
+<p>What are we doing in this function:</p>
+<ul>
+<li>We are making an API to Freshdesk to remind the watcher to look at the ticket.</li>
+<li>The reminder notes in the API contains the text, <code>Guess what! You forgot to reply to this ticket</code>.</li>
+<li>We have handled the error and logged to the console for troubleshooting when things go wrong in the production.</li>
+</ul>
+<p>The function has been defined on what to do upon the execution of the scheduled event. But, this scheduled event has not been created yet.</p>
+<h2 is-upgraded>Let&#39;s create the schedule</h2>
+<p>Let&#39;s create the ticket reminder schedule in the <code>onTicketCreateHandler</code> function. Replace the content of the function with the following snippet. The <code>onTicketCreateHandler</code> function should enclose this code.</p>
+<pre><code>const newDate = new Date();
+   $schedule.create({
+  name: &#34;ticket_reminder_&#34; + args.data.ticket.id,
+  data: { ticket_id: args.data.ticket.id},
+  schedule_at: new Date(newDate.setMinutes(newDate.getMinutes() + 6)).toISOString(),
+   }).then(function (data) {
+    console.log(&#39;successfully scheduled the reminder&#39;)
+    console.log(data);
+  }, function (error) {
+    console.error(&#39;Error: Failed to schedule the event&#39;);
+    console.error(error);
+  });
+</code></pre>
+<p>What are we doing in this function:</p>
+<ul>
+<li>We are creating a schedule with the <code>$schedule.create()</code> syntax.</li>
+<li>In the schedule creation option, the name of schedule provided as <code>ticket_reminder_123</code> (In this sample name, 123 is the ticket ID).</li>
+<li>Any data can be passed while creating the schedule to utilise within the respective function of the scheduled event. This data is passed in the <code>data</code> attribute of the options.</li>
+<li>The <code>schedule_at</code> option is passed with a time in ISO format. This time should be at least 5 minutes away from the schedule creation time. So, let&#39;s add 6 minutes to the time when this schedule is created.</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Simulation" duration="0">
+        <p>If you face issues during the simulation, refer to the code in the <code>finish</code> branch of the repository that has the complete code.</p>
+<p>Let&#39;s test out the schedule create process with the following steps:</p>
+<ol type="1">
+<li>Run the app locally by executing the <code>fdk run</code> command.</li>
+<li>Fill the Installation Parameters by opening the Configurations page at <a href="http://localhost:10001/custom_configs" target="_blank">http://localhost:10001/custom_configs</a></li>
+<li>To simulate the event triggers in the local environment, go to <a href="http://localhost:10001/web/test" target="_blank">http://localhost:10001/web/test</a></li>
+<li>Select <code>onTicketCreate</code> event and verify or modify the parameters data to be passed to the event according to your testing criteria. The <code>id</code> attribute inside the <code>ticket</code> object is the only data interesting for us for the schedule name.</li>
+<li>Click on the <code>Simulate</code> button and the event will be triggered to the app, relevant logs can be found in the Terminal/Command Prompt where the app is run.</li>
+</ol>
+<p>The schedule has been created now if the logs exposed that the function executed in the positive flow.</p>
+<p>Keep the app running. The function registered with the scheduled event will be triggered at the set time.</p>
+<p><strong>Note:</strong> If the app is published as a <a href="https://developer.freshdesk.com/v2/docs/custom-apps" target="_blank">Custom App</a>, the events can be triggered by creating a ticket in the Freshdesk portal and referring to <a href="https://developers.freshdesk.com/v2/docs/troubleshooting" target="_blank">the documentation</a> to check the Serverless logs.</p>
+<h2 is-upgraded>How to verify the scheduled event creation?</h2>
+<ol type="1">
+<li>Open the <code>localstore</code> file in the <code>/.fdk</code> directory in the root directory of the application.</li>
+<li>If the scheduled event&#39;s name is searched in the file, there will be an object containing the details about the schedule. This is where the scheduled events are stored to run by the server that runs the app.</li>
+<li>After the execution of the scheduled event, this object with the information of the scheduled event will disappear from this file.</li>
+</ol>
+<h3 is-upgraded>Let&#39;s delete schedules when not necessary</h3>
+<p>When a Freshdesk agent wishes to delete the reminder schedule for a ticket, our app can enable them to do it. It is possible to delete the schedule before it&#39;s execution with its name. But there&#39;s a flaw to it.</p>
+<h3 is-upgraded>Problem</h3>
+<p>An agent can only use the frontend app to do any actions and the schedule is accessible only from the Serverless application. There&#39;s a solution for it.</p>
+<h3 is-upgraded>Solution</h3>
+<p>There&#39;s a feature called, Server Method Invocation. It is invoked from the frontend application. Let&#39;s see how it can be implemented.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Server Method Invocation" duration="0">
+        <p>A Serverless function is defined in the regular way. But, it&#39;s not registered to any event. This function can be called directly from the frontend application. So, when the frontend application calls this function, the function will be executed in the Serverless environment and response will be sent back to the frontend application. This is the flow of the Server Method Invocation (SMI).</p>
+<p>Let&#39;s try to understand it better by doing it. There&#39;s a scenario where this scheduled reminder may not be needed. In this case, the scheduled event should be deleted before the execution. Let&#39;s see how this case can be solved by using SMI.</p>
+<p>Add the following function within the <code>export</code> object so that it can be called from the frontend application.</p>
+<pre><code> deleteSchedule: function (args) {
+   $schedule.delete({
+     name: &#34;ticket_reminder_&#34; + args.ticket_id,
+   }).then(function (data) {
+     console.info(&#39;Successfully deleted schedule&#39;);
+     console.info(data);
+     renderData(null, data)
+   }, function (error) {
+     if (error.status === 404) {
+       console.error(&#39;Schedule does not exist for the ticket:&#39;, args.data.ticket.id);
+     } else {
+       console.error(&#39;Error: Failed to delete the schedule&#39;);
+     }
+     console.error(error);
+     renderData({ status: error.status, message: error.message });
+   });
+ }
+</code></pre>
+<p>What are we doing in this function:</p>
+<ul>
+<li>The schedule is deleted with <code>$schedule.delete()</code> syntax.</li>
+<li>The <code>ticket_id</code> is expected in the function arguments to find the name of the schedule for the particular ticket.</li>
+<li>When the schedule deletion succeeds or fails, the response is sent back to the frontend application with the <code>renderData(error, data)</code> syntax. This is a mandatory callback function for SMI. The error object should have status and message attributes and data is optional for error condition.</li>
+<li>We have handled the error and caught an error with 404 error code which would be thrown if the schedule is already been deleted. If the schedule is already executed, it would be deleted automatically.</li>
+</ul>
+<p>The defined server method is called from the frontend with the following syntax. It can be found in the <code>app/app.js</code> file.</p>
+<pre><code>client.data.get(&#34;ticket&#34;).then(
+  function (data) {
+    client.request.invoke(&#39;deleteSchedule&#39;, { ticket_id: data.ticket.id })
+  }
+</code></pre>
+<ul>
+<li>The Server method has been invoked with the <code>client.request.invoke()</code> syntax.</li>
+<li>Though parameters for this invocation are optional, the ticket ID is fetched from the Data method and sent in the parameters to this server method. If you could remember from the server method, it was required to find the schedule&#39;s name.</li>
+</ul>
+<h2 is-upgraded>Testing SMI</h2>
+<p>Let&#39;s test the SMI with the following steps:</p>
+<ol type="1">
+<li>Run the app with <code>fdk run</code> command if not already running.</li>
+<li>Log in to your Freshdesk account.</li>
+<li>To the Freshdesk account URL, append <code>?dev=true</code>. Example URL: https://subdomain.freshdesk.com/a/tickets/1?dev=true</li>
+<li>In the Tickets page of a ticket, the app is rendered on the right side of the page in one of the widgets.</li>
+<li>Open the app by clicking on it&#39;s name. The accordion will expand to load the content of the app.</li>
+<li>Click the <code>Delete Schedule</code> button to call the server method.</li>
+<li>If a schedule is created for this ticket, the respective reminder schedule will be deleted immediately.</li>
+</ol>
+<h3 is-upgraded>How to verify the scheduled event deletion?</h3>
+<ol type="1">
+<li>Open the <code>localstore</code> file in the <code>/.fdk</code> directory in the root directory of the application.</li>
+<li>If the complete name of the scheduled event is searched in the file, there will be no result of occurrence of the scheduled event&#39;s name as it has been removed. If there are any occurrences, the schedule has not been deleted properly.</li>
+<li>Also, after the execution of the scheduled event, this object with the information of the scheduled event will disappear from this file.</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Wrap up" duration="0">
+        <p>Voila! You have learnt a bunch of features in the Serverless environment of Freshworks Developer Platform. Refer to the complete code in the <code>finish</code> branch of the same code repository.</p>
+<p>These are the areas which are covered in this tutorial:</p>
+<ol type="1">
+<li><a href="https://developer.freshdesk.com/v2/docs/product-events" target="_blank">Product Events</a>: We have used onTicketCreate and onTicketUpdate events to decide when to create the schedule and when to remove if not necessary anymore.</li>
+<li><a href="https://developer.freshdesk.com/v2/docs/scheduled-events" target="_blank">Scheduled Events</a>: We have used it to add a reminder note to the ticket after 6 minutes.</li>
+<li><a href="https://developer.freshdesk.com/v2/docs/server-method-invocation" target="_blank">Server Method Invocation</a>: We have used it to delete the schedule from the frontend component of the application.</li>
+<li><a href="https://developer.freshdesk.com/v2/docs/request-method" target="_blank">Request Method</a>: We have additionally used it to make API for adding the note to a ticket.</li>
+<li><a href="https://developer.freshdesk.com/v2/docs/data-methods" target="_blank">Data Method</a>: We have used it to fetch the ticket ID in the frontend application.</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="What next?" duration="0">
+        <p>There are some of the Serverless features that are not covered in this tutorial. Go through the documentation and other resources to get your hands dirty with these areas to master the Freshworks Serverless apps.</p>
+<ul>
+<li><a href="https://developers.freshdesk.com/v2/docs/app-setup-events" target="_blank">App Setup Events</a> - They are similar to the life-cycle hooks and get triggered when the app is installed or uninstalled.</li>
+<li><a href="https://developers.freshdesk.com/v2/docs/external-events" target="_blank">External Events</a> - This will be handy when an app needs to listen to events from third-party applications by registering a webhook on the other platforms.</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>
