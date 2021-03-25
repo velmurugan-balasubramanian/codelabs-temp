@@ -1,0 +1,27 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2021-03-25T18:13:24+05:30",
+  "id": "deep-dive-into-serverless",
+  "duration": 0,
+  "title": "Deep-dive into Serverless",
+  "authors": "Freshworks",
+  "summary": "How does a few events features works in Serverless apps",
+  "source": "serverless-2.md",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "freshdesk",
+    "serverless"
+  ],
+  "tags": [
+    "backend-events",
+    "freshdesk",
+    "serverless"
+  ],
+  "url": "deep-dive-into-serverless"
+}
