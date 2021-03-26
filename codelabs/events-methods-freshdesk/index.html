@@ -27,7 +27,7 @@
                   environment="web"
                   feedback-link="">
     
-      <google-codelab-step label="Introduction" duration="0">
+      <google-codelab-step label="Introduction" duration="3">
         <p>Events Method allows an App to know events happening in the Freshdesk UI and respond as needed. Let&#39;s learn about how you can consume them to power your next app.</p>
 <h2 is-upgraded>What we&#39;ll learn</h2>
 <ul>
@@ -55,7 +55,7 @@
 
       </google-codelab-step>
     
-      <google-codelab-step label="Get Set Up" duration="0">
+      <google-codelab-step label="Get Set Up" duration="4">
         <p>Let&#39;s start learning about events methods by going ahead and downloading sample code. It contains everything you need to just focus on learning and understanding events methods.</p>
 <p>Current tutorial is an App running on Freshdesk.</p>
 <pre><code language="language-sh" class="language-sh">git clone https://github.com/freshworks-developers/events-methods-freshdesk.git
@@ -78,7 +78,7 @@
 
       </google-codelab-step>
     
-      <google-codelab-step label="Overview" duration="0">
+      <google-codelab-step label="Overview" duration="1">
         <p>You can observe events that occur in the Freshdesk UI and register a callback with events methods.</p>
 <p><code>client.events.on(&#34;&lt;argument&gt;&#34;, callback[,options])</code> - takes in a callback which will be invoked when desired event occured.</p>
 <p>Events method can observe 3 types of events</p>
@@ -91,7 +91,7 @@
 
       </google-codelab-step>
     
-      <google-codelab-step label="Click Events" duration="0">
+      <google-codelab-step label="Click Events" duration="3">
         <p>Register a callback (defined by you) when a user clicks a button or dropdown on Freshdesk UI.</p>
 <p>Let&#39;s see this in action. Run the following command in the Terminal.</p>
 <pre><code language="language-sh" class="language-sh">❯ fdk run
@@ -164,7 +164,7 @@ clickEvents.forEach(function register(click) {
 
       </google-codelab-step>
     
-      <google-codelab-step label="Intercept Events" duration="0">
+      <google-codelab-step label="Intercept Events" duration="4">
         <p>Let&#39;s keep going.</p>
 <p>Now that you know how to observe the click events, the app can also decide to allow or prevent that event from happening. For example, on certain conditions the app might prevent the ticket being closed.</p>
 <p>Head to<code>tkt_req_info.js</code> and add the follow code:</p>
@@ -209,8 +209,8 @@ interceptEvents[&#39;allow&#39;].forEach(function registerCb(click) {
 
       </google-codelab-step>
     
-      <google-codelab-step label="Change Events" duration="0">
-        <p>On Freshdesk users change the <em>status, priority, group and so on _frequently. App can also observe those events and let the callback function you pass know old and new values for a given ticket property. For example, _priority _was _low _earlier and now the app may want to update it to _urgent.</em></p>
+      <google-codelab-step label="Change Events" duration="3">
+        <p>On Freshdesk users change the <strong>status</strong>, <strong>priority</strong>, <strong>group</strong> and so on frequently. App can also observe those events and let the callback function you pass know old and new values for a given ticket property. For example, <strong>priority</strong> was <strong>low</strong> earlier and now the app may want to update it to <strong>urgent</strong>.</p>
 <p>Let&#39;s look at another placeholder of the app that renders in <a href="https://developers.freshdesk.com/v2/docs/app-locations/#new_ticket_page" target="_blank">the New Ticket Page</a>. Don&#39;t forget to append <code>?dev=true</code> in the URL within New Ticket Page.</p>
 <p>Open<code>, new_tkt_req_info.js</code>and write the following code within <code>registerChangeEvents(){..}</code></p>
 <pre><code language="language-js" class="language-js">const spotlight = document.querySelector(&#39;.spotlight&#39;);
@@ -248,7 +248,7 @@ changeEvents.forEach(function register(click) {
 
       </google-codelab-step>
     
-      <google-codelab-step label="Wrapping up" duration="0">
+      <google-codelab-step label="Wrapping up" duration="1">
         <p>The Events Methods can be invoked specific to the placeholders. See <a href="https://developers.freshdesk.com/v2/docs/events-methods/" target="_blank">documentation</a> for specific details.</p>
 <p><a href="https://github.com/freshworks-developers/events-methods-freshdesk/tree/finish" target="_blank"><paper-button class="colored" raised>See the finished app source code</paper-button></a></p>
 <p>You&#39;ve finished the tutorial and walked thoughtfully through working of the Events Method. Great Job! Start using this feature in your apps right away!</p>

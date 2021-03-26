@@ -9,6 +9,8 @@ authors: Saif Ali Shaik
 
 ## Introduction
 
+Duration: 3
+
 Events Method allows an App to know events happening in the Freshdesk UI and respond as needed. Let’s learn about how you can consume them to power your next app.
 
 ### What we’ll learn
@@ -37,6 +39,8 @@ You will explore this feature by writing some simple code to capture a few UI ev
 
 ## Get Set Up
 
+Duration: 4
+
 Let’s start learning about events methods by going ahead and downloading sample code. It contains everything you need to just focus on learning and understanding events methods.
 
 Current tutorial is an App running on Freshdesk.
@@ -63,6 +67,8 @@ After you open the source code, a bunch of HTML, CSS and JS files can be found. 
 
 ## Overview
 
+Duration: 1
+
 You can observe events that occur in the Freshdesk UI and register a callback with events methods.
 
 `client.events.on("<argument>", callback[,options])` - takes in a callback which will be invoked when desired event occured.
@@ -74,6 +80,8 @@ Events method can observe 3 types of events
 3. Intercept Events
 
 ## Click Events
+
+Duration: 3
 
 Register a callback (defined by you) when a user clicks a button or dropdown on Freshdesk UI.
 
@@ -166,6 +174,8 @@ Pat yourself for reaching this point! If you are stuck somewhere, you can get ba
 
 ## Intercept Events
 
+Duration: 4
+
 Let’s keep going.
 
 Now that you know how to observe the click events, the app can also decide to allow or prevent that event from happening. For example, on certain conditions the app might prevent the ticket being closed.
@@ -215,7 +225,10 @@ See the [source code](https://github.com/freshworks-developers/events-methods-fr
 
 ## Change Events
 
-On Freshdesk users change the _status, priority, group and so on \_frequently. App can also observe those events and let the callback function you pass know old and new values for a given ticket property. For example, \_priority \_was \_low \_earlier and now the app may want to update it to \_urgent._
+Duration: 3
+
+On Freshdesk users change the **status**, **priority**, **group** and so on frequently. App can also observe those events and let the callback function you pass know old and new values for a given ticket property. For example, **priority**
+was **low** earlier and now the app may want to update it to **urgent**.
 
 Let’s look at another placeholder of the app that renders in [the New Ticket Page](https://developers.freshdesk.com/v2/docs/app-locations/#new_ticket_page). Don’t forget to append `?dev=true` in the URL within New Ticket Page.
 
@@ -256,6 +269,8 @@ changeEvents.forEach(function register(click) {
 By this time you’ve finished building your app. Switch to the[ change-events branch](https://github.com/freshworks-developers/events-methods-freshdesk/tree/change-events) to see the milestone at this point.
 
 ## Wrapping up
+
+Duration: 1
 
 The Events Methods can be invoked specific to the placeholders. See [documentation](https://developers.freshdesk.com/v2/docs/events-methods/) for specific details.
 
