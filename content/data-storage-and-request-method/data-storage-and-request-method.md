@@ -1,4 +1,4 @@
-summary:This tutorial focuses on creating an app that helps developers get accustomed to the advanced features of the Freshworks platform. In this segment, we will develop an app that creates a ticket in Freshdesk based on user input.
+summary:This tutorial focuses on introducing you to Freshworks Data storage, a key-value data store, and Request method, an http client to make API calls. t
 id: data-storage-and-request-methods
 categories:freshdesk
 tags:
@@ -11,44 +11,45 @@ Feedback Link: https://zarin.io
 
 ## Overview 
 
-In the modern era, fetching data from a source and saving them are the vital parts of any application. In this tutorial, we’ll learn about fetching data from a third-party REST API and how to persist it in the Freshworks infrastructure using the [Request method](https://developer.freshdesk.com/v2/docs/request-method/) and [Data Storage](https://developer.freshdesk.com/v2/docs/data-storage/) respectively. 
+In the modern era, fetching data from a source and persisting them are vital parts of any application. In this tutorial, we’ll learn about fetching data from a third-party REST API and how to persist it in the Freshworks infrastructure using the [Request method](https://developer.freshdesk.com/v2/docs/request-method/) and [Data Storage](https://developer.freshdesk.com/v2/docs/data-storage/) respectively. 
 
 ### Request Method 
 
-Request method comes built-in with the Freshworks platform. The request method is a suggested alternative over using a normal HTTP client like `jQuery.ajax(..)` or `fetch(..)`.
+Request method comes built-in with the Freshworks platform. The request method is a suggested alternative over the regular  HTTP clients like `jQuery.ajax(..)` or `fetch(..)`.
 
-There are a variety of reasons to use the Request method over a regular HTTP client which are as follows.
+There are a variety of reasons to use the Request method over a conventional HTTP client which are as follows.
 
-* Request Method has the backing, support, and reliability of the freshworks developer platform. 
-* Request Method handles CORS out of the box 
-* Request Method helps in securing sensitive information, such as API Keys or user credentials through [secure installation parameters](https://developer.freshdesk.com/v2/docs/installation-parameters/)(Iparams)
+* Request Method has the backing, support, and reliability of the freshworks developer platform.
+* Request Method handles CORS out of the box.
+* Request Method helps in securing sensitive information, such as API Keys or user credentials through [secure installation parameters](https://developer.freshdesk.com/v2/docs/installation-parameters/)(Iparams).
 
 ### Data Storage
 
-The Data storage also comes built to the Freshworks platform. Freshworks data storage is a key-value store, where you can save objects up to the size of 8 kb, Although there is a size restriction on objects, there is no restriction on the number of objects you can store. 
+The Data storage also comes built-in with the Freshworks developer platform. Freshworks data storage is a key-value based storage solution, where you can save JSON objects up to the size of 8 kb, Although there is a size restriction on objects, there is no restriction on the number of objects you can store in the Freshworks data storage.
 
 Advantages of using Freshworks Data Storage are,
-* No need to handle the cumbersome configuration of an external datastore 
-* Native SDK for handling CRUD operations	
+
+* No need to handle the cumbersome configuration of an external datastore.
+* Native SDK for handling CRUD operations.
 
 ## Get Started
 
-### What we'll build 
+### What we'll build
 
-In this tutorial, we’ll build a fun Freshdesk app that fetches the current location of the International space station in latitude and longitude from a free REST API. 
+In this tutorial, we’ll build a fun Freshdesk app that fetches the current location(latitude and longitude) of the International space station using a free REST API. 
 
 ### Prerequisites
 
-* Freshdesk trial account 
-* The latest version of FDK 
-* A text editor 
-* Basic knowledge of HTML, CSS, and Javascript
-* Basic knowledge of Freshworks App development, if this is your first time developing an app for Freshworks products, It’s highly recommended that you complete the following tutorials before you start this one 
+* Freshdesk trial account.
+* The latest version of FDK.
+* A text editor.
+* Basic knowledge of HTML, CSS, and Javascript.
+* Basic knowledge of Freshworks App development, if this is your first time developing an app for Freshworks products, It’s highly recommended that you complete the following tutorials before you start this one.
   * Link to other two basic tutorials
 
 ## About the boilerplate code
 
-### Clone the boilerplate 
+### Clone the boilerplate
 
 Once you have the prerequisites ready, clone the boilerplate from the below repository
 
