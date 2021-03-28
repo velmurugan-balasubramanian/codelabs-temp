@@ -3,21 +3,21 @@ id: data-storage-and-request-methods
 categories:freshdesk
 tags:
 status:Published 
-authors:Zarin
-Feedback Link: https://zarin.io
+authors:Velmurugan Balasubramanian
+Feedback Link: https://developer.freshworks.com
 
 # Introduction to Data Storage and Request Method. 
 
 
 ## Overview 
 
-In the modern era, fetching data from a source and persisting them are vital parts of any application. In this tutorial, we’ll learn about fetching data from a third-party REST API and how to persist it in the Freshworks infrastructure using the [Request method](https://developer.freshdesk.com/v2/docs/request-method/) and [Data Storage](https://developer.freshdesk.com/v2/docs/data-storage/) respectively. 
+In the modern era, fetching data from a source and persisting them are vital parts of any application. In this tutorial, we’ll learn about fetching data from a third-party REST API and persisting it in the Freshworks infrastructure using the [Request method](https://developer.freshdesk.com/v2/docs/request-method/) and [Data Storage](https://developer.freshdesk.com/v2/docs/data-storage/) respectively.
 
 ### Request Method 
 
 Request method comes built-in with the Freshworks platform. The request method is a suggested alternative over the regular  HTTP clients like `jQuery.ajax(..)` or `fetch(..)`.
 
-There are a variety of reasons to use the Request method over a conventional HTTP client which are as follows.
+There are a variety of reasons to use the Request method over a conventional HTTP clients, which are as follows,
 
 * Request Method has the backing, support, and reliability of the freshworks developer platform.
 * Request Method handles CORS out of the box.
@@ -45,7 +45,7 @@ In this tutorial, we’ll build a fun Freshdesk app that fetches the current loc
 * A text editor.
 * Basic knowledge of HTML, CSS, and Javascript.
 * Basic knowledge of Freshworks App development, if this is your first time developing an app for Freshworks products, It’s highly recommended that you complete the following tutorials before you start this one.
-  * Link to other two basic tutorials
+  - Link to other two basic tutorials
 
 ## About the boilerplate code
 
@@ -59,10 +59,10 @@ git clone  https://github.com/freshworks-developers/request-method-and-data-stor
 
 
 The cloned repository will have two folders 
-* Start -  	Boilerplate to get started with this tutorial 
-* Completed -  completed demo of what we’ll be building in this tutorial	
+* `/Start` -  	Boilerplate to get started with this tutorial 
+* `/Completed` -  completed demo of what we’ll be building in this tutorial
 
-### Folder structure of the boilerplate app explained
+### Folder structure of the boilerplate app
 
 ![Boiler plate App Strucuture](assets/folder-structure.png)
 
@@ -74,13 +74,13 @@ The above image shows the folder structure of the boilerplate app, the functiona
 * `config/iparams.json` - Holds Iparams definition. 
 * `manifest.json` - manifest.json holds the metadata and definition about the platform and the app. 
 
-To run either of the apps change the directory to the corresponding folder( /start or /completed) and run *fdk run* to start the localhost 
+To run either of the apps change the directory to the corresponding folder( /start or /completed) and run *fdk run* in the terminal to start the localhost.
 
 The localhost should start with the messages displayed in the screenshot below
 
 ![Localhost](assets/localhost.png)
 
-Once the localhost is starts with the above message, open a ticket page and append “?dev=true” in the URL (eg: https://you_portal_name.freshdesk.com/a/tickets/1?dev=true), The app should render in the ticket_sidebar location as shown in the highlighted section of the below screenshot. 
+Once the localhost is started with the above message, open a ticket page and append “?dev=true” in the URL (eg: https://you_portal_name.freshdesk.com/a/tickets/1?dev=true), The app should render in the `ticket_sidebar` location as shown in the highlighted section of the below screenshot. 
 
 ![Boilerplate](assets/boilerplate.png)
 
@@ -89,7 +89,7 @@ Once the localhost is starts with the above message, open a ticket page and appe
 
 Now that we have the basics covered, let’s extend the boilerplate to build our app. 
 
-To fetch the data from the REST API let's copy the following code snippet and place it under `fetchData(){...}` placeholder in `app/script/app.js` file 
+To fetch the data from the REST API let's copy the following code snippet and place it under `//fetchData() Function Goes Here` placeholder in `app/script/app.js` file
 
 ```javascript
 /**
@@ -128,22 +128,21 @@ function fetchData() {
    );
 }
 ```
-The above code fetches the data from the rest API and prints it in the browser console, let’s invoke the function a button click and check if we can get the current location of the International Space Station. 
+
+The above code snippet fetches the data using the REST API and prints it in the browser console, let’s check if we can get the current location of the International Space Station.
 
 ### Test the feature
 
-Let’s start the localhost and verify that our code works. Once the localhost is started go to a ticket details page (open a ticket page with “?dev=true” in the URL (eg: https://you_portal_name.freshdesk.com/a/tickets/1?dev=true) and check of our changes are working as intended. 
-
+Let’s start the localhost and verify that our changes works as intended.
 
 ![Fetch Data](assets/fetch-data.gif)
 From the above GIF we can see that by clicking on the `fetch` button, we can fetch the location of the international space station successfully and display it in the notification.
 
-
 ## Save the Data in the Data Storage
 
-Now that we fetched the data from let’s save it to the Data Storage and fetch it from data storage and display it as a notification. 
+Now that we fetched the data from the REST API, let’s persist it to the Data Storage for later use.
 
-Copy the below code snippet under the saveInDataStorage placeholder 
+Copy the below code snippet under the `// saveInDataStorage function goes here` placeholder in `app/scripts/app.js`
 
 ```javascript
 /**
@@ -164,9 +163,9 @@ function saveInDataStorage(data) {
 }
 ```
 
-The above function uses the data storage interface exposed by the client object to set the data in the Freshworks Data Storage.
+The above function uses the `db` method exposed by the client object to set the data in the Freshworks Data Storage.
 
-Invoke the saveInDataStorage(location) function with the location as the parameter which we got from the request API, replace the alert message with the below code in the “fetchData(){...}” function.
+Invoke the saveInDataStorage(location) function with the location as the parameter which we got from the request API, replace the alert message with the below code in the `fetchData(){...}` function.
 
 ```javascript
   // Invoke the saveInDataStorage(data) function to save the location in the data storage
@@ -177,7 +176,7 @@ Let’s restart the localhost and test the functionality as shown in the below G
 
 ![Fetch and Save Data](assets/fetch-and-save.gif)
 
-We can see the notification that the location of the space station is saved in the data storage. 
+From the above GIF We can see that a notification is displayed to acknowledge the data is saved successfully in the data storage.
 
 ## Fetch the Data from Data Storage
 
@@ -207,3 +206,17 @@ Let us test if we can fetch the data from the data storage
 From the above GIF we can verify that the data can be successfully fetched from the Data storage and displays it correctly as a notification.
 
 ## Recap
+
+### What we've learned
+
+In this tutorial, we've learned,
+
+✅ How to use the Request Method to fetch data from a REST API
+✅ How to persist and fetch data from the freshworks data storage.
+
+### What's next?
+
+Now that you are familiar with the data storage, and the request method, you can expand your knowledge by,
+
+✅ By exploring advanced data storage options to build more complex solutions backed by data storage.
+✅ Use Request method to make complex API calls to Create(POST) and Update(PUT) endpoints, with authentication.

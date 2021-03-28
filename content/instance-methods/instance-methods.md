@@ -32,9 +32,11 @@ The Instance methods can be used to achieve any of the following usecases,
 In this tutorial we will build an application that explores all the functionalities of the most commonly used instance methods. 
 
 ### Prerequisites
+
 *  Familiarity with Freshworks app development.
 *  Latest version of the FDK installed locally. 
-*  Knowledge of the Interface methods, if you are not familiar with the interface methods, please visit [this](/codelabs/introduction-to-interface-methods/index.html) tutorial. 
+*  Knowledge of the Interface methods, if you are not familiar with the interface methods, please visit [this](/codelabs/introduction-to-interface-methods/index.html) tutorial.
+
 ### Set up the boilerplate
 
 To get started with this tutorial, let's clone the boilerplate app from the following repo.
@@ -44,10 +46,8 @@ git clone https://github.com/freshworks-developers/instance-method_freshdesk.git
 ```
 
 The cloned repository contains two folders /Start and /completed.
-	
-You can navigate to the /completed folder to check how the finished app works.  
 
-To continue with the tutorial navigate to the /start folder and open it on your favourite code editor.
+You can navigate to the /completed folder to check how the finished app works. To continue with the tutorial navigate to the /start folder and open it on your favourite code editor.
 
 ## Resize and Close an Instance of the app
 
@@ -214,6 +214,8 @@ Let us test out the functionality
 From the above GIF, we can see that the initial message in the `ticket_requester_info` app location is changed from *No message from Ticket sidebar yet* to  *Hi From ticket_sidebar location* after sending the message from `ticket_sidebar` app location. 
 
 ## Recap
+
+### What we've learned
 
 In this Tutorial we learned,
 

@@ -3,11 +3,11 @@
   "format": "html",
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-49880327-14",
-  "updated": "2021-03-29T00:40:25+05:30",
+  "updated": "2021-03-29T01:34:14+05:30",
   "id": "data-storage-and-request-methods",
   "duration": 0,
   "title": "Introduction to Data Storage and Request Method.",
-  "authors": "Zarin",
+  "authors": "Velmurugan Balasubramanian",
   "summary": "This tutorial focuses on introducing you to Freshworks Data storage, a key-value data store, and Request method, an http client to make API calls. t",
   "source": "../content/data-storage-and-request-method/data-storage-and-request-method.md",
   "theme": "",
@@ -18,6 +18,6 @@
     "freshdesk"
   ],
   "tags": [],
-  "feedback": "https://zarin.io",
+  "feedback": "https://developer.freshworks.com",
   "url": "data-storage-and-request-methods"
 }
