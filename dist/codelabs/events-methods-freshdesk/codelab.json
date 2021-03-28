@@ -1,0 +1,27 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2021-03-26T16:57:41+05:30",
+  "id": "events-methods-freshdesk",
+  "duration": 19,
+  "title": "Events Methods",
+  "authors": "Saif Ali Shaik",
+  "summary": "Learn how to observe events on Freshdesk UI and register callbacks",
+  "source": "events-methods-freshdesk.md",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "freshdesk",
+    "serverless"
+  ],
+  "tags": [
+    "backend-events",
+    "freshdesk",
+    "serverless"
+  ],
+  "url": "events-methods-freshdesk"
+}

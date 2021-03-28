@@ -1,0 +1,29 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2021-03-28T10:29:22+05:30",
+  "id": "lifecycle-and-configuration-page-freshdesk",
+  "duration": 0,
+  "title": "Lifecycle and Configuration Page",
+  "authors": "Saif Ali Shaik",
+  "summary": "Get an intuitive understanding on app lifecycle in Freshdesk and try writing UI using configuration features",
+  "source": "lifecycle-and-configuration-page.md",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "freshdesk",
+    "lifecycle",
+    "configuration"
+  ],
+  "tags": [
+    "configuration",
+    "freshdesk",
+    "iparam",
+    "iparams"
+  ],
+  "url": "lifecycle-and-configuration-page-freshdesk"
+}
