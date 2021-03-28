@@ -23,7 +23,7 @@ An Interface method can be used to,
   - Display a notification on the window
 * Manipulate the existing UI elements like
   - Show or Hide an interface element
-  - Set/modify values to the field in the User Interface element like text value in reply editor or cc fiels in the text editor.
+  - Set/modify values to the field in the User Interface element like text value in the text editor or cc field in the reply editor.
 
 The interface method can be classified into two major categories, 
 
@@ -37,27 +37,34 @@ Positive
 
 ## Get Started
 
-### What we'll build today
+### What we'll build today?
 
-In this tutorial we are going to build an app that explores a list of commonly used interface methods. 
+In this tutorial instead of building an app towards a goal, we are going to build an app that explores a list of commonly used interface methods and their available features in a app. 
 ### Prerequisties
 
 - Freshdesk trial account
 - The latest version of FDK
 - A text editor
 - Basic knowledge of HTML, CSS, and Javascript
-- Basic knowledge of Freshworks App development, if this is your first time developing an app for Freshworks products, It’s highly recommended that you complete the following tutorials before you start this one
+- Basic knowledge of Freshworks App development, if this is your first time developing an app for Freshworks products, It’s highly recommended that you complete the following tutorials before you start this one.
+  - [Introduction to Freshworks Developer Platform](/codelabs/introduction/index.html)
+  - [Build your first Freshworks app](/codelabs/freshdesk-basics/index.html)
 
+### Clone the boilerplate app
 
+To get started with tutorial, let's clone the boilerplate app from the following repository,
 
+```bash
+git clone https://github.com/freshworks-developers/interface-methods-freshdesk.git
+```
 
-## Display an Interface
-
-In this section we’ll explore about displaying interfaces on to the browser window, we’ll create a new function in app.js of the cloned app, for each interface method we’re going to explore in this tutorial and invoke the function directly from a button in the index.html
+Or if you feel adventurous, you can create a new Freshdesk app and continue with the tutorial.
 
 ## Show Notifications
 
-To display a notification, copy the following snippet and paste it in app.js
+A `showNotify` interface method can be used to display any vital information to the end user.  
+
+To display a notification, copy the following snippet and paste it in `app/scripts/app.js`
 
 ```javascript
 /**
@@ -83,21 +90,21 @@ function showNotification() {
 
 The above function uses the interface method exposed by the client object, to trigger a UI element, in this case a notification message.
 
-Now that we have the showNotification(){..} function in place, let’s invoke the showNotification(){..} from index.html by pasting the following snippet inside body of the index.html file
+Now that we have the `showNotification(){..}` function in place, let’s invoke the `showNotification(){..}` from `index.html` by pasting the following snippet inside body of the `index.html` file
 
 ```html
 <fw-button onclick="showNotification()">Display a Notification</fw-button>
 ```
 
-This snippet in the index.html will invoke the showNotification(){..} we defined in the earlier step.
+This snippet in the index.html will invoke the `showNotification(){..}` we defined in the earlier.
 
-Let us test if we show the notification on to the browser window
+Let us test if our code can show the notification on to the browser window
 
 ![Show Notify](assets/show-notify.gif)
 
 From the above GIF we can confirm that we can display the notification on the browser window.
 
-We can define the type of notification that we want to display like success, warning or error which are differentiated by green, yellow or red color respectively(reference screenshots below)
+We can define the type of notification that we want to display like success, warning, or error, which are differentiated by green, yellow, or red color respectively(reference screenshots below)
 
 Info
 ![Show Notify Info](assets/showNotify-info.png)
@@ -110,7 +117,9 @@ Danger
 
 ## Show Confirmation Dialog
 
-To show a confirmation dialog, copy the following code and paste it in app.js
+A `showConfirm` Interface method can be used in the scenarios in which a confirmation dialog has to be shown to the enduser and requires confirmation whether to proceed or not with the intended action.
+
+To show a confirmation dialog, copy the following code and paste it in `app/scripts/app.js`
 
 ```javascript
 /**
@@ -139,14 +148,13 @@ function showConfirmation() {
 }
 ```
 
-The showConfirmation(){...} function uses the interface method to show a confirmation dialog to get the user input whether to save or cancel and then based on the given input it displays an alert.
+The `showConfirmation(){...}` function uses the interface method to show a confirmation dialog to get the user input whether to save or cancel and then based on the given input it displays an alert.
 
 Negative
 : _Note_ : you can replace the alerts with a different action in your app if you prefer to do so.
 
 ```html
-<fw-button onclick="showConfirmation()"
-	>Display a Confirmation dialog</fw-button
+<fw-button onclick="showConfirmation()"> Display a Confirmation dialog </fw-button
 >
 ```
 
@@ -156,7 +164,9 @@ From the above GIF we can see that confirmation dialogue is working as intended.
 
 ## Show Modal
 
-Unlike notification and confirmation dialog we need a html file to show as a modal, so let’s create an html file called modal.html inside the app folder.
+A Modal can be invoked using the `showModal` Interface Method, a modal is usually used when the current app location doesn't have enough real estate to display the intended information. 
+
+Unlike notification and confirmation dialog we need an html template file to show as a modal, so let’s create an html file called `modal.html` inside the app folder.
 
 once the file is created copy the following code into the newly created html file
 
@@ -175,7 +185,7 @@ once the file is created copy the following code into the newly created html fil
 </html>
 ```
 
-Now that we have a template for the modal ready, let us copy the showModal(){..} function in app.js to open a modal.
+Now that we have a template for the modal ready, let us copy the `showModal(){..}` function in `app/scripts/app.js` to open a modal.
 
 ```javascript
 /**
@@ -198,7 +208,7 @@ function showModal() {
 }
 ```
 
-Let’s invoke the showModal() function and test it out
+Let’s invoke the `showModal(){..}` function in the `index.html` file and test it out
 
 ```html
 <fw-button onclick="showModal()">Display a Modal</fw-button>
@@ -210,7 +220,7 @@ Now that we’ve covered how to display interface elements on the window, let us
 
 ## Show/Hide the existing Interface
 
-In this section of the tutorial we will learn how to hide the reply button from the ticket details page, and then show the same by following the drill again, copy the function to app.js, invoke it in index.html and test it out.
+In this section of the tutorial we will learn how to hide the reply button from the ticket details page, and then show the same by following the drill again, copy the function to `app/scripts/app.js`, invoke it in `index.html` and test it out.
 
 #### app.js
 
@@ -243,7 +253,7 @@ function showReply() {
    })
 }
 ```
-The hideReply() function uses the interface method to hide the reply button and the showReply() function to show the reply button. 
+The `hideReply(){..}` function uses the interface method to hide the reply button and the `showReply(){...}` function to show the reply button.
 
 #### index.html
 
@@ -255,15 +265,13 @@ The hideReply() function uses the interface method to hide the reply button and 
 #### Output
 ![Show and Hide Reply button](assets/show-hide-reply.gif)
 
-
-ASDF  QWFEW
-
-This tutorial covers only a few of the selected interface methods available in a given app location. Please refer to the [documentation](https://developer.freshdesk.com/v2/docs/interface-methods/#) to learn more about all the interface methods available for all app locations. 
+From the above GIF, we can confirm that we can hide the `reply` button and then show the same using the Interface method.
 
 ## Set values of fields using the Interface method
+
 In this section of the tutorial we will learn how to set values to editable fields in the ticket details page, in this case a reply editor.
 
-Copy the following code snippets to the app.js and index.html
+Copy the following code snippets to the `app/scripts/app.js` and `index.html`
 
 #### app.js
 ```javascript
@@ -287,8 +295,27 @@ function openAndEdit() {
      <fw-button onclick="openAndEdit()">Open add and text</fw-button>
 ```
 
-In the above code snippet, the openAndEdit() function simulates the reply click to open the reply editor and inserts the value given in the text field. Let’s test it out 
+In the above code snippet, the `openAndEdit(){...}` function simulates the reply click to open the reply editor and inserts the text `A sample text inserted from the app` in the editor. Let’s test it out.
 
 ![Edit Value](assets/open-and-insert.gif)
 
-## Assignment
+The above GIF confirms that our code works as intended and inserts the text successfully into the text editor. 
+## Recap
+
+### What we've learned?
+
+In this Tutorial we learned, 
+
+✅ How to display notification 
+✅ How to display confirmation dialogs
+✅ How to display a modal
+✅ How to show and hide a button in ticket_details page
+✅ How to insert a text in the reply text editor. 
+
+### What's next?
+
+After familiarizing yourself with the commonly used Interface methods, you can visit the [documentation](https://developer.freshdesk.com/v2/docs/interface-methods/) to explore new Interface methods and build cool new projects with the learning.
+
+
+
+

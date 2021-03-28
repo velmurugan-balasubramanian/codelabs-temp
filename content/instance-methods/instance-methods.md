@@ -27,7 +27,7 @@ The Instance methods can be used to achieve any of the following usecases,
 
 ## Get Started
 
-### What we’ll build today
+### What we’ll build today?
 
 In this tutorial we will build an application that explores all the functionalities of the most commonly used instance methods. 
 
@@ -215,7 +215,7 @@ From the above GIF, we can see that the initial message in the `ticket_requester
 
 ## Recap
 
-### What we've learned
+### What we've learned?
 
 In this Tutorial we learned,
 

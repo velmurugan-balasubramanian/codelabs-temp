@@ -34,7 +34,7 @@ Advantages of using Freshworks Data Storage are,
 
 ## Get Started
 
-### What we'll build
+### What we'll build?
 
 In this tutorial, we’ll build a fun Freshdesk app that fetches the current location(latitude and longitude) of the International space station using a free REST API. 
 
@@ -208,7 +208,7 @@ From the above GIF we can verify that the data can be successfully fetched from 
 
 ## Recap
 
-### What we've learned
+### What we've learned?
 
 In this tutorial, we've learned,
 
