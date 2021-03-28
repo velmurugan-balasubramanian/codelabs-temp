@@ -1,0 +1,359 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Lifecycle and Configuration Page</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="lifecycle-and-configuration-page-freshdesk"
+                  title="Lifecycle and Configuration Page"
+                  environment="web"
+                  feedback-link="">
+    
+      <google-codelab-step label="Introduction" duration="0">
+        <p>An app served by Freshworks developer platform will have app lifecycle event listeners to which callbacks can be registered with. In this tutorial, we will explore app lifecycle events to use in favour of app&#39;s requirements.</p>
+<p>On the other hand, apps might also require a configuration page. Users can configure settings related to the app before and after the app is installed. We will explore two ways how you can build those configuration pages.</p>
+<h2 is-upgraded>What we&#39;ll learn</h2>
+<ul>
+<li>Building configuration pages using iparams.json</li>
+<li>Consuming the installed information by the user during and beyond the app installation.</li>
+<li>Managing secure information to be kept private from the browser</li>
+</ul>
+<h2 is-upgraded>What we&#39;ll need</h2>
+<ol type="1">
+<li>A Freshdesk trial account on Chrome web browser</li>
+<li>Freshworks CLI</li>
+<li>A code editor</li>
+<li>Basic knowledge of HTML, CSS, Javascript, CLI and Browser DevTools</li>
+<li>The Sample Code (See Get Set Up)</li>
+<li>Freshdesk developer documentation open as you follow along.</li>
+</ol>
+<h2 is-upgraded>What we&#39;ll do</h2>
+<p>You will start by writing code for app lifecycle events for one of the app placeholders. Later we will build a configuration page for the same app both with a low-code way (ft. iparams.json ) and regular way (ft. iparams.json) in different git branches.</p>
+<h2 is-upgraded>Prerequisite Knowledge</h2>
+<ol type="1">
+<li>How users use Freshdesk.</li>
+<li>Have <a href="https://developers.freshdesk.com/v2/docs/your-first-app/#code_walkthrough" target="_blank">walked through code</a> of an Freshworks App</li>
+<li>Have completed the <a href="https://developers.freshdesk.com/v2/docs/quick-start/" target="_blank">quick start section</a> of Freshdesk documentation</li>
+<li>Have used an UI library before and understands <a href="https://crayons.freshworks.com/components/" target="_blank">Crayons UI components</a></li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Get Set Up" duration="0">
+        <p>Let&#39;s clone the starting point</p>
+<pre><code language="language-sh" class="language-sh">git clone https://github.com/freshworks-developers/app-lifecycle-and-configs-freshdesk.git
+</code></pre>
+<p>Or you can also</p>
+<p><a href="https://github.com/freshworks-developers/app-lifecycle-and-configs-freshdesk/archive/start.zip" target="_blank"><paper-button class="colored" raised><iron-icon icon="file-download"></iron-icon>Download a Zip</paper-button></a></p>
+<h2 is-upgraded>Verify</h2>
+<ol type="1">
+<li>Open the started code in code editor</li>
+<li>Open shell and run <code>&gt; fdk run</code></li>
+<li>You should notice the app is being served at <code>localhost:10001</code></li>
+<li>Login to Freshdesk trial account and pay attention to four placeholders after <a href="https://developers.freshdesk.com/v2/docs/quick-start/#test_your_app" target="_blank">appending ?dev=true at every page</a>.</li>
+</ol>
+<p>After you open the source code, a bunch of HTML, CSS and JS files can be found. These files render your app in <a href="https://developers.freshdesk.com/v2/docs/app-locations/#ticket_details_page" target="_blank">ticket_sidebar placeholder</a>.</p>
+<p class="image-container"><img src="img/148586d41f3d6c8b.png"></p>
+<p>At this point the following are apparent in the app,</p>
+<ol type="1">
+<li>It contains text <code>App logs</code>. You will write code to observe app lifecycle events. When ever one occurs, the app displays the event that has occurred.</li>
+<li>There&#39;s also text <code>Installed Parameters</code>. For now, just ignore it. We will discuss this later as we explore configuration pages.</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Overview" duration="0">
+        <p>HTML, CSS and JS files that you wrote will be rendered in an <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe" target="_blank">inline frame </a>(iframe) provided by Freshdesk in <a href="https://developers.freshdesk.com/v2/docs/app-locations/#" target="_blank">supported placeholders</a>.</p>
+<ul>
+<li>App life cycle events are all about callbacks that the app can register when the app is initialized, activated or deactivated.</li>
+<li>While configuration pages are separate from web pages those load inside of the iframe provided by Freshdesk. These are rendered inside Freshdesk&#39;s app management page.</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="App Life Cycle Events" duration="0">
+        <p>Let&#39;s start by opening <code>app.js</code> in <code>app/scripts.</code>The existing code invokes <code>renderApp(){..}</code> which is not defined yet. Let&#39;s define it and understand what is happening.</p>
+<p>Add following code in <code>app.js</code></p>
+<pre><code language="language-js" class="language-js">function renderApp() {
+  app
+    .initialized()
+    .then(function onInit(_client) {
+      window[&#39;client&#39;] = _client;
+      appLifeCycleEvent(&#39;Initialized&#39;);
+
+      client.events.on(&#39;app.activated&#39;, () =&gt; {
+        appLifeCycleEvent(&#39;Activated&#39;);
+      });
+
+      client.events.on(&#39;app.deactivated&#39;, () =&gt; {
+        appLifeCycleEvent(&#39;Deactivated&#39;);
+      });
+    })
+    .catch(console.error);
+}
+
+function appLifeCycleEvent(state) {
+  return notes.insertAdjacentHTML(&#39;beforebegin&#39;, `&lt;li&gt;${state}&lt;/li&gt;`);
+}
+</code></pre>
+<ol type="1">
+<li>Within <code>renderApp(){..}</code>we try to access <code>&#39;app&#39;</code>. Platform attaches the <code>app</code> to the <code>window</code> of<code>&lt;iframe&gt;</code>.</li>
+<li>Using <code>app</code> object,<code>initialized()</code> is invoked. <code>app.initialized()</code> returns a promise object which resolves with the <code>client</code> object.</li>
+<li>The <code>client</code> object can observe few events. We can register a callback when the app is activated by passing the ‘<code>app.activated&#39;</code> argument and corresponding callback function.</li>
+<li>In the above code snippet we are simply writing some text to the app&#39;s UI.</li>
+<li>See <code>appLifeCycleEvent(..)</code> invoked in the callbacks registered with <code>&#39;app.activated&#39;</code> and<code>&#39;app.deactivated&#39;.</code></li>
+<li>Interestingly, the JavaScript within <code>onInit(_client){..}</code> would be executed when app is initialized.</li>
+<li>The initialized, activated and deactivated events of an app lifecycle are triggered at different times in the different app placeholders. Refer to the <a href="https://developers.freshdesk.com/v2/docs/app-lifecycle-methods/" target="_blank">documentation</a> for specific details.</li>
+</ol>
+<p>For the current app being served in <code>ticket_sidebar</code> the <code>app.initialized()</code> is invoked when Freshdesk page loads for the first time, activate is invoked when user clicks and opens the app explicitly. The deactivate is fired when the user moves to a different ticket in the ticket details page.</p>
+<p class="image-container"><img src="img/bcd9bf9e91ce5890.png"></p>
+<p>If you have done it right, the above is how your app would add text to the UI.</p>
+<p><a href="https://github.com/freshworks-developers/app-lifecycle-and-configs-freshdesk/tree/app-life-cycle" target="_blank">Switch to this checkpoint</a></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Build Configuration page with iparams.json" duration="0">
+        <p>Before you proceed with this section, try installing any free app (example: <a href="https://www.freshworks.com/apps/freshdesk/signature_management_app" target="_blank">signature management app</a>) from the <a href="https://www.freshworks.com/apps/freshdesk/" target="_blank">marketplace</a> to your Freshdesk Trial account. As the installation process of the app begins, Freshdesk users will be required to fill in details depending on requirements of the app.</p>
+<p>Let&#39;s go ahead and build one such configuration page. Everything related to configuration page would be under <code>config/</code> directory</p>
+<p>Open <code>iparams.json</code> and replace the following JSON configuration with the file contents,</p>
+<pre><code language="language-json" class="language-json">{
+  &#34;hero&#34;: {
+    &#34;display_name&#34;: &#34;Guess Ben&#39;s Last Name&#34;,
+    &#34;description&#34;: &#34;You can answer this!&#34;,
+    &#34;type&#34;: &#34;text&#34;,
+    &#34;required&#34;: true,
+    &#34;visible&#34;: true,
+    &#34;secure&#34;: false,
+    &#34;regex&#34;: {
+      &#34;alphanumeric&#34;: &#34;^[a-zA-Z0-9_]*$&#34;,
+      &#34;alphanumeric-error&#34;: &#34;Name validation failed&#34;
+    }
+  },
+  &#34;omnitrix&#34;: {
+    &#34;display_name&#34;: &#34;Select a transformation&#34;,
+    &#34;type&#34;: &#34;dropdown&#34;,
+    &#34;options&#34;: [
+      &#34;Cannonbolt&#34;,
+      &#34;Heatblast&#34;,
+      &#34;Four Arms&#34;,
+      &#34;Grey Matter&#34;,
+      &#34;Jetray&#34;,
+      &#34;Humungousaur&#34;,
+      &#34;Slapback&#34;,
+      &#34;Goop&#34;,
+      &#34;Way Big&#34;,
+      &#34;Diamond Head&#34;
+    ],
+    &#34;default_value&#34;: &#34;Grey Matter&#34;,
+    &#34;required&#34;: false,
+    &#34;description&#34;: &#34;Omnitrix is fully charged. Select a alien transformation&#34;
+  },
+  &#34;age&#34;: {
+    &#34;display_name&#34;: &#34;What is Ben&#39;s Age?&#34;,
+    &#34;type&#34;: &#34;number&#34;
+  },
+  &#34;creatorDomain&#34;: {
+    &#34;display_name&#34;: &#34;Who is creator of Ben 10 cartoon series&#34;,
+    &#34;type&#34;: &#34;domain&#34;,
+    &#34;description&#34;: &#34;devrel&#34;,
+    &#34;type_attributes&#34;: {
+      &#34;product&#34;: &#34;freshdesk&#34;
+    }
+  },
+  &#34;signature&#34;: {
+    &#34;display_name&#34;: &#34;Who created omnitrix&#34;,
+    &#34;description&#34;: &#34;Tip: Google it&#34;,
+    &#34;type&#34;: &#34;text&#34;,
+    &#34;events&#34;: [
+      {
+        &#34;change&#34;: &#34;checkSignature&#34;
+      }
+    ]
+  }
+}
+</code></pre>
+<p>Before we discuss the contents of this file specifically, all that&#39;s required to for the UI to be automatically rendered. Let&#39;s quickly go ahead and re-run the app.</p>
+<pre><code language="language-sh" class="language-sh">❯ fdk run
+Starting local testing server at http://*:10001/
+Append &#39;dev=true&#39; to your Freshdesk account URL to start testing
+e.g. https://domain.freshdesk.com/a/tickets/1?dev=true
+Quit the server with Control-C.
+To test the installation page, visit - http://localhost:10001/custom_configs
+</code></pre>
+<p>Notice there is a new route on :<code>10001</code> with path <code>custom_configs</code>. Go ahead and open it.</p>
+<p class="image-container"><img src="img/7003b2c4647683b6.png"></p>
+<p>You will find a web page like above being rendered. This is based on the JSON you&#39;ve just filled out.</p>
+<ol type="1">
+<li>There are different types of fields called installation parameters available for the developers to quickly build the UI. <a href="https://developers.freshdesk.com/v2/docs/installation-parameters/" target="_blank">See what are all available</a>.</li>
+<li>All fields mentioned are playfully taken from the context of <a href="https://en.wikipedia.org/wiki/Ben_10" target="_blank">Ben 10</a>.</li>
+</ol>
+<p>If you had taken a closer look at <code>assets/iparams.js</code>you&#39;d notice the following code,</p>
+<pre><code language="language-js" class="language-js">function checkSignature(sign) {
+  return sign.toLowerCase() === &#39;azmuth&#39; ? &#39;&#39; : &#39;Wrong signature&#39;;
+}
+</code></pre>
+<p>Above is a callback function that allows you to observe UI events and invoke the callback. For example, in the current case <code>signature</code> is a field which can be validated again with the <code>checkSignature(){..}</code> function. If the return value of <code>checkSignature</code> is an <em>empty string</em> the Installation proceeds. Else, the app will throw an error and requests the user to enter expected details by the app. <a href="https://developers.freshdesk.com/v2/docs/installation-parameters/#dynamic_install_page" target="_blank">Learn more about this dynamic behavior in the docs</a>.</p>
+<p><a href="https://github.com/freshworks-developers/app-lifecycle-and-configs-freshdesk/tree/iparams-json" target="_blank">Reach this checkpoint</a></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Build Configuration page with iparams.html" duration="0">
+        <p>Freshworks Apps also support the regular HTML, CSS and JS to be used to build a configuration page. But Either iparams.json or iparams.html to be used at the same time. On the same grounds, let&#39;s <a href="https://github.com/freshworks-developers/app-lifecycle-and-configs-freshdesk/tree/app-life-cycle" target="_blank">rollback to the app lifecycle events checkpoint</a> and start building the same page using <code>iparams.html</code></p>
+<pre><code language="language-sh" class="language-sh">❯ git checkout app-life-cycle
+Switched to branch &#39;app-life-cycle&#39;
+Your branch is up to date with &#39;origin/app-life-cycle&#39;.
+</code></pre>
+<aside class="special"><p> If you see any errors while switching the branch, Try running <br><code>❯ git stash<br>Saved working directory and index state WIP on start: X80XXXX</code>``<br>   This temporarily hides all the changes you&#39;ve made while working on start branch and allows to switch smoothly to app-life-cycle branch </p>
+</aside>
+<p>Delete everything that is already existing under <code>config/</code> directory and create <code>iparams.html</code> , <code>assets/iparams.js</code> , <code>assets/iparams.css</code>. Let&#39;s discuss what&#39;s different in this approach,</p>
+<p>Write following code in recently createdSee <code>iparams.html</code> file</p>
+<pre><code language="language-html" class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&#34;en&#34;&gt;
+  &lt;head&gt;
+    &lt;meta charset=&#34;UTF-8&#34; /&gt;
+    &lt;meta http-equiv=&#34;X-UA-Compatible&#34; content=&#34;IE=edge&#34; /&gt;
+    &lt;meta name=&#34;viewport&#34; content=&#34;width=device-width, initial-scale=1.0&#34; /&gt;
+    &lt;link rel=&#34;stylesheet&#34; href=&#34;./assets/iparams.css&#34; /&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;main&gt;
+      &lt;h3&gt;
+        Configuration page built using
+        &lt;code&gt;iparams.html&lt;/code&gt;
+      &lt;/h3&gt;
+      &lt;fw-input
+        label=&#34;Guess Ben&#39;s Last Name&#34;
+        icon-right=&#34;contact&#34;
+        placeholder=&#34;Try to google search&#34;
+        autocomplete=&#34;on&#34;
+        maxlength=&#34;25&#34;
+        class=&#34;text-field&#34;
+      &gt;&lt;/fw-input&gt;
+
+      &lt;fw-dropdown-button label=&#34;Select a Transformation&#34; class=&#34;select-alien&#34;&gt;
+        &lt;div slot=&#34;dropdown-options&#34;&gt;
+          &lt;option id=&#34;1&#34; value=&#34;Cannonbolt&#34;&gt;Cannonbolt&lt;/option&gt;
+          &lt;option id=&#34;2&#34; value=&#34;Heatblast&#34;&gt;Heatblast&lt;/option&gt;
+          &lt;option id=&#34;3&#34; value=&#34;Four Arms&#34;&gt;Four Arms&lt;/option&gt;
+          &lt;option id=&#34;4&#34; value=&#34;Grey matter&#34;&gt;Grey matter&lt;/option&gt;
+          &lt;option id=&#34;5&#34; value=&#34;Jetray&#34;&gt;Jetray&lt;/option&gt;
+          &lt;option id=&#34;6&#34; value=&#34;Humungousaur&#34;&gt;Humungousaur&lt;/option&gt;
+          &lt;option id=&#34;7&#34; value=&#34;Slapback&#34;&gt;Slapback&lt;/option&gt;
+          &lt;option id=&#34;8&#34; value=&#34;Goop&#34;&gt;Goop&lt;/option&gt;
+          &lt;option id=&#34;9&#34; value=&#34;Way Big&#34;&gt;Way Big&lt;/option&gt;
+          &lt;option id=&#34;10&#34; value=&#34;Diamond Head&#34;&gt;Diamond Head&lt;/option&gt;
+        &lt;/div&gt;
+      &lt;/fw-dropdown-button&gt;
+
+      &lt;section class=&#34;date-domain&#34;&gt;
+        &lt;fw-label value=&#34;Date picker demo&#34; color=&#34;grey&#34;&gt;&lt;/fw-label&gt;
+        &lt;fw-datepicker placeholder=&#34;range&#34; mode=&#34;single date&#34; class=&#34;datepicker&#34;&gt;&lt;/fw-datepicker&gt;
+        &lt;fw-input
+          required=&#34;true&#34;
+          type=&#34;text&#34;
+          icon-left=&#34;items&#34;
+          label=&#34;domain&#34;
+          size=&#34;30&#34;
+          placeholder=&#34;subdomain.freshdesk.com&#34;
+          class=&#34;domain&#34;
+        &gt;&lt;/fw-input&gt;
+
+        &lt;fw-input
+          label=&#34;Signature&#34;
+          icon-right=&#34;grid&#34;
+          placeholder=&#34;who&#39;s the creator of omnitrix&#34;
+          autocomplete=&#34;on&#34;
+          maxlength=&#34;25&#34;
+          class=&#34;sign&#34;
+        &gt;&lt;/fw-input&gt;
+      &lt;/section&gt;
+    &lt;/main&gt;
+  &lt;/body&gt;
+  &lt;script src=&#34;./assets/iparams.js&#34;&gt;&lt;/script&gt;
+  &lt;script&gt;
+    let selectedVal = document.querySelector(&#39;.select-alien&#39;);
+    let selectedDate = document.querySelector(&#39;.datepicker&#39;);
+    let domain = document.querySelector(&#39;.domain&#39;);
+    let nameField = document.querySelector(&#39;.text-field&#39;);
+    let signature = document.querySelector(&#39;.sign&#39;);
+
+    function postConfigs() {
+      return {
+        transformation: selectedVal.value,
+        domain_url: domain.value,
+        name: nameField.value,
+        date: selectedDate.value
+      };
+    }
+
+    function getConfigs({ date, name }) {
+      selectedDate.value = date;
+      nameField.value = name;
+      return;
+    }
+
+    function validate() {
+      if (signature.value == &#39;azmuth&#39;) return true;
+      else return true;
+    }
+  &lt;/script&gt;
+  &lt;script src=&#34;https://static.freshdev.io/fdk/2.0/assets/fresh_client.js&#34;&gt;&lt;/script&gt;
+  &lt;script type=&#34;module&#34; src=&#34;https://unpkg.com/@freshworks/crayons/dist/crayons/crayons.esm.js&#34;&gt;&lt;/script&gt;
+  &lt;script nomodule src=&#34;https://unpkg.com/@freshworks/crayons/dist/crayons/crayons.js&#34;&gt;&lt;/script&gt;
+&lt;/html&gt;
+</code></pre>
+<ol type="1">
+<li>The UI is built using <a href="https://crayons.freshworks.com/components/" target="_blank">Crayons</a>. Parts those are interesting to us are those within the <code>&amp;lt;script&gt;</code> tag. You will notice<code>postConfigs(){..}</code> , <code>getConfigs(..){..}</code> and <code>validate(){..}.</code></li>
+<li>Each of these methods is mandatory and has purpose. <code>postConfigs(){..}</code> ensures to pick the inputs entered by the user and sends to the platform.</li>
+<li><code>getConfigs(..){..}</code> is used to populate the fields. If not used, User opens the configuration page with blank fields every single time. It is not user friendly to require users to fill in the fields again.</li>
+<li><code>validate(){..}</code> is used to validate certain fields so that the app can decide to proceed or halt the installation or change in app configuration.</li>
+</ol>
+<p class="image-container"><img src="img/cc867e0b06d5ef5e.png"></p>
+<p>Above is the checkpoint screenshot of the simulated configuration page.</p>
+<p><a href="https://github.com/freshworks-developers/app-lifecycle-and-configs-freshdesk/tree/iparams-html" target="_blank">See the source code at this checkpoint</a></p>
+<p><a href="https://developers.freshdesk.com/v2/docs/custom-installation-page/" target="_blank">Check the documentation</a> for complete details as reference when you start building for your apps!</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Wrapping up" duration="0">
+        <p>The app lifecycle events are based on the behaviour of the placeholder.</p>
+<p>Configuration pages that are discussed in this tutorial will help you if they are consumed by the app. But these configuration pages are capable of securing sensitive information being exposed in the browser by using Request Method. Refer to Request Method to learn more on those capabilities.</p>
+<p>Congratulations on completing this tutorial!</p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+  <script src="//support.google.com/inapp/api.js"></script>
+
+</body>
+</html>
