@@ -1,0 +1,214 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Introduction to Data Storage and Request Method.</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="data-storage-and-request-methods"
+                  title="Introduction to Data Storage and Request Method."
+                  environment="web"
+                  feedback-link="https://zarin.io">
+    
+      <google-codelab-step label="Overview" duration="0">
+        <p>In the modern era, fetching data from a source and saving them are the vital parts of any application. In this tutorial, we&#39;ll learn about fetching data from a third-party REST API and how to persist it in the Freshworks infrastructure using the <a href="https://developer.freshdesk.com/v2/docs/request-method/" target="_blank">Request method</a> and <a href="https://developer.freshdesk.com/v2/docs/data-storage/" target="_blank">Data Storage</a> respectively.</p>
+<h2 is-upgraded>Request Method</h2>
+<p>Request method comes built-in with the Freshworks platform. The request method is a suggested alternative over using a normal HTTP client like <code>jQuery.ajax(..)</code> or <code>fetch(..)</code>.</p>
+<p>There are a variety of reasons to use the Request method over a regular HTTP client which are as follows.</p>
+<ul>
+<li>Request Method has the backing, support, and reliability of the freshworks developer platform.</li>
+<li>Request Method handles CORS out of the box</li>
+<li>Request Method helps in securing sensitive information, such as API Keys or user credentials through <a href="https://developer.freshdesk.com/v2/docs/installation-parameters/" target="_blank">secure installation parameters</a>(Iparams)</li>
+</ul>
+<h2 is-upgraded>Data Storage</h2>
+<p>The Data storage also comes built to the Freshworks platform. Freshworks data storage is a key-value store, where you can save objects up to the size of 8 kb, Although there is a size restriction on objects, there is no restriction on the number of objects you can store.</p>
+<p>Advantages of using Freshworks Data Storage are,</p>
+<ul>
+<li>No need to handle the cumbersome configuration of an external datastore</li>
+<li>Native SDK for handling CRUD operations	</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Get Started" duration="0">
+        <h2 is-upgraded>What we&#39;ll build</h2>
+<p>In this tutorial, we&#39;ll build a fun Freshdesk app that fetches the current location of the International space station in latitude and longitude from a free REST API.</p>
+<h2 is-upgraded>Prerequisites</h2>
+<ul>
+<li>Freshdesk trial account</li>
+<li>The latest version of FDK</li>
+<li>A text editor</li>
+<li>Basic knowledge of HTML, CSS, and Javascript</li>
+<li>Basic knowledge of Freshworks App development, if this is your first time developing an app for Freshworks products, It&#39;s highly recommended that you complete the following tutorials before you start this one<br><br><ul>
+<li>Link to other two basic tutorials</li>
+</ul>
+</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="About the boilerplate code" duration="0">
+        <h2 is-upgraded>Clone the boilerplate</h2>
+<p>Once you have the prerequisites ready, clone the boilerplate from the below repository</p>
+<pre><code>git clone  https://github.com/freshworks-developers/request-method-and-data-storage_Freshdesk.git
+</code></pre>
+<p>The cloned repository will have two folders</p>
+<ul>
+<li>Start -  	Boilerplate to get started with this tutorial</li>
+<li>Completed -  completed demo of what we&#39;ll be building in this tutorial	</li>
+</ul>
+<h2 is-upgraded>Folder structure of the boilerplate app explained</h2>
+<p class="image-container"><img alt="Boiler plate App Strucuture" src="img/81d090245c46b8ca.png"></p>
+<p>The above image shows the folder structure of the boilerplate app, the functionalities of the files are as follows</p>
+<ul>
+<li><code>app/index.html</code> - The entry point to the application and markup</li>
+<li><code>app/scripts/app.js</code> - holds the app logic and included in the index.html file</li>
+<li><code>app/styles</code> - Holds all the CSS and images</li>
+<li><code>config/iparams.json</code> - Holds Iparams definition.</li>
+<li><code>manifest.json</code> - manifest.json holds the metadata and definition about the platform and the app.</li>
+</ul>
+<p>To run either of the apps change the directory to the corresponding folder( /start or /completed) and run <em>fdk run</em> to start the localhost</p>
+<p>The localhost should start with the messages displayed in the screenshot below</p>
+<p class="image-container"><img alt="Localhost" src="img/7749e20088e35ab5.png"></p>
+<p>Once the localhost is starts with the above message, open a ticket page and append &#34;?dev=true&#34; in the URL (eg: https://you_portal_name.freshdesk.com/a/tickets/1?dev=true), The app should render in the ticket_sidebar location as shown in the highlighted section of the below screenshot.</p>
+<p class="image-container"><img alt="Boilerplate" src="img/dc381a7e3ae5ceff.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Fetch the data from Rest API" duration="0">
+        <p>Now that we have the basics covered, let&#39;s extend the boilerplate to build our app.</p>
+<p>To fetch the data from the REST API let&#39;s copy the following code snippet and place it under <code>fetchData(){...}</code> placeholder in <code>app/script/app.js</code> file</p>
+<pre><code>/**
+* Function to Fetch location of International Space Station from the REST API
+*
+*/
+function fetchData() {
+ 
+ // API endpoint to fetch the current location of the International Space Station
+ const API_BASE_URL = &#34;https://api.wheretheiss.at/v1/satellites/25544/positions&#34;
+ 
+ // Timestamp for the current time to get the location of International Space Station for a specified time.
+ const timestamp = new Date().getTime()
+ 
+ // HTTP request header
+ const headers = {
+   &#34;Content-Type&#34;: &#34;application/json&#34;
+ }
+ 
+ // Options passed to the request method, consists of header, body and other objects with multiple functionalities
+ const options = {
+   headers
+ }
+ 
+ // HTTP request to get the date from the 
+ client.request.get(`${API_BASE_URL}?timestamps=${timestamp}&amp;units=miles`, options)
+   .then(
+     function (location) {
+       // Print the location object in the browser console
+       alert(&#39;location of International Space Station  :-&#39; + JSON.stringify(location));
+     },
+     function (error) {
+       // Error handling
+       handleErr(error)
+     }
+   );
+}
+</code></pre>
+<p>The above code fetches the data from the rest API and prints it in the browser console, let&#39;s invoke the function a button click and check if we can get the current location of the International Space Station.</p>
+<h2 is-upgraded>Test the feature</h2>
+<p>Let&#39;s start the localhost and verify that our code works. Once the localhost is started go to a ticket details page (open a ticket page with &#34;?dev=true&#34; in the URL (eg: https://you_portal_name.freshdesk.com/a/tickets/1?dev=true) and check of our changes are working as intended.</p>
+<p><img alt="Fetch Data" src="img/b6afde7575f0c3eb.gif"><br>From the above GIF we can see that by clicking on the <code>fetch</code> button, we can fetch the location of the international space station successfully and display it in the notification.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Save the Data in the Data Storage" duration="0">
+        <p>Now that we fetched the data from let&#39;s save it to the Data Storage and fetch it from data storage and display it as a notification.</p>
+<p>Copy the below code snippet under the saveInDataStorage placeholder</p>
+<pre><code>/**
+* Function to save the location in data storage
+* @param {*} data Object
+*/
+function saveInDataStorage(data) {
+ 
+ client.db.set(&#34;location&#34;, data).then(
+   function (data) {
+     showNotify(&#34;success&#34;, &#34;Location saved successfully in the Data Storage&#34;); 
+     console.info(data);
+   },
+   function (error) {
+     // failure operation
+     console.log(error)
+   });
+}
+</code></pre>
+<p>The above function uses the data storage interface exposed by the client object to set the data in the Freshworks Data Storage.</p>
+<p>Invoke the saveInDataStorage(location) function with the location as the parameter which we got from the request API, replace the alert message with the below code in the &#34;fetchData(){...}&#34; function.</p>
+<pre><code>  // Invoke the saveInDataStorage(data) function to save the location in the data storage
+  saveInDataStorage(location);
+</code></pre>
+<p>Let&#39;s restart the localhost and test the functionality as shown in the below GIF</p>
+<p class="image-container"><img alt="Fetch and Save Data" src="img/14f458362c83e8ba.gif"></p>
+<p>We can see the notification that the location of the space station is saved in the data storage.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Fetch the Data from Data Storage" duration="0">
+        <p>We have the data saved in the Freshwoks Data Storage, the next step is to fetch the location from data storage  and display it as a notification.</p>
+<pre><code>/**
+* Function to fetch the location of International space station
+*/
+function fetchFromDataStorage() {
+ client.db.get(&#34;location&#34;).then(
+   function (data) {
+     showNotify(&#39;success&#39;,`The location ISS from the Data Storage is Latitude: ${data.latitude} , Longitude: ${data.longitude}`)
+     console.info(&#39;data&#39;, data);
+   },
+   function (error) {
+     handleErr(error)
+   });
+}
+</code></pre>
+<p>The above code snippet fetches the location from the freshworks data storage and displays it as a notification.</p>
+<p>Let us test if we can fetch the data from the data storage</p>
+<p class="image-container"><img alt="Fetch From DB" src="img/e61a9d404a2b81c8.gif"></p>
+<p>From the above GIF we can verify that the data can be successfully fetched from the Data storage and displays it correctly as a notification.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Recap" duration="0">
+        
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>

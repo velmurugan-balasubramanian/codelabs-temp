@@ -1,0 +1,198 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Instance methods</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="interface-methods"
+                  title="Instance methods"
+                  environment="web"
+                  feedback-link="https://zarin.io">
+    
+      <google-codelab-step label="Overview" duration="0">
+        <h2 is-upgraded>Instance method</h2>
+<p>In a Freshworks developer platform, the same app can render in multiple app locations, though the app is the same in terms of the functionality and codebase, they are considered as different instances of the app.</p>
+<p>Although all the instances belong to the same app, the instances do not share data or state, hence the client object in the freshworks developer platform exposes interface methods to share data and state among the multiple instances of the same app.</p>
+<p>Let&#39;s see what we can do with the instance method</p>
+<ul>
+<li>Resize an Instance (if the instance supports resizing, not all the instances can be resized)</li>
+<li>Close an Instance of the app (Close a modal for example)</li>
+<li>Get the context of the current instance of the app (for eg, the app&#39;s current location)</li>
+<li>Send data from one instance to another instance of the app</li>
+<li>Receive the data sent to the current instance of the app.</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Get Started" duration="0">
+        <h2 is-upgraded>What we&#39;ll build today</h2>
+<p>In this tutorial we will build an application that explores all the functionalities of the instance method listed in the previous section.</p>
+<h2 is-upgraded>Prerequisites</h2>
+<ul>
+<li>Familiarity with Freshworks app development</li>
+<li>Latest version of the FDK installed locally</li>
+<li>Knowledge of the Interface method, if you are not familiar with the interface methods, please visit the following tutorial.</li>
+</ul>
+<h2 is-upgraded>Set up the boilerplate</h2>
+<p>To setup the boilerplate app, clone the repo given below</p>
+<pre><code>git clone https://github.com/freshworks-developers/instance-method_freshdesk.git
+</code></pre>
+<p>The repository contains two folders /Start and /completed.</p>
+<p>You can navigate to the /completed folder to check out how the completed app works, to continue with the tutorial navigate to the /start folder and open it on your favourite code editor.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Resize and Close an Instance of the app" duration="0">
+        <h2 is-upgraded>Resize</h2>
+<p>To resize the current instance of the app, copy the following code snippet to the resizeInstance(){..}</p>
+<pre><code> client.instance.resize({ height: &#34;400px&#34; });
+</code></pre>
+<p>The above code snippet resizes the height of the app instance to 400px, let&#39;s test it out.</p>
+<p class="image-container"><img alt="Resize instance" src="img/1cd487b15390d692.gif"></p>
+<p>From the above GIF we can see that the height of the app instance is increased to 400px from the default height.</p>
+<h2 is-upgraded>Close</h2>
+<p>The close instance method used to close the instance opened using the interface method. In this section, we&#39;ll open a modal using the interface method and close it programmatically using the instance method.</p>
+<aside class="special"><p>Closing an interface element using instance method is one of the options, but it is not the only way to do it, if you are an old fashioned person, you can close the interface through the ‘X&#39; in  the interface.</p>
+</aside>
+<p>Copy the following snippet and paste it in the closeModal(){..} function of scripts/modal.js file.</p>
+<pre><code>// Snippet to close the modal
+client.instance.close();
+</code></pre>
+<p>The above snippet closes the modal when the &#34;Close this modal&#34; button is clicked. Let&#39;s test out the functionality.</p>
+<p class="image-container"><img alt="Close Modal Using instance method" src="img/782fdff0d6b9294d.gif"></p>
+<p>From the above GIF you can see that the modal closes when the <code>Close this Modal</code> button is clicked on the modal.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Send Data from parent to a modal" duration="0">
+        <p>In a production application, it&#39;s very important to share data between the instances of the app to avoid saving duplicate data or making duplicate API calls/requests, In the following two sections we&#39;ll learn about sharing data between parent and child instances.</p>
+<h2 is-upgraded>Send data to the Child(Modal) instance from Parent instance</h2>
+<p>We already have a modal in place, from our previous steps, let&#39;s send a sample data to the modal using the existing interface method.</p>
+<p>Replace the existing interface method in the <code>showModal(){..}</code> in the <code>app/scripts/app.js</code> file, with the following code snippet.</p>
+<pre><code>// Interface method to send data to the modal.
+client.interface.trigger(&#34;showModal&#34;, {
+   title: &#34;A Modal to be closed&#34;,
+   template: &#34;modal.html&#34;,
+   data:{
+     name:&#39; Steve rogers&#39;,
+     Designation: &#39;Captain America&#39;
+   }
+ }).then(function (data) {
+   console.info(data);
+ }).catch(function (error) {
+   console.error(error);
+ });
+</code></pre>
+<p>In the above snippet we are sending the object <code>{ name:&#39; Steve rogers&#39;, Designation: &#39;Captain America&#39;}</code> to the modal.</p>
+<h2 is-upgraded>Receive the data sent by Parent instance in the child instance(Modal)</h2>
+<p>let&#39;s fetch the data sent by the parent to the modal by Copy, Pasting the following code snippet inside the <code>fetchData(){..}</code> function in the <code>app/scripts/modal.js</code></p>
+<pre><code> // Interface method to fetch data from parent
+ client.instance.context().then(
+   function(context)  {
+        console.log(context.data);
+   }
+ );
+</code></pre>
+<p>Now that we have the logic in place, let&#39;s check it out if our code snippet works as intended.</p>
+<p class="image-container"><img alt="Send to Modal" src="img/f8ab35045561188e.gif"></p>
+<p>From the above GIF we can see that the data is being fetched successfully in the modal sent from the parent.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Send Data from the Child Instance to the Parent Instance" duration="0">
+        <p>Now that we have sent data from the ticket_sidebar app to the modal, let&#39;s send some data back to the ticket_sidebar app from the modal.</p>
+<h2 is-upgraded>Send Data back to Parent Instance</h2>
+<p>To send data from the modal, copy the following snippet to <code>sendFromModal(){..}</code> inside  <code>app/scripts/modal.js</code></p>
+<pre><code> // Instance method to send data from modal to parent.
+ client.instance.send({
+   /* message can be a string, object, or array */
+     message: &#39;Info received about captain America&#39;
+ });
+</code></pre>
+<p>The above snippet sends data from the modal to the parent location, the parent instance is the one from which the app was opened in this case the <code>ticket_sidebar</code> app location.</p>
+<h2 is-upgraded>Receive the data sent by Modal in the ticket_sidebar location</h2>
+<p>To receive the data sent from the modal, copy the following snippet and paste it into the <code>fetchFromModal(){..}</code> in the <code>apps/scripts/app.js</code></p>
+<pre><code>// Instance method to get data from the modal
+ client.instance.receive(
+   function (event) {
+     var data = event.helper.getData();
+     console.info(&#39;Data from Modal&#39;)
+     console.info(data.message);;
+   }
+ );
+</code></pre>
+<p>The above code snippet intercepts the data sent from the modal and prints it in the browser console.</p>
+<p>Let&#39;s test out if we can receive the data from the modal.</p>
+<p class="image-container"><img alt="Send Data from Modal to Parent" src="img/d84c659f8610ed29.gif"></p>
+<p>You can see from the GIF above that the message from the modal is printed in the browser console.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Send Data from one app location to another app location" duration="0">
+        <p>Data can be transferred from location to another location by using <code>send()</code> and <code>receive()</code> instance methods. In the following example, we&#39;ll send data from the <code>ticket_sidebar</code> app location to <code>ticket_requester_info</code> location.</p>
+<p>In order to send data to another location of the app, we need to find out the instance ID of the app instance, to which we wish to send data.</p>
+<p>Now, to find the Instance ID of the <code>ticket_requester_info</code> location and send the data, let&#39;s copy paste the following code snippet inside the <code>sendToAnother(){...}</code> in the ‘app/scripts/app.js`</p>
+<pre><code>  // Instance method to send data to the ticket_requester_info app location.
+ client.instance.get().then(
+   function(data)  {
+      let locationToSend = data.find(x =&gt; x.location === &#34;ticket_requester_info&#34;);
+     client.instance.send({
+       message: &#39;Hi From ticket_sidebar location&#39;,
+       receiver: locationToSend.instanceId
+    });
+  });
+</code></pre>
+<p>The above code snippet uses the instance methods to fetch the instance ID for ticket_requester_info location and send a message to the location.</p>
+<p>Once the message is sent, it&#39;s time to receive the message and process it in the ticket_requester_info location. In order to do that let&#39;s copy the following snippet to receiveData() {...} in ticket_requester_template.js file.</p>
+<pre><code> // Receive the message and display it in the html
+ client.instance.receive(
+   function (event) {
+     let data = event.helper.getData();
+     document.getElementById(&#39;message&#39;).innerHTML = &#39;&#39;
+     document.getElementById(&#39;message&#39;).innerHTML = data.message
+   });
+</code></pre>
+<p>Let us test out the feature</p>
+<p class="image-container"><img alt="Send From One location to Another location" src="img/d8fe85f46e62bca8.gif"></p>
+<p>From the above GIF, we can see that the initial message in the <code>ticket_requester_info</code> app location is changed from <em>No message from Ticket sidebar yet</em> to  <em>Hi From ticket_sidebar location</em> after sending the message from <code>ticket_sidebar</code> app location.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="What we&#39;ve Learned" duration="0">
+        
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>

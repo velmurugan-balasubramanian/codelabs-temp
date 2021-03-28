@@ -1,0 +1,290 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Introduction to Interface Methods.</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="introduction-to-interface-methods"
+                  title="Introduction to Interface Methods."
+                  environment="web"
+                  feedback-link="">
+    
+      <google-codelab-step label="Overview" duration="0">
+        <h2 is-upgraded>Interface Methods</h2>
+<p>A Freshworks app loads in an iframe inside the product, so your app will not have control over the Product/Parent window&#39;s interface.</p>
+<p>An Interface method can be used to,</p>
+<ul>
+<li>Display user interface elements in the parent window like<br><br><ul>
+<li>Display a modal on the window, to provide extra real estate to the app.</li>
+<li>Display a notification on the window</li>
+</ul>
+</li>
+<li>Manipulate the existing UI elements like<br><br><ul>
+<li>Show or Hide an interface element</li>
+<li>Set/modify values to the field in the User Interface element like text value in reply editor or cc fiels in the text editor.</li>
+</ul>
+</li>
+</ul>
+<h2 is-upgraded>Prerequisties</h2>
+<ul>
+<li>Freshdesk trial account</li>
+<li>The latest version of FDK</li>
+<li>A text editor</li>
+<li>Basic knowledge of HTML, CSS, and Javascript</li>
+<li>Basic knowledge of Freshworks App development, if this is your first time developing an app for Freshworks products, It&#39;s highly recommended that you complete the following tutorials before you start this one</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Get Started" duration="0">
+        <p>The interface method can be classified into two major categories</p>
+<ul>
+<li>Global Interface methods<br><br><ul>
+<li>These interfaces methods are available in all app placeholders</li>
+</ul>
+</li>
+<li>Placeholder specific Interface methods<br><br><ul>
+<li>These interface methods, like the name suggests are specific to its placeholders.</li>
+</ul>
+</li>
+</ul>
+<h2 is-upgraded>Note</h2>
+<aside class="special"><p>The interface methods varies based on the products and the app location<br>`</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Display an Interface" duration="0">
+        <p>In this section we&#39;ll explore about displaying interfaces on to the browser window, we&#39;ll create a new function in app.js of the cloned app, for each interface method we&#39;re going to explore in this tutorial and invoke the function directly from a button in the index.html</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Show Notifications" duration="0">
+        <p>To display a notification, copy the following snippet and paste it in app.js</p>
+<pre><code>/**
+ * Function to display Notification
+ */
+function showNotification() {
+	client.interface
+		.trigger(&#34;showNotify&#34;, {
+			type: &#34;success&#34;,
+			message: &#34;A notification for the Tutorial&#34;,
+			/* The &#34;message&#34; should be plain text */
+		})
+		.then(function (data) {
+			console.info(&#34;Notification displayed&#34;);
+			console.info(data);
+		})
+		.catch(function (error) {
+			console.error(&#34;Unable to show Notification&#34;);
+			console.error(error);
+		});
+}
+</code></pre>
+<p>The above function uses the interface method exposed by the client object, to trigger a UI element, in this case a notification message.</p>
+<p>Now that we have the showNotification(){..} function in place, let&#39;s invoke the showNotification(){..} from index.html by pasting the following snippet inside body of the index.html file</p>
+<pre><code>&lt;fw-button onclick=&#34;showNotification()&#34;&gt;Display a Notification&lt;/fw-button&gt;
+</code></pre>
+<p>This snippet in the index.html will invoke the showNotification(){..} we defined in the earlier step.</p>
+<p>Let us test if we show the notification on to the browser window</p>
+<p class="image-container"><img alt="Show Notify" src="img/16e58d71a65bcb01.gif"></p>
+<p>From the above GIF we can confirm that we can display the notification on the browser window.</p>
+<p>We can define the type of notification that we want to display like success, warning or error which are differentiated by green, yellow or red color respectively(reference screenshots below)</p>
+<p>Info<br><img alt="Show Notify Info" src="img/1531165ed2b89a51.png"></p>
+<p>Warning<br><img alt="Show Notify Warning" src="img/a5bedbc2483f493b.png"></p>
+<p>Danger<br><img alt="Show Notify Danger" src="img/cc3323cf5b3688b8.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Show Confirmation Dialog" duration="0">
+        <p>To show a confirmation dialog, copy the following code and paste it in app.js</p>
+<pre><code>/**
+ * Function to display a confirmation dialog
+ */
+function showConfirmation() {
+	client.interface
+		.trigger(&#34;showConfirm&#34;, {
+			title: &#34;Sample Confirm&#34;,
+			message: &#34;Are you sure you want to close this ticket?&#34;,
+			saveLabel: &#34;save&#34;,
+			cancelLabel: &#34;ignore&#34;,
+		})
+		.then(function (data) {
+			if (data.message === &#34;save&#34;) {
+				alert(&#34;You clicked Save&#34;);
+			}
+			if (data.message === &#34;ignore&#34;) {
+				alert(&#34;You clicked ignore&#34;);
+			}
+		})
+		.catch(function (error) {
+			console.error(&#34;Unable to show confirmation dialog&#34;);
+			console.error(error);
+		});
+}
+</code></pre>
+<p>The showConfirmation(){...} function uses the interface method to show a confirmation dialog to get the user input whether to save or cancel and then based on the given input it displays an alert.</p>
+<aside class="warning"><p><em>Note</em> : you can replace the alerts with a different action in your app if you prefer to do so.</p>
+</aside>
+<pre><code>&lt;fw-button onclick=&#34;showConfirmation()&#34;
+	&gt;Display a Confirmation dialog&lt;/fw-button
+&gt;
+</code></pre>
+<p class="image-container"><img alt="Show Confirmation dialog" src="img/538ab2f897d4290.gif"></p>
+<p>From the above GIF we can see that confirmation dialogue is working as intended.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Show Modal" duration="0">
+        <p>Unlike notification and confirmation dialog we need a html file to show as a modal, so let&#39;s create an html file called modal.html inside the app folder.</p>
+<p>once the file is created copy the following code into the newly created html file</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&#34;en&#34;&gt;
+	&lt;head&gt;
+		&lt;meta charset=&#34;UTF-8&#34; /&gt;
+		&lt;meta http-equiv=&#34;X-UA-Compatible&#34; content=&#34;IE=edge&#34; /&gt;
+		&lt;meta name=&#34;viewport&#34; content=&#34;width=device-width, initial-scale=1.0&#34; /&gt;
+		&lt;title&gt;Modal&lt;/title&gt;
+	&lt;/head&gt;
+	&lt;body&gt;
+		&lt;h3&gt;This is a modal opened using interface method&lt;/h3&gt;
+	&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>Now that we have a template for the modal ready, let us copy the showModal(){..} function in app.js to open a modal.</p>
+<pre><code>/**
+ * Function to show a modal
+ */
+function showModal() {
+	client.interface
+		.trigger(&#34;showModal&#34;, {
+			title: &#34;Sample Modal&#34;,
+			template: &#34;modal.html&#34;,
+		})
+		.then(function (data) {
+			console.info(&#34;modal displayed&#34;);
+			console.info(data);
+		})
+		.catch(function (error) {
+			console.error(&#34;Unable to display modal&#34;);
+			console.error(error);
+		});
+}
+</code></pre>
+<p>Let&#39;s invoke the showModal() function and test it out</p>
+<pre><code>&lt;fw-button onclick=&#34;showModal()&#34;&gt;Display a Modal&lt;/fw-button&gt;
+</code></pre>
+<p class="image-container"><img alt="Show Modal" src="img/3b3b06cda39582ed.gif"></p>
+<p>Now that we&#39;ve covered how to display interface elements on the window, let us explore how to show or hide a user interface elements in the screen.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Show/Hide the existing Interface" duration="0">
+        <p>In this section of the tutorial we will learn how to hide the reply button from the ticket details page, and then show the same by following the drill again, copy the function to app.js, invoke it in index.html and test it out.</p>
+<h3 is-upgraded>app.js</h3>
+<pre><code>/**
+* Function to hide the reply button in Ticket details page
+*/
+function hideReply() {
+ client.interface.trigger(&#34;hide&#34;, { id: &#34;reply&#34; })
+   .then(function (data) {
+     console.info(&#39;Reply button hidden&#39;);
+     console.info(data);
+   }).catch(function (error) {
+     console.error(&#39;Unable to hide the reply&#39;);
+     console.error(error);
+   })
+}
+
+/**
+* Function to show the reply button in Ticket details page
+*/
+function showReply() {
+ client.interface.trigger(&#34;show&#34;, { id: &#34;reply&#34; })
+   .then(function (data) {
+     console.info(&#39;Reply button shown&#39;);
+     console.info(data);
+   }).catch(function (error) {
+     console.error(&#39;Unable to show the reply&#39;);
+     console.error(error);
+   })
+}
+</code></pre>
+<p>The hideReply() function uses the interface method to hide the reply button and the showReply() function to show the reply button.</p>
+<h3 is-upgraded>index.html</h3>
+<pre><code>     &lt;fw-button onclick=&#34;hideReply()&#34;&gt;Hide Reply button&lt;/fw-button&gt;
+     &lt;fw-button onclick=&#34;showReply()&#34;&gt;Show Reply button&lt;/fw-button&gt;
+</code></pre>
+<h3 is-upgraded>Output</h3>
+<p class="image-container"><img alt="Show and Hide Reply button" src="img/96a6e15f81b6c89b.gif"></p>
+<p>ASDF  QWFEW</p>
+<p>This tutorial covers only a few of the selected interface methods available in a given app location. Please refer to the <a href="https://developer.freshdesk.com/v2/docs/interface-methods/#" target="_blank">documentation</a> to learn more about all the interface methods available for all app locations.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Set values of fields using the Interface method" duration="0">
+        <p>In this section of the tutorial we will learn how to set values to editable fields in the ticket details page, in this case a reply editor.</p>
+<p>Copy the following code snippets to the app.js and index.html</p>
+<h3 is-upgraded>app.js</h3>
+<pre><code>/**
+* Function to Open the reply editor and insert custom text
+*/
+function openAndEdit() {
+ client.interface.trigger(&#34;click&#34;, { id: &#34;reply&#34;, text: &#34;A sample text inserted from the app&#34; })
+   .then(function (data) {
+     console.info(&#39;editor opened and text updated &#39;);
+     console.info(data);
+   }).catch(function (error) {
+     console.error(&#39;editor opened and text updated &#39;);
+     console.error(error);
+   });
+}
+</code></pre>
+<h3 is-upgraded>index.html</h3>
+<pre><code>     &lt;fw-button onclick=&#34;openAndEdit()&#34;&gt;Open add and text&lt;/fw-button&gt;
+</code></pre>
+<p>In the above code snippet, the openAndEdit() function simulates the reply click to open the reply editor and inserts the value given in the text field. Let&#39;s test it out</p>
+<p class="image-container"><img alt="Edit Value" src="img/66f77bccebcde3f.gif"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Assignment" duration="0">
+        
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,25 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2021-03-28T03:54:57+05:30",
+  "id": "introduction-to-interface-methods",
+  "duration": 0,
+  "title": "Introduction to Interface Methods.",
+  "authors": "Velmurugan Balasubramanian",
+  "summary": "This tutorial focuses on introducing you to Interface method and by building an app that utilises most commonly used interface methods.",
+  "source": "../content/interface-methods/interface-methods.md",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "freshdesk"
+  ],
+  "tags": [
+    "freshdesk",
+    "interface"
+  ],
+  "url": "introduction-to-interface-methods"
+}
