@@ -45,7 +45,8 @@ In this tutorial, we’ll build a fun Freshdesk app that fetches the current loc
 * A text editor.
 * Basic knowledge of HTML, CSS, and Javascript.
 * Basic knowledge of Freshworks App development, if this is your first time developing an app for Freshworks products, It’s highly recommended that you complete the following tutorials before you start this one.
-  - Link to other two basic tutorials
+  - [Introduction to Freshworks Developer Platform](/codelabs/introduction/index.html)
+  - [Build your first Freshworks app](/codelabs/freshdesk-basics/index.html)
 
 ## About the boilerplate code
 
