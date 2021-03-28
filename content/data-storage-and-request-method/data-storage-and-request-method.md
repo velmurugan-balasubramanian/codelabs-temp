@@ -1,4 +1,4 @@
-summary:This tutorial focuses on introducing you to Freshworks Data storage, a key-value data store, and Request method, an http client to make API calls. t
+summary:This tutorial focuses on introducing you to Freshworks Data storage, a key-value data store, and Request method, an http client to make API calls. 
 id: data-storage-and-request-methods
 categories:freshdesk
 tags:

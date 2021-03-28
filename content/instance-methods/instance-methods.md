@@ -1,4 +1,4 @@
-summary: This tutorial introduces you to the Instance methods available in the Freshworks developer platform, that helps you build data driven application that shares data among different app locations and instances. 
+summary: This tutorial introduces you to the Instance methods available in the Freshworks developer platform, that helps you build data driven application and share data among different app locations and instances. 
 id: instance-methods
 categories:freshdesk
 tags:[instance, freshdesk]
