@@ -43,6 +43,9 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "code-sanity": ""
+    "code-sanity": "",
+    "start": "gulp serve",
+    "build": "gulp dist",
+    "start:dist": "gulp serve:dist"
   }
 }
