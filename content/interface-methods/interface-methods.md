@@ -4,7 +4,7 @@ categories:freshdesk
 tags:freshdesk, interface
 status:Published
 authors:Velmurugan Balasubramanian
-Feedback Link:
+Feedback Link: https://developers.freshworks.com
 
 # Introduction to Interface Methods.
 
@@ -18,13 +18,28 @@ A Freshworks app loads in an iframe inside the product, so your app will not hav
 
 An Interface method can be used to,
 
-- Display user interface elements in the parent window like
+* Display user interface elements in the parent window like
   - Display a modal on the window, to provide extra real estate to the app.
   - Display a notification on the window
-- Manipulate the existing UI elements like
+* Manipulate the existing UI elements like
   - Show or Hide an interface element
   - Set/modify values to the field in the User Interface element like text value in reply editor or cc fiels in the text editor.
 
+The interface method can be classified into two major categories, 
+
+* Global Interface methods 
+	- These interfaces methods are available in all app locations
+* App location specific Interface methods
+	- These interface methods, like the name suggests are specific to its placeholders. 
+
+Positive
+: The interface methods varies based on the products and the app location, refer to the [documentation](https://developer.freshdesk.com/v2/docs/interface-methods/) to learn about the list of all avilable Interface methods and understand their functionality.
+
+## Get Started
+
+### What we'll build today
+
+In this tutorial we are going to build an app that explores a list of commonly used interface methods. 
 ### Prerequisties
 
 - Freshdesk trial account
@@ -33,20 +48,8 @@ An Interface method can be used to,
 - Basic knowledge of HTML, CSS, and Javascript
 - Basic knowledge of Freshworks App development, if this is your first time developing an app for Freshworks products, It’s highly recommended that you complete the following tutorials before you start this one
 
-## Get Started
 
-The interface method can be classified into two major categories
 
-- Global Interface methods
-  - These interfaces methods are available in all app placeholders
-- Placeholder specific Interface methods
-  - These interface methods, like the name suggests are specific to its placeholders.
-
-### Note
-
-Positive
-: The interface methods varies based on the products and the app location
-`
 
 ## Display an Interface
 
