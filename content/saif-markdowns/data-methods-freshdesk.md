@@ -1,7 +1,7 @@
 summary: Step by step tutorial to understand how to consume Data Methods on Freshworks Developer Platform
 id: data-methods-freshdesk
-categories: Foundations
-tags:['data methods', 'freshdesk']
+categories: ['Data methods', 'Freshdesk']
+tags: [Foundations]
 status: Published
 authors:Saif Ali Shaik
 Feedback Link: https://community.developers.freshworks.com/c/ideas/

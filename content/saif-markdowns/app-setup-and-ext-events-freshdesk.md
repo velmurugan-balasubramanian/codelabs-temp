@@ -1,7 +1,7 @@
 summary: Step by step tutorial to understand how to observe app setup and external events on Freshworks Developer Platform using Freshdesk
 id: app-setup-and-external-events-freshdesk
-categories: Foundations
-tags:['app setup','external events','freshdesk']
+categories: ['App setup','External events','Freshdesk']
+tags: [Foundations]
 status:Published
 authors:Saif Ali Shaik
 Feedback Link: https://community.developers.freshworks.com/c/ideas/
