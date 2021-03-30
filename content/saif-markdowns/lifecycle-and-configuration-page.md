@@ -1,9 +1,10 @@
 summary: Get an intuitive understanding on app lifecycle in Freshdesk and try writing UI using configuration features
 id: lifecycle-and-configuration-page-freshdesk
-categories: Freshdesk, Lifecycle, configuration
-tags: freshdesk, configuration, iparams, iparam
+categories: ['Freshdesk', 'Configuration', 'Installation parameters']
+tags:[Foundations]
 status: Published
 authors: Saif Ali Shaik
+Feedback Link: https://community.developers.freshworks.com/c/ideas/
 
 # Lifecycle and Configuration Page
 
