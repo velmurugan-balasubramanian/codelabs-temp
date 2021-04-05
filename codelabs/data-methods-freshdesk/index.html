@@ -25,7 +25,7 @@
                   id="data-methods-freshdesk"
                   title="Data Methods"
                   environment="web"
-                  feedback-link="mailto:devrel@freshworks.com">
+                  feedback-link="https://community.developers.freshworks.com/c/ideas/">
     
       <google-codelab-step label="Overview" duration="2">
         <h2 is-upgraded>What we&#39;ll learn today</h2>
@@ -57,16 +57,16 @@
     
       <google-codelab-step label="Get Set Up" duration="5">
         <p>Get the sample code ready</p>
-<pre><code language="language-sh" class="language-sh">git clone https://github.com/freshworks-developers/data-methods-freshdesk.git
+<pre><code>git clone https://github.com/freshworks-developers/data-methods-freshdesk.git
 </code></pre>
 <p>Alternatively,</p>
-<p><a href="https://github.com/freshworks-developers/data-methods-freshdesk/archive/main.zip" target="_blank"><paper-button class="colored" raised><iron-icon icon="file-download"></iron-icon>Download the Zip</paper-button></a></p>
+<p><a href="https://github.com/freshworks-developers/data-methods-freshdesk/archive/main.zip" target="_blank">Download the Zip</a></p>
 <h2 is-upgraded>Verify</h2>
 <ol type="1">
 <li>Open the cloned repository in the code editor with ‘start&#39; branch.</li>
 <li>Open Terminal and run <code>&gt; fdk run</code></li>
 <li>You should notice the app is being served at <code>localhost:10001</code></li>
-<li>Login to Freshdesk trial account and pay attention to four placeholders after appending <code>?dev=true</code> at every page. You should see an app icon available to activate the app.  <ol type="1">
+<li>Login to Freshdesk trial account and pay attention to four placeholders after appending <code>?dev=true</code> at every page. You should see an app icon available to activate the app.<br><br><ol type="1">
 <li><a href="https://developers.freshdesk.com/v2/docs/app-locations/#sidebar" target="_blank">Global Sidebar</a></li>
 <li><a href="https://developers.freshdesk.com/v2/docs/app-locations/#ticket_details_page" target="_blank">Ticket Details page</a></li>
 <li><a href="https://developers.freshdesk.com/v2/docs/app-locations/#new_email_page" target="_blank">New Email page</a></li>
@@ -83,7 +83,7 @@
         <p>Data Methods allow your app to access information on a given Freshdesk page. In this tutorial you&#39;ll learn how to consume data methods in your freshworks apps.</p>
 <p><code>client.data.get(&#34;&lt;argument&gt;&#34;)</code> returns a promise where your callback would have access to data in the page which user is currently viewing.</p>
 <p>Let&#39;s see this in action.</p>
-<pre><code language="language-sh" class="language-sh">❯ fdk run
+<pre><code>❯ fdk run
 Starting local testing server at http://*:10001/
 Append &#39;dev=true&#39; to your Freshdesk account URL to start testing
 e.g. https://domain.freshdesk.com/a/tickets/1?dev=true
@@ -98,7 +98,7 @@ Quit the server with Control-C.
         <p>Data Methods return the data that the app needs based on the app placeholders. Mostly giving the contextual information pertaining to the current page. However, the following arguments can be passed to the Data method that would return the payload given in any placeholder.</p>
 <h2 is-upgraded>loggedInUser</h2>
 <p>The following is how you can consume it in your app</p>
-<pre><code language="language-js" class="language-js">client.data
+<pre><code>client.data
   .get(&#39;loggedInUser&#39;)
   .then(function renderUserBioData(payload) {
     var {
@@ -130,7 +130,7 @@ Quit the server with Control-C.
 </ol>
 <p><strong>Note</strong>: Always refer to the <a href="https://developers.freshdesk.com/v2/docs/data-methods/#" target="_blank">documentation</a> for latest payload structure and attribute definitions.</p>
 <h2 is-upgraded>domainName</h2>
-<pre><code language="language-js" class="language-js">client.data
+<pre><code>client.data
   .get(&#39;domainName&#39;)
   .then(function whatsDomain({ domainName }) {
     displayArea.insertAdjacentHTML(&#39;afterend&#39;, `&lt;br&gt; The domain name is &lt;mark&gt;${domainName}&lt;/mark&gt;`);
@@ -148,8 +148,8 @@ Quit the server with Control-C.
 <p>For this tutorial, let&#39;s look at Ticket details page,</p>
 <h2 is-upgraded>Ticket Details Page</h2>
 <p>Open <code>app/scripts/sidebar.js</code> and try adding some methods consuming different valid arguments ticket details page.</p>
-<p>Within the <a href="https://github.com/freshworks-developers/data-methods-freshdesk/blob/dce8d7cb33e2f32012f6b44c5dd6b41e78cbe9c5/app/scripts/sidebar.js#L15" target="_blank"><code>renderSidebar(){..}</code></a>,</p>
-<pre><code language="language-js" class="language-js">// ticket
+<p>Within the <a href="https://github.com/freshworks-developers/data-methods-freshdesk/blob/dce8d7cb33e2f32012f6b44c5dd6b41e78cbe9c5/app/scripts/sidebar.js#L15" target="_blank"><br>renderSidebar(){..}</a>,</p>
+<pre><code>// ticket
 client.data
   .get(&#39;ticket&#39;)
   .then(function getDetails({ ticket: { description_text: desc, priority: priority } }) {
@@ -240,8 +240,7 @@ client.data
 <h3 is-upgraded><code>full_page_app</code></h3>
 <p class="image-container"><img src="img/df8edef77ee6797a.png"></p>
 <p>At this point you have consumed data methods from Global Arguments and Ticket Details Page specific arguments.</p>
-<aside class="special"><p> Take some time to go through the <a href="https://github.com/freshworks-developers/data-methods-freshdesk/tree/finish" target="_blank">final source code at this moment</a>. </p>
-</aside>
+<p><br>Take some time to go through the <a href="https://github.com/freshworks-developers/data-methods-freshdesk/tree/finish" target="_blank">final source code at this moment</a>.<br></p>
 
 
       </google-codelab-step>
@@ -273,7 +272,6 @@ client.data
   <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
   <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
   <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
-  <script src="//support.google.com/inapp/api.js"></script>
 
 </body>
 </html>

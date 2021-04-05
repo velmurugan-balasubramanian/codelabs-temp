@@ -16,8 +16,8 @@ window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
 </script>
 <script async src="https://www.google-analytics.com/analytics.js"></script>
 <title>Codelabs</title>
-<link rel="stylesheet" href="/styles/main.css">
-<link rel="import" href="/elements/elements.html">
+<link rel="stylesheet" href="./styles/main.css">
+<link rel="import" href="./elements/elements.html">
 <style is="custom-style">
 :root{--paper-tabs-selection-bar-color:currentcolor;--paper-input-container-underline:{display:none};--paper-input-container-underline-focus:{display:none};}.dropdown-filter{--paper-input-container:{padding:8px}} </style>
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -106,211 +106,209 @@ Freshworks Code Recipes provide a guided, tutorial, hands-on coding experience. 
 <a href="/freshteam/" tabindex="-1">
 <paper-item>Freshteam</paper-item>
 </a>
-<a href="/vslive/" tabindex="-1">
-<paper-item>Visual Studio Live</paper-item>
-</a>
 </paper-listbox>
 </paper-dropdown-menu>
 <paper-dropdown-menu label="Filter by category" class="dropdown-filter" no-label-float noink no-animations>
 <paper-listbox id="categorylist" slot="dropdown-content" class="dropdown-content" on-iron-activate="onCategoryActivate" attr-for-selected="filter">
+<paper-item filter="Advanced">Advanced</paper-item>
+<paper-item filter="Foundations">Foundations</paper-item>
 <paper-item filter="Freshcaller">Freshcaller</paper-item>
-<paper-item filter="Freshdesk">Freshdesk</paper-item>
-<paper-item filter="Web">Web</paper-item>
+<paper-item filter="Intermediate">Intermediate</paper-item>
 <paper-item filter="foundations">foundations</paper-item>
-<paper-item filter="freshdesk">freshdesk</paper-item>
+<paper-item filter="intermediate">intermediate</paper-item>
 </paper-listbox>
 </paper-dropdown-menu></div>
 <card-sorter id="cards" class="site-width">
-<a href="/codelabs/freshcaller-routing-automation/index.html?index=..%2F..index" on-tap="navigate" class="codelab-card category-freshcaller" data-category="Freshcaller" data-title="Routing automation in Freshcaller with Custom Actions" data-duration="0" data-updated="2021-03-24T17:16:34Z" data-tags="freshcaller" data-pin="">
+<a href="/codelabs/freshdesk-advanced/index.html?index=..%2F..index" on-tap="navigate" class="codelab-card category-advanced" data-category="Advanced" data-title="Simple GitHub integration using OAuth, Data Storage, Notifications" data-duration="0" data-updated="2021-04-05T10:56:31Z" data-tags="" data-pin="">
+<div class="description">Simple GitHub integration using OAuth, Data Storage, Notifications</div>
+<div class="card-duration"> In this tutorial, we will learn to use some of the frequently used platform-features such as Data Storage,Request methods, Notifications, OAuth, Installation Parameters, and UI Modals/Dialogs. </div>
+<div class="card-duration">
+<span></span>
+<span>Updated Apr 5, 2021</span>
+</div>
+<div class="card-footer">
+<div class="category-icon advanced-icon"></div>
+<paper-button class="advanced-bg">Start</paper-button>
+</div>
+</a>
+<a href="/codelabs/dynamic-iparams/index.html?index=..%2F..index" on-tap="navigate" class="codelab-card category-advanced" data-category="Advanced" data-title="Dynamic Installation Pages" data-duration="0" data-updated="2021-04-05T10:57:45Z" data-tags="freshdesk" data-pin="">
+<div class="description">Dynamic Installation Pages</div>
+<div class="card-duration"> In this tutorial, let us see how iparam callbacks can be used to enhance validation and make the standard installation parameters (iparams.json) much more dynamic. This approach cuts the need for custom installation parameters and leverages the simplicity and robustness of standard iparams out of the box </div>
+<div class="card-duration">
+<span></span>
+<span>Updated Apr 5, 2021</span>
+</div>
+<div class="card-footer">
+<div class="category-icon advanced-icon"></div>
+<paper-button class="advanced-bg">Start</paper-button>
+</div>
+</a>
+<a href="/codelabs/fdk-tests/index.html?index=..%2F..index" on-tap="navigate" class="codelab-card category-advanced" data-category="Advanced" data-title="Introduction To Unit Tests For Serverless Apps" data-duration="0" data-updated="2021-04-05T10:57:30Z" data-tags="freshdesk" data-pin="">
+<div class="description">Introduction To Unit Tests For Serverless Apps</div>
+<div class="card-duration"> This tutorial introduces you to writing unit tests for freshworks serverless apps by using the FDK&#39;s built-in test framework based on mochaJs. </div>
+<div class="card-duration">
+<span></span>
+<span>Updated Apr 5, 2021</span>
+</div>
+<div class="card-footer">
+<div class="category-icon advanced-icon"></div>
+<paper-button class="advanced-bg">Start</paper-button>
+</div>
+</a>
+<a href="/codelabs/introduction/index.html?index=..%2F..index" on-tap="navigate" class="codelab-card category-foundations" data-category="Foundations" data-title="Introduction to Freshworks Developer Platform" data-duration="0" data-updated="2021-04-05T10:55:35Z" data-tags="freshdesk" data-pin="">
+<div class="description">Introduction to Freshworks Developer Platform</div>
+<div class="card-duration"> The Freshworks Developer Platform primarily enables developers to build apps that can run within the context of a Freshworks product, and thus tailor the product experience for users from both the front-end and the back-end. </div>
+<div class="card-duration">
+<span></span>
+<span>Updated Apr 5, 2021</span>
+</div>
+<div class="card-footer">
+<div class="category-icon foundations-icon"></div>
+<paper-button class="foundations-bg">Start</paper-button>
+</div>
+</a>
+<a href="/codelabs/freshdesk-basics/index.html?index=..%2F..index" on-tap="navigate" class="codelab-card category-foundations" data-category="Foundations" data-title="Build your first Freshworks app" data-duration="0" data-updated="2021-04-05T10:56:00Z" data-tags="" data-pin="">
+<div class="description">Build your first Freshworks app</div>
+<div class="card-duration"> This tutorial focuses on creating an app that helps developers get accustomed to the advanced features of the Freshworks platform. In this segment, we will develop an app that creates a ticket in Freshdesk based on user input. </div>
+<div class="card-duration">
+<span></span>
+<span>Updated Apr 5, 2021</span>
+</div>
+<div class="card-footer">
+<div class="category-icon foundations-icon"></div>
+<paper-button class="foundations-bg">Start</paper-button>
+</div>
+</a>
+<a href="/codelabs/freshcaller-routing-automation/index.html?index=..%2F..index" on-tap="navigate" class="codelab-card category-freshcaller" data-category="Freshcaller,Intermediate" data-title="Routing automation in Freshcaller with Custom Actions" data-duration="0" data-updated="2021-04-05T10:58:18Z" data-tags="freshcaller" data-pin="">
 <div class="description">Routing automation in Freshcaller with Custom Actions</div>
 <div class="card-duration"> In this tutorial, let us see how routing automation works in Freshcaller using Custom Actions. We will see a couple of use-cases to cover how the customers can be routed faster to the right team without IVR and how a response can be sent from the real-time data to respond to customer&#39;s requests. </div>
 <div class="card-duration">
 <span></span>
-<span>Updated Mar 24, 2021</span>
+<span>Updated Apr 5, 2021</span>
 </div>
 <div class="card-footer">
 <div class="category-icon freshcaller-icon"></div>
 <paper-button class="freshcaller-bg">Start</paper-button>
 </div>
 </a>
-<a href="/codelabs/introduction/index.html?index=..%2F..index" on-tap="navigate" class="codelab-card category-freshdesk" data-category="Freshdesk" data-title="Introduction to Freshworks Developer Platform" data-duration="0" data-updated="2021-03-02T22:04:51Z" data-tags="freshdesk" data-pin="">
-<div class="description">Introduction to Freshworks Developer Platform</div>
-<div class="card-duration"> The Freshworks Developer Platform primarily enables developers to build apps that can run within the context of a Freshworks product, and thus tailor the product experience for users from both the front-end and the back-end. </div>
-<div class="card-duration">
-<span></span>
-<span>Updated Mar 2, 2021</span>
-</div>
-<div class="card-footer">
-<div class="category-icon freshdesk-icon"></div>
-<paper-button class="freshdesk-bg">Start</paper-button>
-</div>
-</a>
-<a href="/codelabs/dynamic-iparams/index.html?index=..%2F..index" on-tap="navigate" class="codelab-card category-freshdesk" data-category="Freshdesk" data-title="Dynamic Installation Pages" data-duration="0" data-updated="2021-03-24T17:15:36Z" data-tags="freshdesk" data-pin="">
-<div class="description">Dynamic Installation Pages</div>
-<div class="card-duration"> In this tutorial, let us see how iparam callbacks can be used to enhance validation and make the standard installation parameters (iparams.json) much more dynamic. This approach cuts the need for custom installation parameters and leverages the simplicity and robustness of standard iparams out of the box </div>
-<div class="card-duration">
-<span></span>
-<span>Updated Mar 24, 2021</span>
-</div>
-<div class="card-footer">
-<div class="category-icon freshdesk-icon"></div>
-<paper-button class="freshdesk-bg">Start</paper-button>
-</div>
-</a>
-<a href="/codelabs/freshdesk-basics/index.html?index=..%2F..index" on-tap="navigate" class="codelab-card category-freshdesk" data-category="Freshdesk" data-title="Build your first Freshworks app" data-duration="0" data-updated="2021-03-24T17:13:46Z" data-tags="" data-pin="">
-<div class="description">Build your first Freshworks app</div>
-<div class="card-duration"> This tutorial focuses on creating an app that helps developers get accustomed to the advanced features of the Freshworks platform. In this segment, we will develop an app that creates a ticket in Freshdesk based on user input. </div>
-<div class="card-duration">
-<span></span>
-<span>Updated Mar 24, 2021</span>
-</div>
-<div class="card-footer">
-<div class="category-icon freshdesk-icon"></div>
-<paper-button class="freshdesk-bg">Start</paper-button>
-</div>
-</a>
-<a href="/codelabs/fdk-tests/index.html?index=..%2F..index" on-tap="navigate" class="codelab-card category-freshdesk" data-category="Freshdesk" data-title="Introduction To Unit Tests For Serverless Apps" data-duration="0" data-updated="2021-03-24T17:15:09Z" data-tags="freshdesk" data-pin="">
-<div class="description">Introduction To Unit Tests For Serverless Apps</div>
-<div class="card-duration"> This tutorial introduces you to writing unit tests for freshworks serverless apps by using the FDK&#39;s built-in test framework based on mochaJs. </div>
-<div class="card-duration">
-<span></span>
-<span>Updated Mar 24, 2021</span>
-</div>
-<div class="card-footer">
-<div class="category-icon freshdesk-icon"></div>
-<paper-button class="freshdesk-bg">Start</paper-button>
-</div>
-</a>
-<a href="/codelabs/freshdesk-advanced/index.html?index=..%2F..index" on-tap="navigate" class="codelab-card category-web" data-category="Web" data-title="Simple GitHub integration using OAuth, Data Storage, Notifications" data-duration="0" data-updated="2020-08-21T10:34:15Z" data-tags="freshdesk" data-pin="">
-<div class="description">Simple GitHub integration using OAuth, Data Storage, Notifications</div>
-<div class="card-duration"> In this tutorial, we will learn to use some of the frequently used platform-features such as Data Storage,Request methods, Notifications, OAuth, Installation Parameters, and UI Modals/Dialogs. </div>
-<div class="card-duration">
-<span></span>
-<span>Updated Aug 21, 2020</span>
-</div>
-<div class="card-footer">
-<div class="category-icon web-icon"></div>
-<paper-button class="web-bg">Start</paper-button>
-</div>
-</a>
-<a href="/codelabs/freshdesk-serverless/index.html?index=..%2F..index" on-tap="navigate" class="codelab-card category-web" data-category="Web" data-title="Build your first Freshworks serverless app" data-duration="0" data-updated="2020-08-21T10:35:46Z" data-tags="freshdesk" data-pin="">
+<a href="/codelabs/freshdesk-serverless/index.html?index=..%2F..index" on-tap="navigate" class="codelab-card category-intermediate" data-category="Intermediate" data-title="Build your first Freshworks serverless app" data-duration="0" data-updated="2021-04-05T11:03:55Z" data-tags="" data-pin="">
 <div class="description">Build your first Freshworks serverless app</div>
 <div class="card-duration"> This tutorial introduces you to advanced serverless features to create backend apps for freshworks products. </div>
 <div class="card-duration">
 <span></span>
-<span>Updated Aug 21, 2020</span>
+<span>Updated Apr 5, 2021</span>
 </div>
 <div class="card-footer">
-<div class="category-icon web-icon"></div>
-<paper-button class="web-bg">Start</paper-button>
+<div class="category-icon intermediate-icon"></div>
+<paper-button class="intermediate-bg">Start</paper-button>
 </div>
 </a>
-<a href="/codelabs/app-setup-and-external-events-freshdesk/index.html?index=..%2F..index" on-tap="navigate" class="codelab-card category-foundations" data-category="foundations" data-title="App Setup and External Events" data-duration="12" data-updated="2021-03-25T17:50:06+05:30" data-tags="[‘app-setup-events’,‘external-events’,‘freshdesk’]" data-pin="">
-<div class="description">App Setup and External Events</div>
-<div class="card-duration"> Step by step tutorial to understand how to observe app setup and external events on Freshworks Developer Platform using Freshdesk </div>
-<div class="card-duration">
-<span>12 min </span>
-<span>Updated Mar 25, 2021</span>
-</div>
-<div class="card-footer">
-<div class="category-icon foundations-icon"></div>
-<paper-button class="foundations-bg">Start</paper-button>
-</div>
-</a>
-<a href="/codelabs/data-methods-freshdesk/index.html?index=..%2F..index" on-tap="navigate" class="codelab-card category-foundations" data-category="foundations" data-title="Data Methods" data-duration="19" data-updated="2021-03-25T16:51:20+05:30" data-tags="data-methods" data-pin="">
-<div class="description">Data Methods</div>
-<div class="card-duration"> Step by step tutorial to understand how to use Data Methods on Freshworks Developer Platform </div>
-<div class="card-duration">
-<span>19 min </span>
-<span>Updated Mar 25, 2021</span>
-</div>
-<div class="card-footer">
-<div class="category-icon foundations-icon"></div>
-<paper-button class="foundations-bg">Start</paper-button>
-</div>
-</a>
-<a href="/codelabs/events-methods-freshdesk/index.html?index=..%2F..index" on-tap="navigate" class="codelab-card category-freshdesk" data-category="freshdesk,serverless" data-title="Events Methods" data-duration="19" data-updated="2021-03-26T16:57:41+05:30" data-tags="backend-events,freshdesk,serverless" data-pin="">
-<div class="description">Events Methods</div>
-<div class="card-duration"> Learn how to observe events on Freshdesk UI and register callbacks </div>
-<div class="card-duration">
-<span>19 min </span>
-<span>Updated Mar 26, 2021</span>
-</div>
-<div class="card-footer">
-<div class="category-icon freshdesk-icon"></div>
-<paper-button class="freshdesk-bg">Start</paper-button>
-</div>
-</a>
-<a href="/codelabs/deep-dive-into-serverless/index.html?index=..%2F..index" on-tap="navigate" class="codelab-card category-freshdesk" data-category="freshdesk,serverless" data-title="Deep-dive into Serverless" data-duration="0" data-updated="2021-03-26T02:06:56+05:30" data-tags="backend-events,freshdesk,serverless" data-pin="">
-<div class="description">Deep-dive into Serverless</div>
-<div class="card-duration"> How does a few events features works in Serverless apps </div>
-<div class="card-duration">
-<span></span>
-<span>Updated Mar 25, 2021</span>
-</div>
-<div class="card-footer">
-<div class="category-icon freshdesk-icon"></div>
-<paper-button class="freshdesk-bg">Start</paper-button>
-</div>
-</a>
-<a href="/codelabs/instance-methods/index.html?index=..%2F..index" on-tap="navigate" class="codelab-card category-freshdesk" data-category="freshdesk" data-title="Build data driven Apps using Instance methods" data-duration="0" data-updated="2021-03-29T02:46:42+05:30" data-tags="[instance,freshdesk]" data-pin="">
-<div class="description">Build data driven Apps using Instance methods</div>
-<div class="card-duration"> This tutorial introduces you to the Instance methods available in the Freshworks developer platform, that helps you build data driven application and share data among different app locations and instances. </div>
-<div class="card-duration">
-<span></span>
-<span>Updated Mar 28, 2021</span>
-</div>
-<div class="card-footer">
-<div class="category-icon freshdesk-icon"></div>
-<paper-button class="freshdesk-bg">Start</paper-button>
-</div>
-</a>
-<a href="/codelabs/introduction-to-freshworks-serverless-apps/index.html?index=..%2F..index" on-tap="navigate" class="codelab-card category-freshdesk" data-category="freshdesk,serverless" data-title="Introduction to Freshworks Serverless Apps" data-duration="0" data-updated="2021-03-26T15:49:18+05:30" data-tags="backend-events,freshdesk,serverless" data-pin="">
-<div class="description">Introduction to Freshworks Serverless Apps</div>
-<div class="card-duration"> Freshworks apps can be built with a Serverless platform that will let you attach desired handler functions. These functions can run in a Serverless Node.js environment. </div>
-<div class="card-duration">
-<span></span>
-<span>Updated Mar 26, 2021</span>
-</div>
-<div class="card-footer">
-<div class="category-icon freshdesk-icon"></div>
-<paper-button class="freshdesk-bg">Start</paper-button>
-</div>
-</a>
-<a href="/codelabs/introduction-to-interface-methods/index.html?index=..%2F..index" on-tap="navigate" class="codelab-card category-freshdesk" data-category="freshdesk" data-title="Introduction to Interface Methods." data-duration="0" data-updated="2021-03-29T02:45:33+05:30" data-tags="freshdesk,interface" data-pin="">
-<div class="description">Introduction to Interface Methods.</div>
-<div class="card-duration"> This tutorial focuses on introducing you to the Interface methods by building an app that utilises most commonly used interface methods and their features. </div>
-<div class="card-duration">
-<span></span>
-<span>Updated Mar 28, 2021</span>
-</div>
-<div class="card-footer">
-<div class="category-icon freshdesk-icon"></div>
-<paper-button class="freshdesk-bg">Start</paper-button>
-</div>
-</a>
-<a href="/codelabs/data-storage-and-request-methods/index.html?index=..%2F..index" on-tap="navigate" class="codelab-card category-freshdesk" data-category="freshdesk" data-title="Introduction to Data Storage and Request Method." data-duration="0" data-updated="2021-03-29T02:47:19+05:30" data-tags="" data-pin="">
+<a href="/codelabs/data-storage-and-request-methods/index.html?index=..%2F..index" on-tap="navigate" class="codelab-card category-foundations" data-category="foundations" data-title="Introduction to Data Storage and Request Method." data-duration="0" data-updated="2021-04-05T16:22:19+05:30" data-tags="foundations,freshdesk" data-pin="">
 <div class="description">Introduction to Data Storage and Request Method.</div>
 <div class="card-duration"> This tutorial focuses on introducing you to Freshworks Data storage, a key-value data store, and Request method, an http client to make API calls. </div>
 <div class="card-duration">
 <span></span>
-<span>Updated Mar 28, 2021</span>
+<span>Updated Apr 5, 2021</span>
 </div>
 <div class="card-footer">
-<div class="category-icon freshdesk-icon"></div>
-<paper-button class="freshdesk-bg">Start</paper-button>
+<div class="category-icon foundations-icon"></div>
+<paper-button class="foundations-bg">Start</paper-button>
 </div>
 </a>
-<a href="/codelabs/lifecycle-and-configuration-page-freshdesk/index.html?index=..%2F..index" on-tap="navigate" class="codelab-card category-freshdesk" data-category="freshdesk,lifecycle,configuration" data-title="Lifecycle and Configuration Page" data-duration="0" data-updated="2021-03-28T10:29:22+05:30" data-tags="configuration,freshdesk,iparam,iparams" data-pin="">
+<a href="/codelabs/data-methods-freshdesk/index.html?index=..%2F..index" on-tap="navigate" class="codelab-card category-foundations" data-category="foundations" data-title="Data Methods" data-duration="19" data-updated="2021-04-05T16:22:09+05:30" data-tags="data methods,foundations,freshdesk" data-pin="">
+<div class="description">Data Methods</div>
+<div class="card-duration"> Step by step tutorial to understand how to consume Data Methods on Freshworks Developer Platform </div>
+<div class="card-duration">
+<span>19 min </span>
+<span>Updated Apr 5, 2021</span>
+</div>
+<div class="card-footer">
+<div class="category-icon foundations-icon"></div>
+<paper-button class="foundations-bg">Start</paper-button>
+</div>
+</a>
+<a href="/codelabs/events-methods-freshdesk/index.html?index=..%2F..index" on-tap="navigate" class="codelab-card category-foundations" data-category="foundations" data-title="Events Methods" data-duration="19" data-updated="2021-04-05T16:22:30+05:30" data-tags="foundations,freshdesk,frontend events" data-pin="">
+<div class="description">Events Methods</div>
+<div class="card-duration"> Learn how to observe events on Freshdesk UI and register callbacks </div>
+<div class="card-duration">
+<span>19 min </span>
+<span>Updated Apr 5, 2021</span>
+</div>
+<div class="card-footer">
+<div class="category-icon foundations-icon"></div>
+<paper-button class="foundations-bg">Start</paper-button>
+</div>
+</a>
+<a href="/codelabs/app-setup-and-external-events-freshdesk/index.html?index=..%2F..index" on-tap="navigate" class="codelab-card category-foundations" data-category="foundations" data-title="App Setup and External Events" data-duration="12" data-updated="2021-04-05T16:20:45+05:30" data-tags="app setup,external events,foundations,freshdesk" data-pin="">
+<div class="description">App Setup and External Events</div>
+<div class="card-duration"> Step by step tutorial to understand how to observe app setup and external events on Freshworks Developer Platform using Freshdesk </div>
+<div class="card-duration">
+<span>12 min </span>
+<span>Updated Apr 5, 2021</span>
+</div>
+<div class="card-footer">
+<div class="category-icon foundations-icon"></div>
+<paper-button class="foundations-bg">Start</paper-button>
+</div>
+</a>
+<a href="/codelabs/instance-methods/index.html?index=..%2F..index" on-tap="navigate" class="codelab-card category-foundations" data-category="foundations" data-title="Build data driven Apps using Instance methods" data-duration="0" data-updated="2021-04-05T16:22:41+05:30" data-tags="freshdesk,instance" data-pin="">
+<div class="description">Build data driven Apps using Instance methods</div>
+<div class="card-duration"> This tutorial introduces you to the Instance methods available in the Freshworks developer platform, that helps you build data driven application and share data among different app locations and instances. </div>
+<div class="card-duration">
+<span></span>
+<span>Updated Apr 5, 2021</span>
+</div>
+<div class="card-footer">
+<div class="category-icon foundations-icon"></div>
+<paper-button class="foundations-bg">Start</paper-button>
+</div>
+</a>
+<a href="/codelabs/introduction-to-freshworks-serverless-apps/index.html?index=..%2F..index" on-tap="navigate" class="codelab-card category-foundations" data-category="foundations" data-title="Introduction to Freshworks Serverless Apps" data-duration="0" data-updated="2021-04-05T16:35:04+05:30" data-tags="backend-events,freshdesk,serverless" data-pin="">
+<div class="description">Introduction to Freshworks Serverless Apps</div>
+<div class="card-duration"> Freshworks apps can be built with a Serverless platform that will let you attach desired handler functions. These functions can run in a Serverless Node.js environment. </div>
+<div class="card-duration">
+<span></span>
+<span>Updated Apr 5, 2021</span>
+</div>
+<div class="card-footer">
+<div class="category-icon foundations-icon"></div>
+<paper-button class="foundations-bg">Start</paper-button>
+</div>
+</a>
+<a href="/codelabs/introduction-to-interface-methods/index.html?index=..%2F..index" on-tap="navigate" class="codelab-card category-foundations" data-category="foundations" data-title="Introduction to Interface Methods." data-duration="0" data-updated="2021-04-05T16:22:49+05:30" data-tags="freshdesk,interface" data-pin="">
+<div class="description">Introduction to Interface Methods.</div>
+<div class="card-duration"> This tutorial focuses on introducing you to the Interface methods by building an app that utilises most commonly used interface methods and their features. </div>
+<div class="card-duration">
+<span></span>
+<span>Updated Apr 5, 2021</span>
+</div>
+<div class="card-footer">
+<div class="category-icon foundations-icon"></div>
+<paper-button class="foundations-bg">Start</paper-button>
+</div>
+</a>
+<a href="/codelabs/lifecycle-and-configuration-page-freshdesk/index.html?index=..%2F..index" on-tap="navigate" class="codelab-card category-foundations" data-category="foundations" data-title="Lifecycle and Configuration Page" data-duration="0" data-updated="2021-04-05T16:34:48+05:30" data-tags="foundations" data-pin="">
 <div class="description">Lifecycle and Configuration Page</div>
 <div class="card-duration"> Get an intuitive understanding on app lifecycle in Freshdesk and try writing UI using configuration features </div>
 <div class="card-duration">
 <span></span>
-<span>Updated Mar 28, 2021</span>
+<span>Updated Apr 5, 2021</span>
 </div>
 <div class="card-footer">
-<div class="category-icon freshdesk-icon"></div>
-<paper-button class="freshdesk-bg">Start</paper-button>
+<div class="category-icon foundations-icon"></div>
+<paper-button class="foundations-bg">Start</paper-button>
+</div>
+</a>
+<a href="/codelabs/deep-dive-into-serverless/index.html?index=..%2F..index" on-tap="navigate" class="codelab-card category-intermediate" data-category="intermediate" data-title="Deep-dive into Serverless" data-duration="0" data-updated="2021-04-05T16:23:30+05:30" data-tags="backend-events,freshdesk,serverless" data-pin="">
+<div class="description">Deep-dive into Serverless</div>
+<div class="card-duration"> How does a few events features works in Serverless apps </div>
+<div class="card-duration">
+<span></span>
+<span>Updated Apr 5, 2021</span>
+</div>
+<div class="card-footer">
+<div class="category-icon intermediate-icon"></div>
+<paper-button class="intermediate-bg">Start</paper-button>
 </div>
 </a>
 </card-sorter>
@@ -399,6 +397,6 @@ Loading Tutorials, please wait...
 </div>
 </div>
 </paper-header-panel>
-<script src="/scripts/main.js"></script>
+<script src="./scripts/main.js"></script>
 </body>
 </html>

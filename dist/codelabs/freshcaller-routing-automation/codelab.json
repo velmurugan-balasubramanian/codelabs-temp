@@ -3,7 +3,7 @@
   "format": "html",
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-49880327-14",
-  "updated": "2021-03-24T17:16:34Z",
+  "updated": "2021-04-05T10:58:18Z",
   "id": "freshcaller-routing-automation",
   "duration": 0,
   "title": "Routing automation in Freshcaller with Custom Actions",
@@ -15,7 +15,8 @@
     "published"
   ],
   "category": [
-    "Freshcaller"
+    "Freshcaller",
+    "Intermediate"
   ],
   "tags": [
     "freshcaller"

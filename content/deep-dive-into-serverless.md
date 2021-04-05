@@ -1,6 +1,6 @@
 summary: How does a few events features works in Serverless apps
 id: deep-dive-into-serverless
-categories: Freshdesk, Serverless
+categories: Intermediate
 tags: freshdesk, serverless, backend-events
 status: Published
 authors: Freshworks

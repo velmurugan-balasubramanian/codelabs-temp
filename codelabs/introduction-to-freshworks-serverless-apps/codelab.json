@@ -3,20 +3,19 @@
   "format": "html",
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-49880327-14",
-  "updated": "2021-03-26T15:49:18+05:30",
+  "updated": "2021-04-05T16:35:04+05:30",
   "id": "introduction-to-freshworks-serverless-apps",
   "duration": 0,
   "title": "Introduction to Freshworks Serverless Apps",
   "authors": "Freshworks",
   "summary": "Freshworks apps can be built with a Serverless platform that will let you attach desired handler functions. These functions can run in a Serverless Node.js environment.",
-  "source": "content/introduction-to-freshworks-serverless-apps.md",
+  "source": "../content/introduction-to-freshworks-serverless-apps.md",
   "theme": "",
   "status": [
     "published"
   ],
   "category": [
-    "freshdesk",
-    "serverless"
+    "foundations"
   ],
   "tags": [
     "backend-events",

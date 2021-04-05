@@ -1,7 +1,7 @@
 summary: Learn how to observe events on Freshdesk UI and register callbacks
 id: events-methods-freshdesk
-categories: ['Freshdesk','Frontend events']
-tags:[Foundations]
+categories: Foundations
+tags: Freshdesk, Foundations, Frontend events
 status: Published
 authors: Saif Ali Shaik
 Feedback Link: https://community.developers.freshworks.com/c/ideas/

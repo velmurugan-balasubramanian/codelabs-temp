@@ -3,19 +3,19 @@
   "format": "html",
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-49880327-14",
-  "updated": "2021-03-24T17:15:09Z",
+  "updated": "2021-04-05T10:57:30Z",
   "id": "fdk-tests",
   "duration": 0,
   "title": "Introduction To Unit Tests For Serverless Apps",
   "authors": "Velmurugan",
   "summary": "This tutorial introduces you to writing unit tests for freshworks serverless apps by using the FDK's built-in test framework based on mochaJs.",
   "source": "1k653X4ME0Y4jbwWEn7fu9mKe0gazhHR1vesNYUmPVvM",
-  "theme": "freshdesk",
+  "theme": "advanced",
   "status": [
     "published"
   ],
   "category": [
-    "Freshdesk"
+    "Advanced"
   ],
   "tags": [
     "freshdesk"

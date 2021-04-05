@@ -58,13 +58,13 @@
 <p>Let&#39;s start with how the structure of the Serverless app would look like in the Freshworks platform.</p>
 <h2 is-upgraded>Skeleton of Serverless app</h2>
 <p>Create a serverless app in an empty folder.</p>
-<pre><code language="language-shell" class="language-shell">fdk create --products freshdesk --template your_first_serverless_app
+<pre><code>fdk create --products freshdesk --template your_first_serverless_app
 </code></pre>
 <p>Navigate to the application root folder by running the following command.</p>
-<pre><code language="language-shell" class="language-shell">cd your_first_serverless_app
+<pre><code>cd your_first_serverless_app
 </code></pre>
 <p>The tree structure of a Serverless application would look like this. We will build the application on top of this application under the <code>server</code> directory for all the Serverless component changes.</p>
-<pre><code language="language-text" class="language-text">.
+<pre><code>.
 ├── README.md
 ├── config
 │   └── iparams.json
@@ -89,7 +89,7 @@
       <google-codelab-step label="Serverless events and functions" duration="0">
         <p>When a function needs to be invoked from outside the Serverless component, it needs to be exported. After exporting a function, it needs to be registered with a Serverless event that will be triggered in a specific case. For example, when a ticket is created in Freshdesk, an event is triggered which can be registered with a Serverless function. Whenever the same event occurs, the particular Serverless function is executed. These events are called Product events in Freshworks Developer Platform.</p>
 <p>This function can have the business logic to execute upon the event trigger for ticket creation. Similarly, there are some other <a href="https://developer.freshdesk.com/v2/docs/product-events" target="_blank">Product Events</a> available which will be triggered upon receiving respective events from the Freshdesk product.</p>
-<pre><code language="language-javascript" class="language-javascript">exports = {
+<pre><code>exports = {
 
   events: [
     { event: &#34;onTicketCreate&#34;, callback: &#34;onTicketCreateHandler&#34; }
@@ -116,7 +116,7 @@
     
       <google-codelab-step label="Error handling" duration="0">
         <p>It is recommended to handle every error and logging to the console to troubleshoot the issues in the Serverless function logic. Unhandled errors will automatically result in the Serverless logs which can later be used for troubleshooting the function.</p>
-<pre><code language="language-shell" class="language-shell">ReferenceError: variableA is not defined
+<pre><code>ReferenceError: variableA is not defined
  at Object.onTicketCreateHandler (server.js:137:51)
  at server.js:1:68
  at server.js:1:1549
@@ -131,12 +131,12 @@
     
       <google-codelab-step label="Dependencies" duration="0">
         <p>Serverless applications can also use dependencies from popular package manager, <a href="http://npmjs.com" target="_blank">NPM</a>. The dependencies are defined in the manifest.json file with the following syntax.</p>
-<pre><code language="language-json" class="language-json">&#34;dependencies&#34;: {
+<pre><code>&#34;dependencies&#34;: {
   &#34;underscore&#34;: &#34;1.8.3&#34;
 }
 </code></pre>
 <p>Those dependencies that are defined will automatically be installed in the Serverless environment to import and use it in any function. The imported dependencies can be availed throughout the file where it is imported based on the scope.</p>
-<pre><code language="language-javascript" class="language-javascript">import * as underscore from &#39;underscore&#39;;
+<pre><code>import * as underscore from &#39;underscore&#39;;
 
 exports = {
  events: [
@@ -219,7 +219,6 @@ exports = {
   <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
   <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
   <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
-  <script src="//support.google.com/inapp/api.js"></script>
 
 </body>
 </html>

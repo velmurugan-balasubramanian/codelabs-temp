@@ -3,7 +3,7 @@
   "format": "html",
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-49880327-14",
-  "updated": "2021-03-29T02:47:19+05:30",
+  "updated": "2021-04-05T16:22:19+05:30",
   "id": "data-storage-and-request-methods",
   "duration": 0,
   "title": "Introduction to Data Storage and Request Method.",
@@ -15,9 +15,12 @@
     "published"
   ],
   "category": [
+    "foundations"
+  ],
+  "tags": [
+    "foundations",
     "freshdesk"
   ],
-  "tags": [],
   "feedback": "https://developer.freshworks.com",
   "url": "data-storage-and-request-methods"
 }

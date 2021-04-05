@@ -1,6 +1,6 @@
 summary: Freshworks apps can be built with a Serverless platform that will let you attach desired handler functions. These functions can run in a Serverless Node.js environment.
 id: introduction-to-freshworks-serverless-apps
-categories: Freshdesk, Serverless
+categories: Foundations
 tags: freshdesk, serverless, backend-events
 status: Published
 authors: Freshworks

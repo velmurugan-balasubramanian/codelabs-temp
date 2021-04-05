@@ -3,19 +3,19 @@
   "format": "html",
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-49880327-14",
-  "updated": "2021-03-24T17:13:46Z",
+  "updated": "2021-04-05T10:56:00Z",
   "id": "freshdesk-basics",
   "duration": 0,
   "title": "Build your first Freshworks app",
   "authors": "Velmurugan B",
   "summary": "This tutorial focuses on creating an app that helps developers get accustomed to the advanced features of the Freshworks platform. In this segment, we will develop an app that creates a ticket in Freshdesk based on user input.",
   "source": "1OikaA8dCJCzKSWWssl6RCaMZEngKU3vIX3eYuKalN0M",
-  "theme": "freshdesk",
+  "theme": "foundations",
   "status": [
     "published"
   ],
   "category": [
-    "Freshdesk"
+    "Foundations"
   ],
   "tags": [],
   "ga": "UA-159161314-2",

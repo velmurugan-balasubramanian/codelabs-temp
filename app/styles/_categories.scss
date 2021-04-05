@@ -210,5 +210,8 @@ $color-weave-green, 'weave.svg');
 @include codelab-card(['Freshdesk', 'freshdesk'],  $freshdesk-theme , 'freshdesk-small.png');
 @include codelab-card(['Freshservice', 'freshservice'],  $freshservice-theme , 'freshservice-small.png');
 @include codelab-card(['Freshcaller', 'freshcaller'],  $freshcaller-theme , 'freshcaller-small.png');
+@include codelab-card(['Foundations', 'foundations'],  $freshdesk-theme , 'freshdesk-small.png');
+@include codelab-card(['Intermediate', 'intermediate'],  $freshdesk-theme , 'freshdesk-small.png');
+@include codelab-card(['Advanced', 'advanced'],  $freshdesk-theme , 'freshdesk-small.png');
 
 

@@ -3,23 +3,25 @@
   "format": "html",
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-49880327-14",
-  "updated": "2021-03-25T16:51:20+05:30",
+  "updated": "2021-04-05T16:22:09+05:30",
   "id": "data-methods-freshdesk",
   "duration": 19,
   "title": "Data Methods",
-  "authors": "Saif",
-  "summary": "Step by step tutorial to understand how to use Data Methods on Freshworks Developer Platform",
-  "source": "data-methods-freshdesk.md",
+  "authors": "Saif Ali Shaik",
+  "summary": "Step by step tutorial to understand how to consume Data Methods on Freshworks Developer Platform",
+  "source": "../content/data-methods/data-methods-freshdesk.md",
   "theme": "",
   "status": [
-    "draft"
+    "published"
   ],
   "category": [
     "foundations"
   ],
   "tags": [
-    "data-methods"
+    "data methods",
+    "foundations",
+    "freshdesk"
   ],
-  "feedback": "mailto:devrel@freshworks.com",
+  "feedback": "https://community.developers.freshworks.com/c/ideas/",
   "url": "data-methods-freshdesk"
 }

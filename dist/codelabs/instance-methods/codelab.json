@@ -3,7 +3,7 @@
   "format": "html",
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-49880327-14",
-  "updated": "2021-03-29T02:46:42+05:30",
+  "updated": "2021-04-05T16:22:41+05:30",
   "id": "instance-methods",
   "duration": 0,
   "title": "Build data driven Apps using Instance methods",
@@ -15,11 +15,11 @@
     "published"
   ],
   "category": [
-    "freshdesk"
+    "foundations"
   ],
   "tags": [
-    "[instance",
-    "freshdesk]"
+    "freshdesk",
+    "instance"
   ],
   "feedback": "https://developers.freshworks.com",
   "url": "instance-methods"

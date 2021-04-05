@@ -32,13 +32,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <title>{{view.title}}</title>
 
-  <link rel="stylesheet" href="/styles/main.css">
+  {% if view.id == 'default' %}
+  <link rel="stylesheet" href="./styles/main.css">
+  {%- endif %}
+
+  {% if view.id != 'default' %}
+  <link rel="stylesheet" href="../styles/main.css">
+  {%- endif %}
 
   {% if view.customStyle %}
     <link rel="stylesheet" href="{{view.customStyle}}">
   {%- endif %}
 
-  <link rel="import" href="/elements/elements.html">
+  {% if view.id == 'default' %}
+  <link rel="import" href="./elements/elements.html">
+  {%- endif %}
+
+  {% if view.id != 'default' %}
+  <link rel="import" href="../elements/elements.html">
+  {%- endif %}
 
   <style is="custom-style">
     :root {
@@ -319,9 +331,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   </paper-header-panel>
 
-  <!-- build:js /scripts/main.js -->
-  <script src="bower_components/url-search-params-polyfill/build/url-search-params.js"></script>
-  <script src="scripts/app.js"></script>
-  <!-- endbuild-->
+  {% if view.id == 'default' %}
+    <!-- build:js ./scripts/main.js -->
+    <script src="bower_components/url-search-params-polyfill/build/url-search-params.js"></script>
+    <script src="scripts/app.js"></script>
+    <!-- endbuild-->
+  {%- endif %}
+
+  {% if view.id != 'default' %}
+    <!-- build:js /tutorials/scripts/main.js -->
+    <script src="bower_components/url-search-params-polyfill/build/url-search-params.js"></script>
+    <script src="scripts/app.js"></script>
+    <!-- endbuild-->
+  {%- endif %}
 </body>
 </html>

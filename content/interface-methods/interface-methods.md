@@ -1,6 +1,6 @@
 summary: This tutorial focuses on introducing you to the Interface methods by building an app that utilises most commonly used interface methods and their features.
 id: introduction-to-interface-methods
-categories:freshdesk
+categories: Foundations 
 tags:freshdesk, interface
 status:Published
 authors:Velmurugan Balasubramanian

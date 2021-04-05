@@ -25,12 +25,12 @@
                   id="app-setup-and-external-events-freshdesk"
                   title="App Setup and External Events"
                   environment="web"
-                  feedback-link="mailto:devrel@freshworks.com">
+                  feedback-link="https://community.developers.freshworks.com/c/ideas/">
     
       <google-codelab-step label="Overview" duration="3">
         <p>Observing External Events happening outside of your app will enable your app to act by registering a handler JS function. This Handler will be invoked every time a desired event is observed in 3rd party systems.</p>
 <h2 class="checklist" is-upgraded>What you&#39;ll learn</h2>
-<ul>
+<ul class="checklist">
 <li>You will learn to how to generate a Webhook</li>
 <li>What are App Setup Events and when they could be of help</li>
 <li>Using Freshworks CLI to create secure public URLs to test Webhooks</li>
@@ -63,10 +63,10 @@
       <google-codelab-step label="Get Set Up" duration="1">
         <p>Let&#39;s start learning about app setup and external events by going ahead and downloading sample code. It contains everything you need to just focus on learning by leveraging existing boilerplate code.</p>
 <p>Current tutorial is an App running on Freshdesk.</p>
-<pre><code language="language-sh" class="language-sh">git clone https://github.com/freshworks-developers/app-setup-and-external-events-freshdesk.git
+<pre><code>git clone https://github.com/freshworks-developers/app-setup-and-external-events-freshdesk.git
 </code></pre>
 <p>Or you can also</p>
-<p><a href="https://github.com/freshworks-developers/app-setup-and-external-events-freshdesk/archive/start.zip" target="_blank"><paper-button class="colored" raised><iron-icon icon="file-download"></iron-icon>Download zip file</paper-button></a></p>
+<p><a href="https://github.com/freshworks-developers/app-setup-and-external-events-freshdesk/archive/start.zip" target="_blank">Download zip file</a></p>
 <h3 is-upgraded>Code Guide</h3>
 <p>Don&#39;t run the code just yet. Let&#39;s understand the code that&#39;s already existing in your boilerplate. You would notice <code>app/</code> , <code>config/</code> folders for an app that&#39;s only going to use <code>server/server.js</code> . Unfortunately, it is not advisable to skip <code>app/</code>and <code>config/</code> folders as CLI may throw errors. This restriction may be removed in the future. So those folders exist to have code just to pass CLI validations.</p>
 <p>We will work on <code>server.js</code>going forward.</p>
@@ -78,7 +78,7 @@
         <p>App setup events let your app execute handlers when the app is either being installed or uninstalled.</p>
 <p>Let&#39;s go ahead and write app setup events</p>
 <p>Open <code>server/server.js</code>and write</p>
-<pre><code language="language-js" class="language-js">exports = {
+<pre><code>exports = {
   events: [
     { event: &#39;onAppInstall&#39;, callback: &#39;onInstallHandler&#39; },
     { event: &#39;onAppUninstall&#39;, callback: &#39;onUninstallHandler&#39; }
@@ -101,7 +101,7 @@
 <li>Finally invoke <code>renderData()</code> platform method that must be used at the end of the handler. This lets the app to either let the installation to proceed or halt to throw an error message if needed.</li>
 </ol>
 <p>Now that we understand the code here a little bit, let&#39;s go ahead and run it</p>
-<pre><code language="language-sh" class="language-sh">❯ fdk run
+<pre><code>❯ fdk run
 Starting local testing server at http://*:10001/
 Append &#39;dev=true&#39; to your Freshdesk account URL to start testing
 e.g. https://domain.freshdesk.com/a/tickets/1?dev=true
@@ -118,7 +118,7 @@ To simulate product, app setup, and external events, visit - http://localhost:10
 <li>Click on ‘Simulate&#39;.</li>
 </ol>
 <p>In my case, the following is printed to the terminal</p>
-<pre><code language="language-sh" class="language-sh"> Observed on App Install  {
+<pre><code> Observed on App Install  {
   timestamp: 1496400354326,
   account_id: &#39;13&#39;,
   domain: &#39;https://sample.freshdesk.com&#39;,
@@ -144,7 +144,7 @@ To simulate product, app setup, and external events, visit - http://localhost:10
 <li>App will wait to invoke onExternalEventHandler until the 3rd party notifies the app. That&#39;s by sending an HTTP POST request to the Webhook URL.</li>
 </ol>
 <p>Let&#39;s see the same by writing some code,</p>
-<pre><code language="language-js" class="language-js">exports = {
+<pre><code>exports = {
   events: [
     { event: &#39;onAppInstall&#39;, callback: &#39;onInstallHandler&#39; },
     { event: &#39;onAppUninstall&#39;, callback: &#39;onUninstallHandler&#39; },
@@ -203,7 +203,7 @@ To simulate product, app setup, and external events, visit - http://localhost:10
 <h2 is-upgraded>onAppInstall</h2>
 <p>Open <a href="http://localhost:10001/web/test" target="_blank">http://localhost:10001/web/test</a></p>
 <p>Select <code>onAppInstall</code> and click simulate</p>
-<pre><code language="language-sh" class="language-sh"> Webhook creation successful
+<pre><code> Webhook creation successful
  http://localhost:10001/event/hook/freshdesk
 
  Webhook Registration Successful
@@ -223,7 +223,7 @@ To simulate product, app setup, and external events, visit - http://localhost:10
 <p>Notice that webhook url is on <code>http</code>protocol. Sometimes, 3rd parties expect webhook url to be on <code>https</code> protocol. We will discuss towards the end of this tutorial.</p>
 <h2 is-upgraded>onExternalEvent</h2>
 <p>In the same simulation page, you can simulate onExternalEvent and you&#39;d see messages print to terminal like follows:</p>
-<pre><code language="language-sh" class="language-sh"> Desired action occured within 3rd party
+<pre><code> Desired action occured within 3rd party
  onExternalEventHandler invoked with following data:
  {
   timestamp: 1500456400209,
@@ -232,15 +232,15 @@ To simulate product, app setup, and external events, visit - http://localhost:10
 }
 </code></pre>
 <p>We can make this more interesting by doing HTTP POST to the webhook we&#39;ve generated. In a new Terminal with closing earlier where app is being served, Let&#39;s manually make a cURL request in the shoes of 3rd party:</p>
-<pre><code language="language-sh" class="language-sh">❯ curl -X POST -H &#34;Content-Type: application/json&#34; \
+<pre><code>❯ curl -X POST -H &#34;Content-Type: application/json&#34; \
     -d &#39;{&#34;name&#34;: &#34;3rd party&#34;, &#34;email&#34;: &#34;mee@example.com&#34;}&#39; \
     http://localhost:10001/event/hook/freshdesk
 </code></pre>
 <p>Response:</p>
-<pre><code language="language-json" class="language-json">{ &#34;success&#34;: true }
+<pre><code>{ &#34;success&#34;: true }
 </code></pre>
 <p>This is an example of how 3rd party would send some data to the webhook. In this case <code>{&#34;name&#34;: &#34;3rd party&#34;, &#34;email&#34;: &#34;me@example.com&#34;}</code> is POST to webhook. Ideally, we should see onExternalEventHandler getting Invoked with relevant data passed. So let&#39;s switch to terminal where CLI is serving the app,</p>
-<pre><code language="language-sh" class="language-sh"> Desired action occured within 3rd party
+<pre><code> Desired action occured within 3rd party
  onExternalEventHandler invoked with following data:
  { name: &#39;3rd party&#39;, email: &#39;mee@example.com&#39; }
 </code></pre>
@@ -248,7 +248,7 @@ To simulate product, app setup, and external events, visit - http://localhost:10
 <h2 is-upgraded>onAppUninstall</h2>
 <p>In the simulation page, select onAppUninstall and simulate the app,</p>
 <p>The following would be printed to the terminal</p>
-<pre><code language="language-sh" class="language-sh"> Webhook De-Registration Successful
+<pre><code> Webhook De-Registration Successful
  { &#34;success&#34;: true }
 
  Hander received following payload when app is uninstalled
@@ -265,10 +265,10 @@ To simulate product, app setup, and external events, visit - http://localhost:10
 <h2 is-upgraded>Public Webhooks in HTTPS</h2>
 <p>In order to generate webhooks URLs on https protocol, Freshworks CLI relies on <a href="https://ngrok.com/" target="_blank">ngrok</a> under the hood. After you sign up on ngrok, <a href="https://dashboard.ngrok.com/get-started/your-authtoken" target="_blank">find an auth token</a> within the ngrok&#39;s dashboard.</p>
 <p>In the Terminal, restart the CLI with:</p>
-<pre><code language="language-sh" class="language-sh">fdk run --tunnel --tunnel-auth &lt;auth-key&gt;
+<pre><code>fdk run --tunnel --tunnel-auth &lt;auth-key&gt;
 </code></pre>
 <p>You should see,</p>
-<pre><code language="language-sh" class="language-sh">❯ fdk run --tunnel --tunnel-auth 1p-6mq3GG-example-token-jRuyK-JhhA
+<pre><code>❯ fdk run --tunnel --tunnel-auth 1p-6mq3GG-example-token-jRuyK-JhhA
 Establishing ngrok tunnel. Please wait...
 
 Tunnel Open. Tunnel URL: https://183d8c7012c4.ngrok.io
@@ -281,7 +281,7 @@ Quit the server with Control-C.
 To simulate product, app setup, and external events, visit - http://localhost:10001/web/test
 </code></pre>
 <p>Now, if you simulate <code>onAppInstall</code>, you should see:</p>
-<pre><code language="language-sh" class="language-sh">Webhook Registration Successful
+<pre><code>Webhook Registration Successful
  { &#34;success&#34;: true }
 
  Hander received following payload when app is installed
@@ -313,7 +313,6 @@ To simulate product, app setup, and external events, visit - http://localhost:10
   <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
   <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
   <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
-  <script src="//support.google.com/inapp/api.js"></script>
 
 </body>
 </html>

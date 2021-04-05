@@ -25,7 +25,7 @@
                   id="lifecycle-and-configuration-page-freshdesk"
                   title="Lifecycle and Configuration Page"
                   environment="web"
-                  feedback-link="">
+                  feedback-link="https://community.developers.freshworks.com/c/ideas/">
     
       <google-codelab-step label="Introduction" duration="0">
         <p>An app served by Freshworks developer platform will have app lifecycle event listeners to which callbacks can be registered with. In this tutorial, we will explore app lifecycle events to use in favour of app&#39;s requirements.</p>
@@ -60,10 +60,10 @@
     
       <google-codelab-step label="Get Set Up" duration="0">
         <p>Let&#39;s clone the starting point</p>
-<pre><code language="language-sh" class="language-sh">git clone https://github.com/freshworks-developers/app-lifecycle-and-configs-freshdesk.git
+<pre><code>git clone https://github.com/freshworks-developers/app-lifecycle-and-configs-freshdesk.git
 </code></pre>
 <p>Or you can also</p>
-<p><a href="https://github.com/freshworks-developers/app-lifecycle-and-configs-freshdesk/archive/start.zip" target="_blank"><paper-button class="colored" raised><iron-icon icon="file-download"></iron-icon>Download a Zip</paper-button></a></p>
+<p><a href="https://github.com/freshworks-developers/app-lifecycle-and-configs-freshdesk/archive/start.zip" target="_blank">Download a Zip</a></p>
 <h2 is-upgraded>Verify</h2>
 <ol type="1">
 <li>Open the started code in code editor</li>
@@ -95,7 +95,7 @@
       <google-codelab-step label="App Life Cycle Events" duration="0">
         <p>Let&#39;s start by opening <code>app.js</code> in <code>app/scripts.</code>The existing code invokes <code>renderApp(){..}</code> which is not defined yet. Let&#39;s define it and understand what is happening.</p>
 <p>Add following code in <code>app.js</code></p>
-<pre><code language="language-js" class="language-js">function renderApp() {
+<pre><code>function renderApp() {
   app
     .initialized()
     .then(function onInit(_client) {
@@ -138,7 +138,7 @@ function appLifeCycleEvent(state) {
         <p>Before you proceed with this section, try installing any free app (example: <a href="https://www.freshworks.com/apps/freshdesk/signature_management_app" target="_blank">signature management app</a>) from the <a href="https://www.freshworks.com/apps/freshdesk/" target="_blank">marketplace</a> to your Freshdesk Trial account. As the installation process of the app begins, Freshdesk users will be required to fill in details depending on requirements of the app.</p>
 <p>Let&#39;s go ahead and build one such configuration page. Everything related to configuration page would be under <code>config/</code> directory</p>
 <p>Open <code>iparams.json</code> and replace the following JSON configuration with the file contents,</p>
-<pre><code language="language-json" class="language-json">{
+<pre><code>{
   &#34;hero&#34;: {
     &#34;display_name&#34;: &#34;Guess Ben&#39;s Last Name&#34;,
     &#34;description&#34;: &#34;You can answer this!&#34;,
@@ -195,7 +195,7 @@ function appLifeCycleEvent(state) {
 }
 </code></pre>
 <p>Before we discuss the contents of this file specifically, all that&#39;s required to for the UI to be automatically rendered. Let&#39;s quickly go ahead and re-run the app.</p>
-<pre><code language="language-sh" class="language-sh">❯ fdk run
+<pre><code>❯ fdk run
 Starting local testing server at http://*:10001/
 Append &#39;dev=true&#39; to your Freshdesk account URL to start testing
 e.g. https://domain.freshdesk.com/a/tickets/1?dev=true
@@ -210,7 +210,7 @@ To test the installation page, visit - http://localhost:10001/custom_configs
 <li>All fields mentioned are playfully taken from the context of <a href="https://en.wikipedia.org/wiki/Ben_10" target="_blank">Ben 10</a>.</li>
 </ol>
 <p>If you had taken a closer look at <code>assets/iparams.js</code>you&#39;d notice the following code,</p>
-<pre><code language="language-js" class="language-js">function checkSignature(sign) {
+<pre><code>function checkSignature(sign) {
   return sign.toLowerCase() === &#39;azmuth&#39; ? &#39;&#39; : &#39;Wrong signature&#39;;
 }
 </code></pre>
@@ -222,15 +222,14 @@ To test the installation page, visit - http://localhost:10001/custom_configs
     
       <google-codelab-step label="Build Configuration page with iparams.html" duration="0">
         <p>Freshworks Apps also support the regular HTML, CSS and JS to be used to build a configuration page. But Either iparams.json or iparams.html to be used at the same time. On the same grounds, let&#39;s <a href="https://github.com/freshworks-developers/app-lifecycle-and-configs-freshdesk/tree/app-life-cycle" target="_blank">rollback to the app lifecycle events checkpoint</a> and start building the same page using <code>iparams.html</code></p>
-<pre><code language="language-sh" class="language-sh">❯ git checkout app-life-cycle
+<pre><code>❯ git checkout app-life-cycle
 Switched to branch &#39;app-life-cycle&#39;
 Your branch is up to date with &#39;origin/app-life-cycle&#39;.
 </code></pre>
-<aside class="special"><p> If you see any errors while switching the branch, Try running <br><code>❯ git stash<br>Saved working directory and index state WIP on start: X80XXXX</code>``<br>   This temporarily hides all the changes you&#39;ve made while working on start branch and allows to switch smoothly to app-life-cycle branch </p>
-</aside>
+<p><br>If you see any errors while switching the branch, Try running<br><br><code>❯ git stash<br>Saved working directory and index state WIP on start: X80XX</code>XX``<br>  <br>This temporarily hides all the changes you&#39;ve made while working on start branch and allows to switch smoothly to app-life-cycle branch<br></p>
 <p>Delete everything that is already existing under <code>config/</code> directory and create <code>iparams.html</code> , <code>assets/iparams.js</code> , <code>assets/iparams.css</code>. Let&#39;s discuss what&#39;s different in this approach,</p>
 <p>Write following code in recently createdSee <code>iparams.html</code> file</p>
-<pre><code language="language-html" class="language-html">&lt;!DOCTYPE html&gt;
+<pre><code>&lt;!DOCTYPE html&gt;
 &lt;html lang=&#34;en&#34;&gt;
   &lt;head&gt;
     &lt;meta charset=&#34;UTF-8&#34; /&gt;
@@ -353,7 +352,6 @@ Your branch is up to date with &#39;origin/app-life-cycle&#39;.
   <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
   <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
   <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
-  <script src="//support.google.com/inapp/api.js"></script>
 
 </body>
 </html>
