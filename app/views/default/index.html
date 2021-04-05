@@ -128,14 +128,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <header id="banner" {% if view.id != 'default' -%}down{%- else %}down$="[[_toBoolean(selectedFilter)]]"{%- endif %}>
       <div class="site-width">
         {% if view.id == 'default' %}
-        <h2 class="banner-title">Welcome to Codelabs!</h2>
+        <h3 class="banner-title">Welcome to the Freshworks Developer Platform Tutorials.</h3>
+        <br>
         <div class="banner-description"
              data-filter-selected$="{% raw %}[[_toBoolean(selectedFilter)]]{% endraw %}">
              <p class="banner-info">
-              Freshworks Code Recipes provide a guided, tutorial, hands-on
-              coding experience. Most recipes will step you through the process
-              of building a small application, or adding a new feature to an
-              existing application. You can find tutorials for app development across products tagged by platform features
+              Freshworks developer platform tutorials provide a guided, hands-on coding experience. Most of the tutorials will take you thorough a series of small steps, helping you build a small application, or adding a new feature to an existing application.
+              You can find tutorials for app development across products tagged by platform features
               <br>
               <!-- <a href="https://github.com/googlecodelabs/tools">Codelab tools on GitHub</a> -->
             </p>
