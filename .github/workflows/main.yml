@@ -35,7 +35,7 @@ jobs:
         run: go get github.com/googlecodelabs/tools/claat
       
       - name: Check claat version
-        run: claat version
+        run: claat -h
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
