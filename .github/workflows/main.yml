@@ -24,6 +24,18 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+      - uses: actions/setup-go@v2
+        with:
+          go-version: '^1.13.1'
+      
+      - name: Check Go version
+        run: go version
+        
+      - name: Install Go
+        run: go get github.com/googlecodelabs/tools/claat
+      
+      - name: Check claat version
+        run: claat version
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
