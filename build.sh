@@ -68,7 +68,11 @@ claat export ../content/introduction-to-freshworks-serverless-apps.md
 
 pwd
 
+ls
+
 cd ../
+
+ls
 
 pwd
 
