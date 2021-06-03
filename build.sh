@@ -41,8 +41,10 @@
 
 # cd ../
 
-gulp dist
+# gulp dist
 
-rm -rf dist/codelabs
+# rm -rf dist/codelabs
 
-cp -r codelabs dist/codelabs
+# cp -r codelabs dist/codelabs
+
+echo running-build.sh
