@@ -1,0 +1,25 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2021-06-04T21:07:45+05:30",
+  "id": "develop-cti-app-for-freshdesk",
+  "duration": 0,
+  "title": "Develop Cloud-Telephony Integration (CTI) app for Freshdesk",
+  "authors": "Freshworks",
+  "summary": "This tutorial focuses on creating a Cloud-Telephony Integration (CTI) app for Freshdesk with the essentials for an ideal use-case.",
+  "source": "develop-cti-app-for-freshdesk.md",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "advanced"
+  ],
+  "tags": [
+    "freshdesk"
+  ],
+  "feedback": "community.developers.freshworks.com",
+  "url": "develop-cti-app-for-freshdesk"
+}

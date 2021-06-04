@@ -1,0 +1,325 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Develop Cloud-Telephony Integration (CTI) app for Freshdesk</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="develop-cti-app-for-freshdesk"
+                  title="Develop Cloud-Telephony Integration (CTI) app for Freshdesk"
+                  environment="web"
+                  feedback-link="community.developers.freshworks.com">
+    
+      <google-codelab-step label="Overview" duration="0">
+        <p>Cloud Telephony Integration (CTI) refers to integrating a Cloud telephony service with Freshworks products. Cloud telephony is a <a href="https://en.wikipedia.org/wiki/Voice_over_IP" target="_blank">VoIP</a> service over the cloud, and it is considered as a  replacement for conventional business telephone equipment.</p>
+<p>For CTI apps, Freshdesk has a <a href="https://developers.freshdesk.com/v2/docs/app-locations/#ctiglobalsidebar" target="_blank">dedicated placeholder</a>, events, and interface methods that will work globally on all the pages. This allows our CTI app to make and receive calls from any page in Freshdesk.</p>
+<p>In this tutorial, we are going to build a CTI app for Freshdesk.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="What are we going to learn?" duration="0">
+        <ul>
+<li>CTI placeholder - The location where the CTI app gets rendered on all the pages.</li>
+<li>Interface methods specific to CTI - It lets the app do certain actions within the page.</li>
+<li>Click-to-call event - This event triggers the app whenever a phone number gets clicked on certain pages.</li>
+<li>Navigation to a ticket or contact details page</li>
+<li>Create a ticket with the Request method</li>
+</ul>
+<p>Take a sneak peek at the complete app that we are going to build a CTI app with all the aforementioned features.</p>
+<p class="image-container"><img alt="alt_text" title="CTI app sneak peek" src="img/592b5587c3ffe519.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Prerequisites" duration="0">
+        <ul>
+<li>The latest version of Freshworks CLI installed</li>
+<li>A <a href="https://freshdesk.com/signup" target="_blank">Freshdesk</a> account subscribed to Blossom or higher plan.</li>
+<li>Basic knowledge of HTML, CSS, and JavaScript.</li>
+<li>Frontend app development in Freshworks developer platform.</li>
+<li>Request method in Freshworks developer platform</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Setup" duration="0">
+        <p>Clone <a href="https://github.com/freshworks-developers/serverless-events-freshdesk" target="_blank">this application repository</a> to get started with this tutorial,</p>
+<pre><code language="language-shell" class="language-shell">git clone https://github.com/freshworks-developers/cti-tutorial-freshdesk.git
+
+</code></pre>
+<ul>
+<li>Navigate to the branch <code>start</code> to begin with the boilerplate application.</li>
+<li>The branch <code>finish</code> will have the complete code-base, which is worth referring to in between if and when getting stuck.</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Skeleton for a CTI app" duration="0">
+        <p>We are going to build a CTI app through this tutorial. Take a look at the sneak peek of it.</p>
+<p class="image-container"><img alt="alt_text" title="CTI app placeholder demo gif" src="img/904e4638bfbbdea0.gif"></p>
+<p>Freshworks developer platform provides various features for its frontend apps. CTI solutions require specific features that are not commonly used in other apps. For example, by clicking on a phone number in a contact, the app should open and dial in the number to make a call.</p>
+<p>Open the cloned app in your favorite text editor and peek into the known component of a frontend app.</p>
+<h2 is-upgraded>App Placeholder</h2>
+<ul>
+<li>The app is opened in the <code>cti_global_sidebar</code> placeholder that is useful for CTI use cases.</li>
+<li>It&#39;s a specific placeholder introduced dedicatedly for CTI integration.</li>
+<li>At this app location, only one app can be active at a time.</li>
+<li>The height can be adjusted for the viewport. But, the width cannot be changed.</li>
+</ul>
+<h2 is-upgraded>Global Data Methods</h2>
+<p>Since the CTI apps load in the global sidebar location, they may require some data in all the pages such as the user who has logged in and the domain name of the Freshdesk account. The following data can be fetched from the app on all the pages.</p>
+<ul>
+<li><a href="https://developer.freshdesk.com/v2/docs/data-methods/#loggedInUser" target="_blank">loggedInUser</a></li>
+<li><a href="https://developer.freshdesk.com/v2/docs/data-methods/#domainname" target="_blank">domainName</a></li>
+</ul>
+<p>We will use these data in the app where they are required.</p>
+<ul>
+<li>Data methods do not have any rate limits, so it can be fetched whenever they are required in the app.</li>
+<li>These data will only be updated when the complete page is reloaded again and until then, the data would not get updated even if they were originally updated through any other ways in Freshdesk.</li>
+<li>These data are already available to the agent using Freshdesk on the same page. So, it&#39;s not possible or necessary to make this data hidden in the app while using them.</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Interfaces for the CTI app" duration="0">
+        <p>Interfaces are the way the Freshworks apps can interact with the other components in the same page or the page itself. Let&#39;s check out some of the interfaces that are specifically useful for CTI apps.</p>
+<h2 is-upgraded>Show App</h2>
+<p>When the app needs to be opened programmatically, this interface can be used. For example, the app may want to open the app and dial in the phone number when the agent clicks on the phone number of any contact in the ticket details page.</p>
+<p>Copy and paste the following code snippet into the <code>openApp()</code> function to open the app programmatically.</p>
+<pre><code language="language-javascript" class="language-javascript">client.interface.trigger(&#34;show&#34;, { id: &#34;softphone&#34; })
+     .then(function () {
+       console.log(`Success: Opened the app`);
+     }).catch(function (error) {
+       console.error(&#39;Error: Failed to open the app&#39;);
+       console.error(error);
+     });
+</code></pre>
+<h2 is-upgraded>Hide App</h2>
+<p>Similarly, the app would need to be closed programmatically when a certain workflow ends in the app such as call ending, deliberate minimization, etc.</p>
+<p>Copy and paste the following code snippet into the <code>closeApp()</code> function to close the app programmatically.</p>
+<pre><code language="language-javascript" class="language-javascript"> client.interface.trigger(&#34;hide&#34;, { id: &#34;softphone&#34; }).then(function (data) {
+   console.info(&#39;successfully closed the CTI app&#39;);
+   showNotify(&#39;success&#39;, &#39;Successfully closed the CTI app.&#39;);
+ }).catch(function (error) {
+   console.error(&#39;Error: Failed to close the CTI app&#39;);
+   console.error(error);
+ });
+</code></pre>
+<p>Check it out by clicking on the <strong>Close app</strong> button in the app.</p>
+<p class="image-container"><img alt="alt_text" title="Close app demo gif" src="img/1a5f4eaf6b662450.gif"></p>
+<h2 is-upgraded>Show Missed Calls</h2>
+<p>When the agent is away or unavailable to take calls, the calls might not have reached the agent from the customer. This might be stored in the third-party telephony service that can be shown to the particular agent through this interface.</p>
+<p>Copy and paste the following code snippet to the <code>showMissedCall()</code> function to show the given missedCalls to be shown in the app widget icon.</p>
+<pre><code language="language-javascript" class="language-javascript">client.interface.trigger(&#34;show&#34;, { id: &#34;missedCall&#34;, value: missedCalls })
+   .then(function (data) {
+     console.info(&#39;successfully shown missed calls.&#39;, data);
+   }).catch(function (error) {
+     console.error(&#39;Error: failed to show missed calls.&#39;, error);
+   });
+</code></pre>
+<p>Checkout the missed calls being added to the app icon by clicking on the <strong>Show missed calls</strong> button in the app.</p>
+<p class="image-container"><img alt="alt_text" title="Show missed calls demo gif" src="img/5479da47d4c13cd2.gif"></p>
+<h2 is-upgraded>Hide Missed Calls</h2>
+<p>Similar to showing the missed calls, there&#39;s an interface method to hide it when it&#39;s read by the agent or cleared in the third-party system.</p>
+<p>Copy and paste the following code snippet to the <code>hideMissedCall()</code> function to hide the missedCalls from the app widget icon.</p>
+<pre><code language="language-javascript" class="language-javascript"> client.interface.trigger(&#34;hide&#34;, { id: &#34;missedCall&#34; })
+   .then(function (data) {
+     console.info(&#39;successfully hidden missed calls&#39;);
+   }).catch(function (error) {
+     console.error(&#39;Error: failed to hide missed calls&#39;);
+     console.error(error);
+   });
+</code></pre>
+<p>Checkout the missed calls being hidden from the app icon by clicking on the <strong>Hide missed calls</strong> button in the app.</p>
+<p class="image-container"><img alt="alt_text" title="Hide missed calls demo gif" src="img/7ef7b5f223f23bf1.gif"></p>
+<p>All the other interfaces are also available for CTI apps. Check out them in the <a href="https://developers.freshworks.com/tutorials/codelabs/introduction-to-interface-methods" target="_blank">Interfaces method tutorial</a> on how to use them.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Click-to-call Event" duration="0">
+        <p>Users expect the system to automatically call the phone numbers in any user interface upon clicking on the phone numbers. The click-to-call event feature lets the app implement a similar experience for its users.</p>
+<p>The event <code>cti.triggerDialer</code> triggers when the user clicks on the phone number in specific pages in Freshdesk. It will provide the chosen phone number that can be used to fill in the dialer interface of the app or directly make a call to the phone number.</p>
+<p>Copy and paste the following code snippet in the <code>clickToCall()</code> function to handle the event when a phone number is clicked on certain pages.</p>
+<pre><code language="language-javascript" class="language-javascript"> const textElement = document.getElementById(&#34;appText&#34;);
+
+ client.events.on(&#34;cti.triggerDialer&#34;, function (event) {
+   openApp();
+   var data = event.helper.getData();
+   textElement.innerText = `Clicked phone number: ${data.number}`;
+ });
+</code></pre>
+<p>To test this functionality, go to the Ticket details page and click on the phone number shown in the right side Contact Details section and you can notice the app opens up and the phone number is displayed.</p>
+<p class="image-container"><img alt="alt_text" title="Click-to-call demo gif" src="img/a7a74a3855c87c6e.gif"></p>
+<p><strong>Note:</strong> Ensure the <code>?dev=true</code> query parameter to the URL is kept appended to render the app running locally.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="View Contacts" duration="0">
+        <p>Showing all the contacts and their phone numbers in the CTI app is a common trend. The following Freshdesk API lets you view the contacts lists in the app by fetching all the existing contacts in the Freshdesk account.</p>
+<p>Copy and paste the following code snippet in the <code>getContacts()</code> function to fetch the contacts from Freshdesk.</p>
+<pre><code language="language-javascript" class="language-javascript"> const url = &#39;https://&lt;%= iparam.freshdesk_domain %&gt;/api/v2/contacts&#39;;
+ const options = {
+   headers: {
+     Authorization: &#39;Basic &lt;%= encode(iparam.freshdesk_api_key) %&gt;&#39;
+   }
+ }
+ client.request.get(url, options).then(contacts =&gt; {
+   console.info(&#39;Success: Got contacts list&#39;);
+   console.table(JSON.parse(contacts.response));
+   return JSON.parse(contacts.response);
+ }, error =&gt; {
+   console.error(error);
+   return reject(error);
+ });
+</code></pre>
+<p>Checkout the contacts being printed in the browser console by clicking on the <strong>Get contacts</strong> button in the app.</p>
+<p class="image-container"><img alt="alt_text" title="Get contacts demo gif" src="img/fa3355d9f96ed10c.gif"></p>
+<p>There might be a need to create a contact if it is not available and called by the agent manually typing a phone number. The Create Contact API helps create a contact in the Freshdesk account.</p>
+<p>Copy and paste the following code snippet in the <code>createContact()</code> function to create a contact in Freshdesk.</p>
+<pre><code language="language-javascript" class="language-javascript"> const properties = {
+   name: &#39;contact name&#39;,
+   email: &#39;sample2@email.com&#39;,
+   phone: &#39;+0123456789&#39;,
+
+ }
+ const url = &#39;https://&lt;%= iparam.freshdesk_domain %&gt;/api/v2/contacts&#39;;
+ const options = {
+   headers: {
+     Authorization: &#39;Basic &lt;%= encode(iparam.freshdesk_api_key) %&gt;&#39;
+   },
+   json: properties
+ }
+ client.request.post(url, options).then(contact =&gt; {
+   console.info(&#39;Success: Created contact&#39;);
+   console.info(contact.response);
+ }, error =&gt; {
+   console.error(&#39;Error: Failed to create contact&#39;);
+   console.error(error);
+ });
+</code></pre>
+<p>Click on the <strong>Create Contact</strong> button in the app to test this functionality and go to the Contacts page in Freshdesk to check the newly created contact.</p>
+<p>If a contact is created without the agent&#39;s knowledge, it would confuse the agents addressing the customers&#39; calls. So, let&#39;s redirect the agent to the created contact page.</p>
+<p>Copy and paste the following code snippet in the <code>goToContact()</code> function to navigate the user to the created contact details page.</p>
+<pre><code language="language-javascript" class="language-javascript">client.interface.trigger(&#34;click&#34;, { id: &#34;contact&#34;, value: contactId })
+   .then(function (data) {
+     console.info(&#39;successfully navigated to contact&#39;);
+   }).catch(function (error) {
+     console.error(&#39;Error: Failed to navigate to contact&#39;);
+     console.error(error);
+   });
+</code></pre>
+<p>This will keep the agent informed by redirecting the agent to the created contact and taking further actions from there.</p>
+<p>Grab the Contact ID from any of the previously created contacts and assign it to the <strong>CONTACT_ID</strong> constant in the <code>onAppActivated()</code> function. Next, click on the <strong>Goto Contact</strong> button to test this functionality and see the page navigating to the particular contact.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Create Ticket for Calls" duration="0">
+        <p>Every call can be recorded as a ticket for further follow-up and tracking purposes. In addition, a ticket can be automatically created after every call.</p>
+<p>Copy and paste the following code snippet in the <code>createTicket()</code> function to create a ticket for a call.</p>
+<pre><code language="language-javascript" class="language-javascript"> const callNotes = &#34;Alice called Bob&#34;
+ const ticketDetails = {
+   email: &#39;sample@email.com&#39;,
+   subject: &#39;Call with the customer&#39;,
+   priority: 1,
+   description: `Ticket from call. Call Notes:${callNotes}`,
+   status: 2
+ }
+ try {
+   const ticketData = await client.request.post(&#39;https://&lt;%= iparam.freshdesk_domain %&gt;/api/v2/tickets&#39;,
+     {
+       headers: {
+         Authorization: &#39;&lt;%= encode(iparam.freshdesk_api_key) %&gt;&#39;
+       },
+       json: ticketDetails,
+       method: &#34;POST&#34;
+     });
+   console.info(&#39;Successfully created ticket in Freshdesk&#39;);
+   showNotify(&#39;success&#39;, &#39;Successfully created a ticket.&#39;);
+ } catch (error) {
+   console.error(&#39;Error: Failed to create a ticket in Freshdesk&#39;);
+   console.error(error);
+   showNotify(&#39;danger&#39;, &#39;failed to create a ticket. Try again later.&#39;);
+ }
+</code></pre>
+<p>Click on the <strong>Create Ticket</strong> button in the app to check a ticket being created. This can be used when a new ticket is required to be created for a call.</p>
+<p class="image-container"><img alt="alt_text" title="Create ticket demo gif" src="img/5e29e6f68a15e08a.gif"></p>
+<p>The app can also capture call notes from the agent and save them in the ticket description. An interface can be added to make it easy for the agent to go to the ticket.</p>
+<p>Let&#39;s paste the following code snippet to the <code>goToTicket()</code> function to navigate to the created ticket&#39;s page.</p>
+<pre><code language="language-javascript" class="language-javascript"> client.interface.trigger(&#34;click&#34;, { id: &#34;ticket&#34;, value: ticketId })
+   .then(function (data) {
+     console.info(&#39;successfully navigated to ticket&#39;);
+   }).catch(function (error) {
+     console.error(&#39;Error: Failed to navigate to ticket&#39;);
+     console.error(error);
+   });
+</code></pre>
+<p>Grab the Ticket ID from any of the previously created tickets and assign it to the <strong>TICKET_ID</strong></p>
+<p>constant in the <code>onAppActivated()</code> function. Click on the <strong>Goto Ticket</strong> button to test this functionality and see the page navigating to the particular ticket.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Wrap up" duration="0">
+        <p>Awesome! We have come to the final section. You have learned a bunch of features to build a CTI app on the Freshworks Developer Platform. Refer to the complete code in the <code>finish</code> branch of the same code repository.</p>
+<p>These are the areas that are covered in this tutorial:</p>
+<ol type="1">
+<li>App Placeholder</li>
+<li>Global Data Methods</li>
+<li>Interface methods to show/hide app and show/hide missed calls.</li>
+<li>Click-to-call event</li>
+<li>Get Contact List API</li>
+<li>Create Contact API</li>
+<li>Create Ticket API</li>
+<li>Navigating to a contact/ticket page</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="What&#39;s next?" duration="0">
+        <ul>
+<li>Contact sync with product events - The contacts can be synchronized with any third-party services using Product events. This use case needs to be solved using a Serverless component of the app. Explore more about it on the <a href="https://developers.freshworks.com/tutorials/codelabs/introduction-to-freshworks-serverless-apps" target="_blank">Introduction to Serverless tutorial</a>.</li>
+<li>Explore other <a href="https://developer.freshdesk.com/api" target="_blank">Freshdesk APIs</a> that could be useful  <ul>
+<li>There are <a href="https://developer.freshdesk.com/api/#companies" target="_blank">Company APIs</a> to create or update companies. It comes in handy to add or update contacts to any company or update the company details.</li>
+<li><a href="https://developer.freshdesk.com/api/#time-entries" target="_blank">Time entries API</a> can be used for agent productivity purposes such as automating certain activities in the app upon certain actions like attending a call and working on the call ticket.</li>
+</ul>
+</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+  <script src="//support.google.com/inapp/api.js"></script>
+
+</body>
+</html>
